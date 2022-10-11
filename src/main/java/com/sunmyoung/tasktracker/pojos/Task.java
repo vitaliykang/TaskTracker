@@ -237,7 +237,7 @@ public class Task {
 
     private String dateToString(Instant time) {
         Date date = Date.from(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
         return sdf.format(date);
     }
 }

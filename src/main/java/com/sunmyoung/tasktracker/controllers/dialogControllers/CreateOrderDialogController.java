@@ -33,10 +33,11 @@ public class CreateOrderDialogController {
     private TextArea noteTF;
 
     @FXML
+    private CheckBox combiBox;
+
+    @FXML
     private RadioButton aluminumRB,
-            solidRB,
-            combiRB,
-            regularRB;
+            solidRB;
 
     @FXML
     private TextField biasTF,
@@ -44,7 +45,8 @@ public class CreateOrderDialogController {
             emulsionTF,
             frameSizeTF,
             meshTF,
-            clientTF;
+            clientTF,
+            meshSizeTF;
 
     @FXML
     private TableView<Subtask> tableView;
@@ -73,6 +75,7 @@ public class CreateOrderDialogController {
         initToggleButtons();
         initDatePicker();
         initTableView();
+        initCombiTF();
         activateCells();
 
         tableView.setItems(subtasks);
@@ -115,11 +118,6 @@ public class CreateOrderDialogController {
         datepicker.setValue(LocalDate.parse(task.getDeadlineDate(), formatter));
         deadlineNoteTF.setText(task.getDeadlineNote());
         frameSizeTF.setText(task.getSize());
-        if (task.getIsCombi()){
-            combiRB.setSelected(true);
-        } else {
-            regularRB.setSelected(true);
-        }
         if (task.getIsAluminum()) {
             aluminumRB.setSelected(true);
         } else {
@@ -131,12 +129,20 @@ public class CreateOrderDialogController {
         noteTF.setText(task.getNote());
     }
 
+    private void initCombiTF() {
+        if (combiBox.isSelected()) {
+            meshSizeTF.setEditable(true);
+        } else {
+            meshSizeTF.setEditable(false);
+        }
+    }
+
     private Task readFields(Task task) {
         task.setClient(clientTF.getText());
         task.setDeadlineDate(datepicker.getValue().toString());
         task.setDeadlineNote(deadlineNoteTF.getText());
         task.setSize(frameSizeTF.getText());
-        task.setIsCombi(combiRB.isSelected());
+        //todo add combi
         task.setIsAluminum(aluminumRB.isSelected());
         task.setBias(Double.parseDouble(biasTF.getText()));
         task.setMesh(meshTF.getText());
@@ -148,10 +154,6 @@ public class CreateOrderDialogController {
     }
 
     private void initToggleButtons() {
-        ToggleGroup combi = new ToggleGroup();
-        combiRB.setToggleGroup(combi);
-        regularRB.setToggleGroup(combi);
-
         ToggleGroup aluminum = new ToggleGroup();
         aluminumRB.setToggleGroup(aluminum);
         solidRB.setToggleGroup(aluminum);

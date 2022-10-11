@@ -29,8 +29,9 @@ public class Launcher extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+//        scene.getStylesheets().add(getClass().getResource("fontstyle.css").toExternalForm());
         stage.setTitle("Task Tracker");
-        stage.setMinWidth(1600);
+        stage.setMinWidth(1900);
         stage.setMinHeight(900);
         stage.setScene(scene);
         stage.setResizable(false);
