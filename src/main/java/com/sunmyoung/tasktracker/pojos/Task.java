@@ -6,9 +6,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "tasks")
@@ -21,7 +19,7 @@ public class Task {
     @OneToMany(mappedBy = "task", fetch = FetchType.EAGER,
             cascade = CascadeType.ALL)
     @Getter @Setter
-    private List<Subtask> subtasks;
+    private List<Subtask> subtasks = new ArrayList<>();
 
     @Column(name = "deadline_date")
     private String deadlineDate;
@@ -75,10 +73,6 @@ public class Task {
     @Column(name = "bias")
     @Getter @Setter
     private Double bias;
-
-    @Column(name = "is_combi")
-    @Getter @Setter
-    private Boolean isCombi;
 
     @Column(name = "is_aluminum")
     @Getter @Setter
@@ -222,22 +216,18 @@ public class Task {
         this.exposure = exposure;
     }
 
-    public String getCombiStr() {
-        return isCombi ? "Combi" : "Normal";
-    }
-
     public String getAluminum() {
-        return isAluminum ? "Aluminum" : "Solid";
+        return isAluminum ? "Aluminum" : "Regular";
     }
 
     @Override
     public String toString() {
-        return String.format("%s - %s : %d%n", client, size, count);
+        return String.format("%s - %s : %d %nSubtasks: %s", client, size, count, subtasks.toString());
     }
 
     private String dateToString(Instant time) {
         Date date = Date.from(time);
-        SimpleDateFormat sdf = new SimpleDateFormat("MM.dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         return sdf.format(date);
     }
 }

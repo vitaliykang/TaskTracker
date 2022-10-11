@@ -21,7 +21,9 @@ import org.hibernate.Transaction;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class CreateOrderDialogController {
     private ObservableList<Subtask> subtasks = FXCollections.observableArrayList();
@@ -71,11 +73,25 @@ public class CreateOrderDialogController {
 
     }
 
+    @FXML
+    void combiCheck(ActionEvent event) {
+        if (combiBox.isSelected()) {
+            meshSizeTF.setDisable(false);
+            meshSizeTF.setEditable(true);
+        } else {
+            meshSizeTF.setEditable(false);
+            meshSizeTF.setDisable(true);
+        }
+    }
+
     public void initialize() {
+        //combi
+        meshSizeTF.setEditable(false);
+        meshSizeTF.setDisable(true);
+
         initToggleButtons();
         initDatePicker();
         initTableView();
-        initCombiTF();
         activateCells();
 
         tableView.setItems(subtasks);
@@ -95,7 +111,7 @@ public class CreateOrderDialogController {
         Session session = Database.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
-        Task task = session.createQuery("from Task t where t.id = :id", Task.class).setParameter("id", id).uniqueResult();
+        Task task = session.createQuery("FROM Task t where t.id = :id", Task.class).setParameter("id", id).uniqueResult();
         task = readFields(task);
         session.persist(task);
 
@@ -123,18 +139,23 @@ public class CreateOrderDialogController {
         } else {
             solidRB.setSelected(true);
         }
+        if (task.getCombi().equals("직견장")) {
+            combiBox.setSelected(false);
+            meshSizeTF.setDisable(true);
+            meshSizeTF.setEditable(false);
+        } else {
+            combiBox.setSelected(true);
+            meshSizeTF.setDisable(false);
+            meshSizeTF.setEditable(true);
+            meshSizeTF.setText(task.getCombi());
+        }
         biasTF.setText(task.getBias().toString());
         meshTF.setText(task.getMesh());
         emulsionTF.setText(task.getEmulsion());
         noteTF.setText(task.getNote());
-    }
 
-    private void initCombiTF() {
-        if (combiBox.isSelected()) {
-            meshSizeTF.setEditable(true);
-        } else {
-            meshSizeTF.setEditable(false);
-        }
+        ObservableList<Subtask> subtasks = FXCollections.observableList(task.getSubtasks());
+        tableView.setItems(subtasks);
     }
 
     private Task readFields(Task task) {
@@ -142,13 +163,19 @@ public class CreateOrderDialogController {
         task.setDeadlineDate(datepicker.getValue().toString());
         task.setDeadlineNote(deadlineNoteTF.getText());
         task.setSize(frameSizeTF.getText());
-        //todo add combi
         task.setIsAluminum(aluminumRB.isSelected());
         task.setBias(Double.parseDouble(biasTF.getText()));
         task.setMesh(meshTF.getText());
         task.setEmulsion(emulsionTF.getText());
         task.setNote(noteTF.getText());
+        subtasks.forEach(subtask -> subtask.setTask(task));
         task.setSubtasks(subtasks);
+
+        if (combiBox.isSelected()) {
+            task.setCombi(meshSizeTF.getText());
+        } else {
+            task.setCombi("직견장");
+        }
 
         return task;
     }
@@ -157,6 +184,7 @@ public class CreateOrderDialogController {
         ToggleGroup aluminum = new ToggleGroup();
         aluminumRB.setToggleGroup(aluminum);
         solidRB.setToggleGroup(aluminum);
+        solidRB.setSelected(true);
     }
 
     private void initDatePicker(){

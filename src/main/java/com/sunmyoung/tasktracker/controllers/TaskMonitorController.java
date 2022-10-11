@@ -100,7 +100,7 @@ public class TaskMonitorController {
         countCol.setCellValueFactory(new PropertyValueFactory<>("count"));
         sizeCol.setCellValueFactory(new PropertyValueFactory<>("size"));
         meshCol.setCellValueFactory(new PropertyValueFactory<>("mesh"));
-        combiCol.setCellValueFactory(new PropertyValueFactory<>("combiStr"));
+        combiCol.setCellValueFactory(new PropertyValueFactory<>("combi"));
         typeCol.setCellValueFactory(new PropertyValueFactory<>("aluminum"));
         tensioningCol.setCellValueFactory(new PropertyValueFactory<>("tensioning"));
         coatingCol.setCellValueFactory(new PropertyValueFactory<>("coating"));

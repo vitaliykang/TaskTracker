@@ -11,12 +11,10 @@ public class Subtask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    @Getter
-    @Setter
-    private Integer id;
+    @Getter @Setter
+    private long id;
 
-    @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     @Getter @Setter
     private Task task;
 

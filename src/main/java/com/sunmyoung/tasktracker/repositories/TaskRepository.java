@@ -30,7 +30,7 @@ public class TaskRepository {
             repoTask.setEmulsion(task.getEmulsion());
             repoTask.setExposure(task.getExposure());
             repoTask.setIsAluminum(task.getIsAluminum());
-            repoTask.setIsCombi(task.getIsCombi());
+            repoTask.setCombi(task.getCombi());
             repoTask.setIsComplete(task.getIsComplete());
             repoTask.setMesh(task.getMesh());
             repoTask.setNote(task.getNote());
