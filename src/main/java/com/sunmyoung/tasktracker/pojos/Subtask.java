@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "subtasks")
@@ -33,5 +34,18 @@ public class Subtask {
     public String toString()
     {
         return String.format("%s - %s - %s", print, thickness, count);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Subtask subtask = (Subtask) o;
+        return Objects.equals(thickness, subtask.thickness) && Objects.equals(print, subtask.print) && Objects.equals(count, subtask.count);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(thickness, print, count);
     }
 }

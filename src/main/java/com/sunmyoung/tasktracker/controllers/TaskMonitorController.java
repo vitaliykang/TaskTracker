@@ -236,6 +236,7 @@ public class TaskMonitorController {
 
         CreateOrderDialogController controller = fxmlLoader.getController();
 
+        //db addressed 2 times - populateWindow and editTask. Possibly could be reduced to a single call
         controller.populateWindow(taskId);
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();

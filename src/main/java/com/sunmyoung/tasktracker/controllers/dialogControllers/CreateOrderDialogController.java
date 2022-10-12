@@ -22,6 +22,7 @@ import org.hibernate.Transaction;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -114,10 +115,9 @@ public class CreateOrderDialogController {
         Session session = Database.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
+        //get task from the db and load its info into the form
         Task task = session.createQuery("FROM Task t where t.id = :id", Task.class).setParameter("id", id).uniqueResult();
-        task.getSubtasks().forEach(subtask -> {
-           subtask.setTask(null);
-        });
+
         task = readFields(task);
         session.persist(task);
 
@@ -161,6 +161,8 @@ public class CreateOrderDialogController {
         noteTF.setText(task.getNote());
 
         subtasks.addAll(task.getSubtasks());
+        System.out.println("loaded info from db");
+        System.out.printf("subtasks: %s%n", subtasks.toString());
     }
 
     private Task readFields(Task task) {
@@ -173,7 +175,10 @@ public class CreateOrderDialogController {
         task.setMesh(meshTF.getText());
         task.setEmulsion(emulsionTF.getText());
         task.setNote(noteTF.getText());
-        subtasks.forEach(subtask -> subtask.setTask(task));
+
+        //try to read from the subtasks observable list
+        List<Subtask> subtaskList = tableView.getItems();
+        subtaskList.forEach(subtask -> subtask.setTask(task));
         task.setSubtasks(subtasks);
 
         if (combiBox.isSelected()) {
