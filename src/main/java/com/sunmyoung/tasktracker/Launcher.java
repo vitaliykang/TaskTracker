@@ -1,22 +1,14 @@
 package com.sunmyoung.tasktracker;
 
-import com.sunmyoung.tasktracker.controllers.TaskMonitorController;
 import com.sunmyoung.tasktracker.repositories.Database;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
-import lombok.Getter;
 import lombok.SneakyThrows;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.Metadata;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.io.IOException;
 

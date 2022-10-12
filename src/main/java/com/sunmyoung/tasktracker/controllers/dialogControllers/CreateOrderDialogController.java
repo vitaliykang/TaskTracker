@@ -70,7 +70,8 @@ public class CreateOrderDialogController {
 
     @FXML
     void removePrint(ActionEvent event) {
-
+        Subtask subtask = tableView.getSelectionModel().getSelectedItem();
+        subtasks.remove(subtask);
     }
 
     @FXML
@@ -107,11 +108,16 @@ public class CreateOrderDialogController {
         thicknessCol.setCellValueFactory(new PropertyValueFactory<>("thickness"));
     }
 
+    //todo not working properly when adding new print to existing task
+    //todo delete all subtasks which task_id was set to null from the db
     public void editTask(long id) {
         Session session = Database.getSessionFactory().openSession();
         Transaction transaction = session.beginTransaction();
 
         Task task = session.createQuery("FROM Task t where t.id = :id", Task.class).setParameter("id", id).uniqueResult();
+        task.getSubtasks().forEach(subtask -> {
+           subtask.setTask(null);
+        });
         task = readFields(task);
         session.persist(task);
 
@@ -154,8 +160,7 @@ public class CreateOrderDialogController {
         emulsionTF.setText(task.getEmulsion());
         noteTF.setText(task.getNote());
 
-        ObservableList<Subtask> subtasks = FXCollections.observableList(task.getSubtasks());
-        tableView.setItems(subtasks);
+        subtasks.addAll(task.getSubtasks());
     }
 
     private Task readFields(Task task) {
@@ -176,6 +181,8 @@ public class CreateOrderDialogController {
         } else {
             task.setCombi("직견장");
         }
+
+        task.setCount(getFrameCount());
 
         return task;
     }
@@ -239,6 +246,19 @@ public class CreateOrderDialogController {
             Subtask selectedSubtask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             selectedSubtask.setPrint(event.getNewValue());
         });
+    }
+
+    private Integer getFrameCount() {
+        int total = 0;
+        for (Subtask subtask : tableView.getItems()) {
+            try {
+                int count = Integer.parseInt(subtask.getCount());
+                total += count;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return total;
     }
 
     @SneakyThrows
