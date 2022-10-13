@@ -109,32 +109,14 @@ public class CreateOrderDialogController {
         thicknessCol.setCellValueFactory(new PropertyValueFactory<>("thickness"));
     }
 
-    //todo not working properly when adding new print to existing task
-    //todo delete all subtasks which task_id was set to null from the db
-    public void editTask(long id) {
-        Session session = Database.getSessionFactory().openSession();
-        Transaction transaction = session.beginTransaction();
-
-        //get task from the db and load its info into the form
-        Task task = session.createQuery("FROM Task t where t.id = :id", Task.class).setParameter("id", id).uniqueResult();
-
-        task = readFields(task);
-        session.persist(task);
-
-        transaction.commit();
-        session.close();
-    }
-
     public void createTask() {
         Task task = new Task();
-        task = readFields(task);
+        readFields(task);
 
         TaskRepository.save(task);
     }
 
-    public void populateWindow(Long id){
-        Task task = TaskRepository.get(id);
-
+    public void populateWindow(Task task){
         clientTF.setText(task.getClient());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         datepicker.setValue(LocalDate.parse(task.getDeadlineDate(), formatter));
@@ -161,11 +143,9 @@ public class CreateOrderDialogController {
         noteTF.setText(task.getNote());
 
         subtasks.addAll(task.getSubtasks());
-        System.out.println("loaded info from db");
-        System.out.printf("subtasks: %s%n", subtasks.toString());
     }
 
-    private Task readFields(Task task) {
+    public void readFields(Task task) {
         task.setClient(clientTF.getText());
         task.setDeadlineDate(datepicker.getValue().toString());
         task.setDeadlineNote(deadlineNoteTF.getText());
@@ -176,7 +156,9 @@ public class CreateOrderDialogController {
         task.setEmulsion(emulsionTF.getText());
         task.setNote(noteTF.getText());
 
-        //try to read from the subtasks observable list
+        task.getSubtasks().forEach(subtask -> {
+            subtask.setTask(null);
+        });
         List<Subtask> subtaskList = tableView.getItems();
         subtaskList.forEach(subtask -> subtask.setTask(task));
         task.setSubtasks(subtasks);
@@ -188,8 +170,6 @@ public class CreateOrderDialogController {
         }
 
         task.setCount(getFrameCount());
-
-        return task;
     }
 
     private void initToggleButtons() {

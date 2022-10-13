@@ -236,13 +236,29 @@ public class TaskMonitorController {
 
         CreateOrderDialogController controller = fxmlLoader.getController();
 
-        //db addressed 2 times - populateWindow and editTask. Possibly could be reduced to a single call
-        controller.populateWindow(taskId);
+        Session session = Database.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
 
-        Optional<ButtonType> clickedButton = dialog.showAndWait();
-        if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
-            controller.editTask(taskId);
+            //get the task from db and load info into the form
+            Task task = session.createQuery("from Task t where t.id = :taskId", Task.class).setParameter("taskId", taskId).uniqueResult();
+            controller.populateWindow(task);
+
+            Optional<ButtonType> clickedButton = dialog.showAndWait();
+            if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
+                controller.readFields(task);
+                session.createQuery("delete from Subtask where task = null").executeUpdate();
+            }
+
+            transaction.commit();
             loadData();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(transaction != null)
+                transaction.rollback();
+        } finally {
+            session.close();
         }
     }
 
