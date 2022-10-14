@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.dialogs.CreateOrderDialogV2">
+   <content>
+      <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
+         <children>
+            <TextField layoutX="57.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="460.0" promptText="Order Serial Number" />
+            <DatePicker layoutX="650.0" layoutY="39.0" promptText="작성일" />
+            <Label layoutX="57.0" layoutY="84.0" text="출하형태" />
+            <TextField layoutX="57.0" layoutY="156.0" promptText="고객명" />
+            <TextField layoutX="225.0" layoutY="156.0" promptText="person in charge" />
+            <RadioButton layoutX="62.0" layoutY="111.0" mnemonicParsing="false" text="사메기" />
+            <RadioButton layoutX="166.0" layoutY="111.0" mnemonicParsing="false" text="PS 판" />
+            <RadioButton layoutX="264.0" layoutY="111.0" mnemonicParsing="false" text="제판" />
+            <Label layoutX="57.0" layoutY="199.0" text="포지필림" />
+            <RadioButton layoutX="62.0" layoutY="226.0" mnemonicParsing="false" text="기존필림" />
+            <RadioButton layoutX="166.0" layoutY="226.0" mnemonicParsing="false" text="제공필림" />
+            <RadioButton layoutX="264.0" layoutY="226.0" mnemonicParsing="false" text="신규필림" />
+            <Label layoutX="143.0" layoutY="268.0" text="사메기 (TENSIONING)" />
+            <TextField layoutX="57.0" layoutY="301.0" promptText="Frame Size" />
+            <TextField layoutX="225.0" layoutY="301.0" promptText="Mesh" />
+            <CheckBox layoutX="392.0" layoutY="305.0" mnemonicParsing="false" text="COMBI" />
+            <RadioButton layoutX="62.0" layoutY="340.0" mnemonicParsing="false" text="신규프레임" />
+            <RadioButton layoutX="62.0" layoutY="364.0" mnemonicParsing="false" text="지급프레임" />
+            <TextField layoutX="224.0" layoutY="336.0" promptText="각도" text="22.5" />
+            <TextField layoutX="224.0" layoutY="369.0" promptText="텐션" />
+            <TextField layoutX="57.0" layoutY="405.0" promptText="유제" />
+            <Label layoutX="517.0" layoutY="111.0" text="납품 방법" />
+            <RadioButton layoutX="599.0" layoutY="111.0" mnemonicParsing="false" text="배송" />
+            <RadioButton layoutX="650.0" layoutY="111.0" mnemonicParsing="false" text="배달" />
+            <DatePicker layoutX="493.0" layoutY="156.0" promptText="출하예정일" />
+            <TextField layoutX="704.0" layoutY="156.0" promptText="출하예정일 Note" />
+            <Label layoutX="644.0" layoutY="268.0" text="제판 (PRINTING)" />
+            <Label layoutX="540.0" layoutY="305.0" text="제판위치" />
+            <RadioButton layoutX="607.0" layoutY="305.0" mnemonicParsing="false" text="지정위치" />
+            <RadioButton mnemonicParsing="false" text="RadioButton" />
+            <RadioButton layoutX="715.0" layoutY="305.0" mnemonicParsing="false" text="프레임중심" />
+            <TableView layoutX="57.0" layoutY="442.0" prefHeight="318.0" prefWidth="890.0">
+              <columns>
+                <TableColumn prefWidth="75.0" text="C1" />
+                <TableColumn prefWidth="75.0" text="C2" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+   </content>
+</DialogPane>
