@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.TaskMonitorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.TaskMonitorController">
    <children>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="900.0" prefWidth="1900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -25,21 +25,20 @@
                     <columns>
                         <TableColumn fx:id="orderCol" prefWidth="51.0" resizable="false" text="№" />
                         <TableColumn fx:id="deadlineCol" minWidth="-Infinity" prefWidth="230.0" resizable="false" text="출하예정일" />
-                      <TableColumn fx:id="orderDateCol" prefWidth="150.0" resizable="false" sortable="false" text="작성일" />
-                      <TableColumn fx:id="clientCol" prefWidth="340.0" resizable="false" text="고객명" />
-                        <TableColumn fx:id="countCol" prefWidth="64.3333740234375" resizable="false" sortable="false" text="수량" />
-                        <TableColumn fx:id="clientCol4" prefWidth="99.0" resizable="false" sortable="false" text="FRAME">
+                      <TableColumn fx:id="dateInCol" prefWidth="150.0" resizable="false" sortable="false" text="작성일" />
+                      <TableColumn fx:id="clientCol" prefWidth="481.0" resizable="false" text="고객명" />
+                        <TableColumn fx:id="countCol" prefWidth="81.0" resizable="false" sortable="false" text="수량" />
+                        <TableColumn fx:id="clientCol4" prefWidth="429.0" resizable="false" sortable="false" text="FRAME">
                            <columns>
                               <TableColumn fx:id="sizeCol" prefWidth="160.0" resizable="false" sortable="false" text="사이즈" />
                               <TableColumn fx:id="meshCol" prefWidth="160.0" resizable="false" sortable="false" text="망사" />
                               <TableColumn fx:id="combiCol" prefWidth="160.0" resizable="false" sortable="false" text="콤비 / 직견장" />
-                              <TableColumn fx:id="typeCol" prefWidth="160.0" resizable="false" sortable="false" text="형" />
                            </columns>
                         </TableColumn>
                         <TableColumn fx:id="tensioningCol" prefWidth="99.0" resizable="false" sortable="false" text="견장" />
                         <TableColumn fx:id="coatingCol" prefWidth="99.0" resizable="false" sortable="false" text="코팅" />
-                        <TableColumn fx:id="washingCol" prefWidth="99.0" resizable="false" sortable="false" text="현상" />
                         <TableColumn fx:id="exposureCol" prefWidth="99.0" resizable="false" sortable="false" text="노광" />
+                        <TableColumn fx:id="packagingCol" prefWidth="99.0" resizable="false" sortable="false" text="포장" />
                     </columns>
                      <contextMenu>
                         <ContextMenu minWidth="-Infinity" prefWidth="200.0">

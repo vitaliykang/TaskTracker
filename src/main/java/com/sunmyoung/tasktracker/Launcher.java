@@ -1,6 +1,9 @@
 package com.sunmyoung.tasktracker;
 
+import com.sunmyoung.tasktracker.controllers.TaskMonitorController;
+import com.sunmyoung.tasktracker.pojos.Task;
 import com.sunmyoung.tasktracker.repositories.Database;
+import com.sunmyoung.tasktracker.repositories.TaskRepository;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -11,6 +14,9 @@ import javafx.stage.WindowEvent;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Launcher extends Application {
 
@@ -19,7 +25,7 @@ public class Launcher extends Application {
     public void start(Stage stage) throws IOException {
         Database.connect();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("main.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 //        scene.getStylesheets().add(getClass().getResource("fontstyle.css").toExternalForm());
         stage.setTitle("Task Tracker");

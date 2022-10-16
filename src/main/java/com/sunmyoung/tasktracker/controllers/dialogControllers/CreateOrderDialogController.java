@@ -118,10 +118,9 @@ public class CreateOrderDialogController {
 
     public void populateWindow(Task task){
         clientTF.setText(task.getClient());
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        datepicker.setValue(LocalDate.parse(task.getDeadlineDate(), formatter));
+        datepicker.setValue(task.getDateOut());
         deadlineNoteTF.setText(task.getDeadlineNote());
-        frameSizeTF.setText(task.getSize());
+        frameSizeTF.setText(task.getFrameSize());
         if (task.getIsAluminum()) {
             aluminumRB.setSelected(true);
         } else {
@@ -140,28 +139,31 @@ public class CreateOrderDialogController {
         biasTF.setText(task.getBias().toString());
         meshTF.setText(task.getMesh());
         emulsionTF.setText(task.getEmulsion());
-        noteTF.setText(task.getNote());
+        noteTF.setText(task.getDeadlineNote());
 
         subtasks.addAll(task.getSubtasks());
     }
 
     public void readFields(Task task) {
         task.setClient(clientTF.getText());
-        task.setDeadlineDate(datepicker.getValue().toString());
+        task.setDateOut(datepicker.getValue());
         task.setDeadlineNote(deadlineNoteTF.getText());
-        task.setSize(frameSizeTF.getText());
+        task.setFrameSize(frameSizeTF.getText());
         task.setIsAluminum(aluminumRB.isSelected());
-        task.setBias(Double.parseDouble(biasTF.getText()));
+        task.setBias(biasTF.getText());
         task.setMesh(meshTF.getText());
         task.setEmulsion(emulsionTF.getText());
-        task.setNote(noteTF.getText());
+        task.setDeadlineNote(noteTF.getText());
 
         task.getSubtasks().forEach(subtask -> {
             subtask.setTask(null);
         });
-        List<Subtask> subtaskList = tableView.getItems();
-        subtaskList.forEach(subtask -> subtask.setTask(task));
-        task.setSubtasks(subtasks);
+
+        //CHANGED HERE
+//        List<Subtask> subtaskList = tableView.getItems();
+//        subtaskList.forEach(subtask -> subtask.setTask(task));
+        subtasks.forEach(subtask -> subtask.setTask(task));
+        task.setSubtasks(new HashSet<>(subtasks));
 
         if (combiBox.isSelected()) {
             task.setCombi(meshSizeTF.getText());

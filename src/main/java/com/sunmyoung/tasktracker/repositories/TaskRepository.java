@@ -6,7 +6,7 @@ import org.hibernate.Transaction;
 
 import javax.persistence.PersistenceException;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
+import java.util.*;
 
 public class TaskRepository {
     public static void save(Task task) {
@@ -25,7 +25,7 @@ public class TaskRepository {
             repoTask.setCoating(task.getCoating());
             repoTask.setCombi(task.getCombi());
             repoTask.setCount(task.getCount());
-            repoTask.setDeadlineDate(task.getDeadlineDate());
+            repoTask.setDateOut(task.getDateOut());
             repoTask.setDeadlineNote(task.getDeadlineNote());
             repoTask.setEmulsion(task.getEmulsion());
             repoTask.setExposure(task.getExposure());
@@ -33,13 +33,12 @@ public class TaskRepository {
             repoTask.setCombi(task.getCombi());
             repoTask.setIsComplete(task.getIsComplete());
             repoTask.setMesh(task.getMesh());
-            repoTask.setNote(task.getNote());
-            repoTask.setOrderDate(task.getOrderDate());
-            repoTask.setOrderDateStr(task.getOrderDateStr());
-            repoTask.setSize(task.getSize());
+            repoTask.setOrderNote(task.getOrderNote());
+            repoTask.setDateIn(task.getDateIn());
+            repoTask.setFrameSize(task.getFrameSize());
             repoTask.setTensioning(task.getTensioning());
             repoTask.setType(task.getType());
-            repoTask.setWashing(task.getWashing());
+            repoTask.setPackaging(task.getPackaging());
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -56,7 +55,7 @@ public class TaskRepository {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Task result = session.createQuery("from Task t where t.id = :id", Task.class).setParameter("id", taskId).uniqueResult();
+            Task result = session.createQuery("from Task t join fetch t.subtasks where t.id = :id", Task.class).setParameter("id", taskId).uniqueResult();
             transaction.commit();
             return result;
         } catch (Exception e) {
@@ -76,9 +75,12 @@ public class TaskRepository {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            List<Task> result = session.createQuery("From Task t where t.isComplete = false", Task.class).getResultList();
+            List<Task> resultList = session.createQuery("From Task t join fetch t.subtasks where t.isComplete = false", Task.class).getResultList();
             transaction.commit();
-            return result;
+            Set<Task> taskSet = new HashSet<>(resultList);
+            resultList = new ArrayList<>(taskSet);
+            Collections.sort(resultList);
+            return resultList;
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null)

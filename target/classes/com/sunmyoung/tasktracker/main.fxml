@@ -8,7 +8,7 @@
    <children>
       <TabPane prefHeight="900.0" prefWidth="1900.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Untitled Tab 1">
+          <Tab text="Tasks Monitor">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>

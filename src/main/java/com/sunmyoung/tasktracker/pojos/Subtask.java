@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "subtasks")
-public class Subtask {
+public class Subtask implements Comparable<Subtask>{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -47,5 +47,10 @@ public class Subtask {
     @Override
     public int hashCode() {
         return Objects.hash(thickness, print, count);
+    }
+
+    @Override
+    public int compareTo(Subtask o) {
+        return Long.compare(id, o.id);
     }
 }
