@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
@@ -84,6 +85,11 @@ public class CreateOrderDialogController {
             meshSizeTF.setEditable(false);
             meshSizeTF.setDisable(true);
         }
+    }
+
+    @FXML
+    public void clientClicked(MouseEvent event){
+        System.out.println("Client Changed");
     }
 
     public void initialize() {

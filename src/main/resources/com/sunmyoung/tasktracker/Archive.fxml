@@ -5,22 +5,26 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="900.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.Archive">
+<AnchorPane prefHeight="900.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.ArchiveController">
    <children>
       <SplitPane dividerPositions="0.09465478841870824" layoutX="361.0" layoutY="146.0" orientation="VERTICAL" prefHeight="900.0" prefWidth="1900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
           <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="160.0" />
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView layoutX="250.0" layoutY="135.0" prefHeight="792.0" prefWidth="1898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tasksTableView" layoutX="250.0" layoutY="135.0" prefHeight="792.0" prefWidth="1898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="№" />
-                      <TableColumn prefWidth="104.0" text="Date Created" />
-                        <TableColumn prefWidth="104.0" text="Deadline" />
-                        <TableColumn prefWidth="104.0" text="Client" />
-                        <TableColumn prefWidth="104.0" text="Frame Size" />
-                        <TableColumn prefWidth="104.0" text="Frame Size" />
+                      <TableColumn fx:id="orderCol" prefWidth="75.0" text="№" />
+                      <TableColumn fx:id="dateInCol" prefWidth="104.0" text="Date In" />
+                        <TableColumn fx:id="dateOutCol" prefWidth="104.0" text="Date Out" />
+                        <TableColumn fx:id="clientCol" prefWidth="104.0" text="Client" />
+                        <TableColumn fx:id="countCol" prefWidth="104.0" text="Count" />
+                        <TableColumn fx:id="frameSizeCol" prefWidth="104.0" text="Frame Size" />
+                        <TableColumn fx:id="meshCol" prefWidth="104.0" text="Mesh" />
+                        <TableColumn fx:id="combiCol" prefWidth="104.0" text="Combi" />
+                        <TableColumn fx:id="frameNewOldCol" prefWidth="104.0" text="프레임" />
+                        <TableColumn fx:id="filmTypeCol" prefWidth="104.0" text="포지필림" />
+                        <TableColumn fx:id="shippingMethodCol" prefWidth="104.0" text="납품 방법" />
                     </columns>
                   </TableView>
                </children>
