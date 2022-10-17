@@ -61,6 +61,8 @@ public class Task implements Comparable<Task>{
     @Getter @Setter
     private Boolean isNewFrame;
 
+    private String frameNewOld;
+
     @Column(name = "bias")
     @Getter @Setter
     private String bias;
@@ -135,6 +137,10 @@ public class Task implements Comparable<Task>{
 
     public String getDeadline() {
         return String.format("%s - %s", dateOut.format(CreateOrderDialogControllerV2.getKoreanFormat()), deadlineNote);
+    }
+
+    public String getFrameNewOld() {
+        return isNewFrame ? "신규프레임" : "지급프레임";
     }
 
     @Override

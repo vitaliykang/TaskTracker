@@ -2,46 +2,58 @@ package com.sunmyoung.tasktracker.controllers;
 
 
 import com.sunmyoung.tasktracker.pojos.Task;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
+
+import java.time.LocalDate;
 
 public class ArchiveController {
+    @FXML
+    private TableColumn<Task, Integer> orderCol;
 
     @FXML
-    private TableColumn<Task, String> clientCol;
+    private TableColumn<Task, String>
+            clientCol,
+            frameSizeCol,
+            meshCol,
+            combiCol,
+            countCol,
+            filmTypeCol,
+            frameNewOldCol,
+            shippingMethodCol;
 
     @FXML
-    private TableColumn<?, ?> combiCol;
+    private TableColumn<Task, LocalDate>
+            dateInCol,
+            dateOutCol;
 
     @FXML
-    private TableColumn<?, ?> countCol;
+    private TableView<Task> tasksTableView;
 
-    @FXML
-    private TableColumn<?, ?> dateInCol;
+    private ObservableList<Task> tasksObservableList = FXCollections.observableArrayList();
 
-    @FXML
-    private TableColumn<?, ?> dateOutCol;
+    public void initialize() {
 
-    @FXML
-    private TableColumn<?, ?> filmTypeCol;
+    }
 
-    @FXML
-    private TableColumn<?, ?> frameNewOldCol;
+    private void initTableView() {
+        orderCol.setCellValueFactory(order -> new ReadOnlyObjectWrapper<>(tasksObservableList.indexOf(order.getValue()) + 1));
 
-    @FXML
-    private TableColumn<?, ?> frameSizeCol;
+        clientCol.setCellValueFactory(new PropertyValueFactory<>("client"));
+        frameSizeCol.setCellValueFactory(new PropertyValueFactory<>("frameSize"));
+        meshCol.setCellValueFactory(new PropertyValueFactory<>("mesh"));
+        combiCol.setCellValueFactory(new PropertyValueFactory<>("combi"));
+        countCol.setCellValueFactory(new PropertyValueFactory<>("count"));
+        filmTypeCol.setCellValueFactory(new PropertyValueFactory<>("film"));
+        frameNewOldCol.setCellValueFactory(new PropertyValueFactory<>("frameNewOld"));
+        shippingMethodCol.setCellValueFactory(new PropertyValueFactory<>("shippingMethod"));
 
-    @FXML
-    private TableColumn<?, ?> meshCol;
-
-    @FXML
-    private TableColumn<?, ?> orderCol;
-
-    @FXML
-    private TableColumn<?, ?> shippingMethodCol;
-
-    @FXML
-    private TableView<?> tasksTableView;
-
+        dateInCol.setCellValueFactory(new PropertyValueFactory<>("dateIn"));
+        dateOutCol.setCellValueFactory(new PropertyValueFactory<>("dateOut"));
+    }
 }
