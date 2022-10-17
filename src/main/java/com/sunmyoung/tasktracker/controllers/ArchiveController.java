@@ -2,6 +2,8 @@ package com.sunmyoung.tasktracker.controllers;
 
 
 import com.sunmyoung.tasktracker.pojos.Task;
+import com.sunmyoung.tasktracker.repositories.Database;
+import com.sunmyoung.tasktracker.repositories.TaskRepository;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,8 +11,10 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.hibernate.Session;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class ArchiveController {
     @FXML
@@ -38,7 +42,8 @@ public class ArchiveController {
     private ObservableList<Task> tasksObservableList = FXCollections.observableArrayList();
 
     public void initialize() {
-
+        initTableView();
+        loadInfo();
     }
 
     private void initTableView() {
@@ -55,5 +60,13 @@ public class ArchiveController {
 
         dateInCol.setCellValueFactory(new PropertyValueFactory<>("dateIn"));
         dateOutCol.setCellValueFactory(new PropertyValueFactory<>("dateOut"));
+
+        tasksTableView.setItems(tasksObservableList);
+    }
+
+    private void loadInfo() {
+        Session session = Database.getSessionFactory().openSession();
+        List<Task> tasks = session.createQuery("from Task", Task.class).getResultList();
+        tasksObservableList.addAll(tasks);
     }
 }
