@@ -65,8 +65,9 @@ public class ArchiveController {
     }
 
     private void loadInfo() {
+        LocalDate date = LocalDate.of(2022, 10, 17);
         Session session = Database.getSessionFactory().openSession();
-        List<Task> tasks = session.createQuery("from Task", Task.class).getResultList();
+        List<Task> tasks = session.createQuery("from Task t where t.dateIn >= :date", Task.class).setParameter("date", date).getResultList();
         tasksObservableList.addAll(tasks);
     }
 }
