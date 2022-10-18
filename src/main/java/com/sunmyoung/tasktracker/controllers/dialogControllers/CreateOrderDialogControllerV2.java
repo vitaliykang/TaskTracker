@@ -15,7 +15,9 @@ import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Comparator;
@@ -264,6 +266,8 @@ public class CreateOrderDialogControllerV2 {
 
         dateInPicker.setConverter(stringConverter);
         dateOutPicker.setConverter(stringConverter);
+
+        dateInPicker.setValue(LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()));
     }
 
     //returns result based on selected RB. Returns null if none selected.
