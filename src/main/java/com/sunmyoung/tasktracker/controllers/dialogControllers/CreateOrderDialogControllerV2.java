@@ -89,6 +89,9 @@ public class CreateOrderDialogControllerV2 {
     private TextArea orderNoteTA;
 
     @FXML
+    private ToggleButton frameOnlyToggle;
+
+    @FXML
     private TableView<Subtask> subtasksTableView;
 
     @FXML
@@ -139,6 +142,15 @@ public class CreateOrderDialogControllerV2 {
         subtasksChanged = true;
         Subtask subtask = subtasksTableView.getSelectionModel().getSelectedItem();
         subtasks.remove(subtask);
+    }
+
+    @FXML
+    void frameOnlyToggleAction(ActionEvent event) {
+        if (frameOnlyToggle.isSelected()) {
+            subtasksTableView.setDisable(true);
+        } else {
+            subtasksTableView.setDisable(false);
+        }
     }
 
     public void initialize() {

@@ -11,6 +11,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
@@ -47,21 +48,21 @@
             <TextField fx:id="biasTF" layoutX="224.0" layoutY="336.0" promptText="각도" text="22.5" />
             <TextField fx:id="tensionTF" layoutX="224.0" layoutY="369.0" promptText="텐션" />
             <TextField fx:id="emulsionTF" layoutX="392.0" layoutY="369.0" promptText="유제" />
-            <Label layoutX="568.0" layoutY="113.0" text="납품 방법">
+            <Label layoutX="564.0" layoutY="84.0" text="납품 방법">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <RadioButton fx:id="methodPesongRB" layoutX="644.0" layoutY="113.0" mnemonicParsing="false" text="배송" />
-            <RadioButton fx:id="methodPedalRB" layoutX="695.0" layoutY="113.0" mnemonicParsing="false" text="배달" />
-            <DatePicker fx:id="dateOutPicker" layoutX="567.0" layoutY="156.0" promptText="출하예정일" />
-            <TextField fx:id="dateOutNoteTF" layoutX="778.0" layoutY="156.0" promptText="출하예정일 Note" />
-            <Label layoutX="666.0" layoutY="203.0" text="제판 (PRINTING)">
+            <RadioButton fx:id="methodPesongRB" layoutX="640.0" layoutY="84.0" mnemonicParsing="false" text="배송" />
+            <RadioButton fx:id="methodPedalRB" layoutX="691.0" layoutY="84.0" mnemonicParsing="false" text="배달" />
+            <DatePicker fx:id="dateOutPicker" layoutX="563.0" layoutY="113.0" promptText="출하예정일" />
+            <TextField fx:id="dateOutNoteTF" layoutX="769.0" layoutY="113.0" promptText="출하예정일 Note" />
+            <Label layoutX="662.0" layoutY="151.0" text="제판 (PRINTING)">
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label layoutX="576.0" layoutY="245.0" text="제판위치" />
-            <RadioButton fx:id="positionCustomRB" layoutX="643.0" layoutY="245.0" mnemonicParsing="false" text="지정위치" />
-            <RadioButton fx:id="positionCenterRB" layoutX="751.0" layoutY="245.0" mnemonicParsing="false" text="프레임중심" />
+            <Label layoutX="572.0" layoutY="193.0" text="제판위치" />
+            <RadioButton fx:id="positionCustomRB" layoutX="639.0" layoutY="193.0" mnemonicParsing="false" text="지정위치" />
+            <RadioButton fx:id="positionCenterRB" layoutX="747.0" layoutY="193.0" mnemonicParsing="false" text="프레임중심" />
             <TableView fx:id="subtasksTableView" layoutX="55.0" layoutY="407.0" prefHeight="352.0" prefWidth="890.0">
               <columns>
                 <TableColumn fx:id="orderCol" prefWidth="40.0" resizable="false" text="№" />
@@ -70,10 +71,10 @@
                   <TableColumn fx:id="countCol" prefWidth="65.0" resizable="false" text="수량" />
               </columns>
             </TableView>
-            <TextArea fx:id="orderNoteTA" layoutX="567.0" layoutY="270.0" prefHeight="131.0" prefWidth="378.0" promptText="Order Note" />
+            <TextArea fx:id="orderNoteTA" layoutX="563.0" layoutY="218.0" prefHeight="131.0" prefWidth="378.0" promptText="Order Note" />
             <Separator layoutX="55.0" layoutY="261.0" prefHeight="0.0" prefWidth="482.0" />
             <Separator layoutX="57.0" layoutY="69.0" prefHeight="7.0" prefWidth="886.0" />
-            <Separator layoutX="567.0" layoutY="198.0" prefHeight="2.0" prefWidth="370.0" />
+            <Separator layoutX="567.0" layoutY="177.0" prefHeight="2.0" prefWidth="370.0" />
             <Button alignment="CENTER" layoutX="10.0" layoutY="407.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSubtask" prefHeight="40.0" prefWidth="40.0" text="+">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -87,6 +88,7 @@
             <RadioButton fx:id="typeDirectRB" layoutX="392.0" layoutY="305.0" mnemonicParsing="false" text="직견장" />
             <RadioButton fx:id="typeCombiRB" layoutX="392.0" layoutY="327.0" mnemonicParsing="false" text="COMBI" />
             <Button layoutX="10.0" layoutY="457.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editSubtask" prefHeight="40.0" prefWidth="40.0" text="편집" wrapText="true" />
+            <ToggleButton fx:id="frameOnlyToggle" layoutX="567.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="Frame Only" />
          </children>
       </AnchorPane>
    </content>
