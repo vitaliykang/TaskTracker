@@ -19,10 +19,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Optional;
+import java.util.*;
 
 public class CreateOrderDialogControllerV2 {
     @Getter
@@ -92,6 +89,9 @@ public class CreateOrderDialogControllerV2 {
     private ToggleButton frameOnlyToggle;
 
     @FXML
+    private TextField countTF;
+
+    @FXML
     private TableView<Subtask> subtasksTableView;
 
     @FXML
@@ -100,6 +100,12 @@ public class CreateOrderDialogControllerV2 {
             thicknessCol,
             countCol,
             orderCol;
+
+    @FXML
+    private Button
+            addSubtaskButton,
+            removeSubtaskButton,
+            editSubtaskButton;
 
     @Getter
     private ObservableList<Subtask> subtasks = FXCollections.observableArrayList();
@@ -146,17 +152,14 @@ public class CreateOrderDialogControllerV2 {
 
     @FXML
     void frameOnlyToggleAction(ActionEvent event) {
-        if (frameOnlyToggle.isSelected()) {
-            subtasksTableView.setDisable(true);
-        } else {
-            subtasksTableView.setDisable(false);
-        }
+        setFrameOnly(frameOnlyToggle.isSelected());
     }
 
     public void initialize() {
         initRadioButtons();
         initDatePickers();
         initTableView();
+        countTF.setDisable(true);
     }
 
     /**
@@ -171,25 +174,40 @@ public class CreateOrderDialogControllerV2 {
         task.setFilm(getFilm());
         task.setFrameSize(frameSizeTF.getText());
         task.setMesh(meshTF.getText());
-        task.setCombi(typeCombiRB.isSelected() ? "COMBI" : "직견장");
+        task.setCombi(getCombi());
         task.setIsNewFrame(frameNewRB.isSelected());
         task.setBias(biasTF.getText());
         task.setTension(tensionTF.getText());
         task.setEmulsion(emulsionTF.getText());
         task.setDateIn(dateInPicker.getValue());
-        task.setShippingMethod(methodPesongRB.isSelected() ? "배송" : "배달");
+        task.setShippingMethod(getShippingMethod());
         task.setDateOut(dateOutPicker.getValue());
         task.setDeadlineNote(dateOutNoteTF.getText());
-        task.setPrintPosition(positionCenterRB.isSelected() ? "프레임중심" : "지정위치");
+        task.setPrintPosition(getPrintPosition());
         task.setOrderNote(orderNoteTA.getText());
 
-        int count = 0;
-        for (Subtask subtask : subtasks) {
+        //if it is 'frame only' order, then create a dummy subtask and add it to the subtasks set
+        if (frameOnlyToggle.isSelected()) {
+            int count = 0;
+            try {
+                count = Integer.parseInt(countTF.getText());
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            Subtask subtask = new Subtask();
+            subtask.setPrint("Frame Only");
             subtask.setTask(task);
-            count += Integer.parseInt(subtask.getCount());
+            task.setSubtasks(Set.of(subtask));
+            task.setCount(count);
+        } else {
+            int count = 0;
+            for (Subtask subtask : subtasks) {
+                subtask.setTask(task);
+                count += Integer.parseInt(subtask.getCount());
+            }
+            task.setSubtasks(new HashSet<>(subtasks));
+            task.setCount(count);
         }
-        task.setSubtasks(new HashSet<>(subtasks));
-        task.setCount(count);
     }
 
     /**
@@ -234,12 +252,21 @@ public class CreateOrderDialogControllerV2 {
         dateOutPicker.setValue(task.getDateOut());
         dateOutNoteTF.setText(task.getDeadlineNote());
         switch (task.getPrintPosition()) {
-            case "프레임중심" -> positionCenterRB.setSelected(true);
             case "지정위치" -> positionCustomRB.setSelected(true);
+            case "프레임중심" -> positionCenterRB.setSelected(true);
         }
         orderNoteTA.setText(task.getOrderNote());
-        subtasks.addAll(task.getSubtasks());
-        Collections.sort(subtasks);
+
+        //check if it is a 'frame only' order
+        List<Subtask> subtaskList = new ArrayList<>(task.getSubtasks());
+        if (subtaskList.size() == 1 & subtaskList.get(0).getPrint().equals("Frame Only")) {
+            setFrameOnly(true);
+            frameOnlyToggle.setSelected(true);
+            countTF.setText(task.getCount().toString());
+        } else {
+            subtasks.addAll(subtaskList);
+            Collections.sort(subtasks);
+        }
     }
 
     @SneakyThrows
@@ -293,7 +320,7 @@ public class CreateOrderDialogControllerV2 {
         if (shipmentChepanRB.isSelected()) {
             return "제판";
         }
-        return null;
+        return "null";
     }
 
     private String getFilm() {
@@ -306,7 +333,37 @@ public class CreateOrderDialogControllerV2 {
         if (filmProvidedRB.isSelected()) {
             return "제공필림";
         }
-        return null;
+        return "null";
+    }
+
+    private String getCombi() {
+        if (typeCombiRB.isSelected()) {
+            return "COMBI";
+        }
+        if (typeDirectRB.isSelected()) {
+            return "직견장";
+        }
+        return "null";
+    }
+
+    private String getShippingMethod() {
+        if (methodPesongRB.isSelected()) {
+            return "배송";
+        }
+        if (methodPedalRB.isSelected()) {
+            return "배달";
+        }
+        return "null";
+    }
+
+    private String getPrintPosition() {
+        if (positionCenterRB.isSelected()) {
+            return "프레임중심";
+        }
+        if (positionCustomRB.isSelected()) {
+            return "지정위치";
+        }
+        return "null";
     }
 
     private void initTableView() {
@@ -350,5 +407,15 @@ public class CreateOrderDialogControllerV2 {
         ToggleGroup position = new ToggleGroup();
         positionCustomRB.setToggleGroup(position);
         positionCenterRB.setToggleGroup(position);
+    }
+
+    //activates appropriate fields based on boolean parameter.
+    private void setFrameOnly(boolean bool) {
+        subtasksTableView.setDisable(bool);
+        addSubtaskButton.setDisable(bool);
+        removeSubtaskButton.setDisable(bool);
+        editSubtaskButton.setDisable(bool);
+
+        countTF.setDisable(!bool);
     }
 }

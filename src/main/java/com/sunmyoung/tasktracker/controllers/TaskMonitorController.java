@@ -43,7 +43,6 @@ public class TaskMonitorController {
             sizeCol,
             meshCol,
             combiCol,
-            typeCol,
             tensioningCol,
             coatingCol,
             packagingCol,
@@ -82,7 +81,7 @@ public class TaskMonitorController {
         initTableView();
         loadData();
         activateStatusCells();
-        startAutoRefresh(5000);
+        startAutoRefresh(600000);
     }
 
     public void loadData() {

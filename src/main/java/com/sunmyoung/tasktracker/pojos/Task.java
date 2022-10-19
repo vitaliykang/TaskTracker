@@ -61,8 +61,6 @@ public class Task implements Comparable<Task>{
     @Getter @Setter
     private Boolean isNewFrame;
 
-    private String frameNewOld;
-
     @Column(name = "bias")
     @Getter @Setter
     private String bias;

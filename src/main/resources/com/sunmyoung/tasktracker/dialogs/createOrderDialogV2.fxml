@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
          <children>
@@ -75,20 +75,24 @@
             <Separator layoutX="55.0" layoutY="261.0" prefHeight="0.0" prefWidth="482.0" />
             <Separator layoutX="57.0" layoutY="69.0" prefHeight="7.0" prefWidth="886.0" />
             <Separator layoutX="567.0" layoutY="177.0" prefHeight="2.0" prefWidth="370.0" />
-            <Button alignment="CENTER" layoutX="10.0" layoutY="407.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSubtask" prefHeight="40.0" prefWidth="40.0" text="+">
+            <Button fx:id="addSubtaskButton" alignment="CENTER" layoutX="10.0" layoutY="407.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSubtask" prefHeight="40.0" prefWidth="40.0" text="+">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Button>
-            <Button alignment="CENTER" layoutX="10.0" layoutY="590.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeSubtask" prefHeight="40.0" prefWidth="40.0" text="-" textAlignment="CENTER" wrapText="true">
+            <Button fx:id="removeSubtaskButton" alignment="CENTER" layoutX="10.0" layoutY="590.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeSubtask" prefHeight="40.0" prefWidth="40.0" text="-" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold" size="21.0" />
                </font>
             </Button>
             <RadioButton fx:id="typeDirectRB" layoutX="392.0" layoutY="305.0" mnemonicParsing="false" text="직견장" />
             <RadioButton fx:id="typeCombiRB" layoutX="392.0" layoutY="327.0" mnemonicParsing="false" text="COMBI" />
-            <Button layoutX="10.0" layoutY="457.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editSubtask" prefHeight="40.0" prefWidth="40.0" text="편집" wrapText="true" />
+            <Button fx:id="editSubtaskButton" layoutX="10.0" layoutY="457.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editSubtask" prefHeight="40.0" prefWidth="40.0" text="편집" textAlignment="JUSTIFY" wrapText="true">
+               <font>
+                  <Font size="12.0" />
+               </font></Button>
             <ToggleButton fx:id="frameOnlyToggle" layoutX="567.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="Frame Only" />
+            <TextField fx:id="countTF" layoutX="660.0" layoutY="369.0" promptText="수량" />
          </children>
       </AnchorPane>
    </content>
