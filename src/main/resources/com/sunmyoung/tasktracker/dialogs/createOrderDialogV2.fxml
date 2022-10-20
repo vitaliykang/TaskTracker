@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.DialogPane?>
 <?import javafx.scene.control.Label?>
@@ -15,7 +16,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
          <children>
@@ -93,6 +94,7 @@
                </font></Button>
             <ToggleButton fx:id="frameOnlyToggle" layoutX="567.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="Frame Only" />
             <TextField fx:id="countTF" layoutX="660.0" layoutY="369.0" promptText="수량" />
+            <CheckBox fx:id="editCB" layoutX="901.0" layoutY="14.0" mnemonicParsing="false" onAction="#enableEdit" text="Edit" />
          </children>
       </AnchorPane>
    </content>

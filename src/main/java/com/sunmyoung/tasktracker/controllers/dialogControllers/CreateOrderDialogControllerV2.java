@@ -26,6 +26,9 @@ public class CreateOrderDialogControllerV2 {
     private static DateTimeFormatter koreanFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
     @FXML
+    private CheckBox editCB;
+
+    @FXML
     private TextField serialNumberTF;
 
     @FXML
@@ -112,6 +115,11 @@ public class CreateOrderDialogControllerV2 {
 
     @Getter
     private boolean subtasksChanged;
+
+    @FXML
+    void enableEdit() {
+        enableElements(editCB.isSelected());
+    }
 
     @FXML
     void addSubtask(ActionEvent event) {
@@ -267,6 +275,43 @@ public class CreateOrderDialogControllerV2 {
             subtasks.addAll(subtaskList);
             Collections.sort(subtasks);
         }
+    }
+
+    public void enableElements(boolean bool) {
+        serialNumberTF.setEditable(bool);
+        shipmentChepanRB.setDisable(!bool);
+        shipmentPSRB.setDisable(!bool);
+        shipmentSamegiRB.setDisable(!bool);
+        dateInPicker.setEditable(bool);
+        dateInPicker.setDisable(!bool);
+        dateOutPicker.setEditable(bool);
+        dateOutPicker.setDisable(!bool);
+        dateOutNoteTF.setEditable(bool);
+        methodPesongRB.setDisable(!bool);
+        methodPedalRB.setDisable(!bool);
+        positionCenterRB.setDisable(!bool);
+        positionCustomRB.setDisable(!bool);
+        orderNoteTA.setEditable(bool);
+        frameOnlyToggle.setDisable(!bool);
+        countTF.setEditable(bool);
+        subtasksTableView.setEditable(bool);
+        addSubtaskButton.setDisable(!bool);
+        removeSubtaskButton.setDisable(!bool);
+        editSubtaskButton.setDisable(!bool);
+        companyTF.setEditable(bool);
+        personTF.setEditable(bool);
+        filmExistingRB.setDisable(!bool);
+        filmNewRB.setDisable(!bool);
+        filmProvidedRB.setDisable(!bool);
+        frameSizeTF.setEditable(bool);
+        meshTF.setEditable(bool);
+        biasTF.setEditable(bool);
+        tensionTF.setEditable(bool);
+        emulsionTF.setEditable(bool);
+        typeCombiRB.setDisable(!bool);
+        typeDirectRB.setDisable(!bool);
+        frameExistingRB.setDisable(!bool);
+        frameNewRB.setDisable(!bool);
     }
 
     @SneakyThrows

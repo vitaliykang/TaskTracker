@@ -260,6 +260,7 @@ public class TaskMonitorController {
             //get the task from db and load info into the form
             Task task = session.createQuery("from Task t where t.id = :taskId", Task.class).setParameter("taskId", taskId).uniqueResult();
             controller.populateWindow(task);
+            controller.enableElements(false);
 
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
