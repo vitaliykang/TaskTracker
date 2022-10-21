@@ -294,10 +294,6 @@ public class CreateOrderDialogControllerV2 {
         orderNoteTA.setEditable(bool);
         frameOnlyToggle.setDisable(!bool);
         countTF.setEditable(bool);
-        subtasksTableView.setEditable(bool);
-        addSubtaskButton.setDisable(!bool);
-        removeSubtaskButton.setDisable(!bool);
-        editSubtaskButton.setDisable(!bool);
         companyTF.setEditable(bool);
         personTF.setEditable(bool);
         filmExistingRB.setDisable(!bool);
@@ -312,6 +308,17 @@ public class CreateOrderDialogControllerV2 {
         typeDirectRB.setDisable(!bool);
         frameExistingRB.setDisable(!bool);
         frameNewRB.setDisable(!bool);
+
+        if (frameOnlyToggle.isSelected()) {
+            frameOnlyToggle.setDisable(!bool);
+            countTF.setEditable(bool);
+        } else {
+            subtasksTableView.setEditable(bool);
+            subtasksTableView.setDisable(!bool);
+            addSubtaskButton.setDisable(!bool);
+            removeSubtaskButton.setDisable(!bool);
+            editSubtaskButton.setDisable(!bool);
+        }
     }
 
     @SneakyThrows

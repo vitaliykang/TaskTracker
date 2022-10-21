@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.Data;
 import org.hibernate.Session;
@@ -20,7 +21,9 @@ import org.hibernate.Transaction;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class ArchiveController {
     @FXML
@@ -52,10 +55,18 @@ public class ArchiveController {
     private DatePicker endPicker;
 
     @FXML
+    private TextField clientTF;
+
+    @FXML
     void getResults(ActionEvent event) {
-        if (startPicker.getValue() != null && endPicker != null) {
+        if (startPicker.getValue() != null && endPicker.getValue() != null) {
             loadInfo(startPicker.getValue(), endPicker.getValue());
-        } else {
+        }
+        else if (startPicker.getValue() == null & endPicker.getValue() == null
+                & clientTF.getText() != null) {
+            loadInfo(clientTF.getText());
+        }
+        else {
             loadInfo();
         }
     }
@@ -116,8 +127,32 @@ public class ArchiveController {
                     .setParameter("start", start)
                     .setParameter("end", end)
                     .getResultList();
+            Set<Task> taskSet = new HashSet<>(tasks);
             tasksObservableList.clear();
-            tasksObservableList.addAll(tasks);
+            tasksObservableList.addAll(taskSet);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+    }
+
+    private void loadInfo(String client) {
+        LocalDate date = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+        date = date.withDayOfMonth(1);
+        Session session = Database.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            List<Task> tasks = session.createQuery("from Task t join fetch Subtask where t.dateIn >= :date and t.client = :client", Task.class).
+                    setParameter("date", date). setParameter("client", client).getResultList();
+            Set<Task> taskSet = new HashSet<>(tasks);
+            tasksObservableList.clear();
+            tasksObservableList.addAll(taskSet);
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
