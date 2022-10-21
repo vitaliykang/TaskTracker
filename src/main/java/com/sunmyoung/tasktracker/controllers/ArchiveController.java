@@ -18,6 +18,7 @@ import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import javax.persistence.TypedQuery;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -57,25 +58,30 @@ public class ArchiveController {
     @FXML
     private TextField clientTF;
 
+    private StringBuilder queryBuilder = new StringBuilder("From Task t where");
+    private boolean firstParameter = true;
+
     @FXML
     void getResults(ActionEvent event) {
-        if (startPicker.getValue() != null && endPicker.getValue() != null) {
-            loadInfo(startPicker.getValue(), endPicker.getValue());
-        }
-        else if (startPicker.getValue() == null & endPicker.getValue() == null
-                & clientTF.getText() != null) {
-            loadInfo(clientTF.getText());
-        }
-        else {
-            loadInfo();
-        }
+        loadInfo();
     }
 
     private ObservableList<Task> tasksObservableList = FXCollections.observableArrayList();
 
     public void initialize() {
+        //setting start date picker initial value
+        LocalDate date = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
+        date = date.withDayOfMonth(1);
+        startPicker.setValue(date);
+
         initTableView();
-        loadInfo();
+//        loadInfo();
+        Session session = Database.getSessionFactory().openSession();
+        String str = "from Task t where t.client = :client";
+        TypedQuery<Task> query = session.createQuery(str, Task.class);
+        query.setParameter("client", "RN2");
+        tasksObservableList.clear();
+        tasksObservableList.addAll(query.getResultList());
     }
 
     private void initTableView() {
@@ -96,15 +102,36 @@ public class ArchiveController {
         tasksTableView.setItems(tasksObservableList);
     }
 
-    //default loader. Loads info for the current month.
     private void loadInfo() {
-        LocalDate date = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-        date = date.withDayOfMonth(1);
         Session session = Database.getSessionFactory().openSession();
+
+        if (startPicker.getValue() != null) {
+            builderAddStartDate();
+        }
+        if (endPicker.getValue() != null) {
+            builderAddEndDate();
+        }
+        if (clientTF.getText() != null) {
+            builderAddClient();
+        }
+
+        TypedQuery<Task> typedQuery = session.createQuery(queryBuilder.toString(), Task.class);
+
+
+        if (startPicker.getValue() != null) {
+            addParameterStartDate(typedQuery);
+        }
+        if (endPicker.getValue() != null) {
+            addParameterEndDate(typedQuery);
+        }
+        if (clientTF.getText() != null) {
+            addParameterClient(typedQuery);
+        }
+
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            List<Task> tasks = session.createQuery("from Task t where t.dateIn >= :date", Task.class).setParameter("date", date).getResultList();
+            List<Task> tasks = typedQuery.getResultList();
             tasksObservableList.clear();
             tasksObservableList.addAll(tasks);
             transaction.commit();
@@ -118,64 +145,39 @@ public class ArchiveController {
         }
     }
 
-    private void loadInfo(LocalDate start, LocalDate end) {
-        Session session = Database.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            List<Task> tasks = session.createQuery("from Task t where t.dateIn >= :start and t.dateIn <= :end", Task.class)
-                    .setParameter("start", start)
-                    .setParameter("end", end)
-                    .getResultList();
-            Set<Task> taskSet = new HashSet<>(tasks);
-            tasksObservableList.clear();
-            tasksObservableList.addAll(taskSet);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            session.close();
+    private TypedQuery<Task> addParameterStartDate(TypedQuery<Task> query) {
+        return query.setParameter("start", startPicker.getValue());
+    }
+
+    private void builderAddStartDate() {
+        if (firstParameter) {
+            queryBuilder.append(" t.dateIn >= :start");
+        } else {
+            queryBuilder.append(" and t.dateIn >= :start");
         }
     }
 
-    private void loadInfo(String client) {
-        LocalDate date = LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault());
-        date = date.withDayOfMonth(1);
-        Session session = Database.getSessionFactory().openSession();
-        Transaction transaction = null;
-        try {
-            transaction = session.beginTransaction();
-            List<Task> tasks = session.createQuery("from Task t join fetch Subtask where t.dateIn >= :date and t.client = :client", Task.class).
-                    setParameter("date", date). setParameter("client", client).getResultList();
-            Set<Task> taskSet = new HashSet<>(tasks);
-            tasksObservableList.clear();
-            tasksObservableList.addAll(taskSet);
-            transaction.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
-        } finally {
-            session.close();
+    private TypedQuery<Task> addParameterEndDate(TypedQuery<Task> query) {
+        return query.setParameter("end", endPicker.getValue());
+    }
+
+    private void builderAddEndDate() {
+        if (firstParameter) {
+            queryBuilder.append(" t.dateIn <= :end");
+        } else {
+            queryBuilder.append(" and t.dateIn <= :end");
+        }
+    }
+
+    private TypedQuery<Task> addParameterClient(TypedQuery<Task> query) {
+        return query.setParameter("client", clientTF.getText());
+    }
+
+    private void builderAddClient() {
+        if (firstParameter) {
+            queryBuilder.append(" t.client >= :client");
+        } else {
+            queryBuilder.append(" and t.client >= :client");
         }
     }
 }
-
-//    Session session = Database.getSessionFactory().openSession();
-//    Transaction transaction = null;
-//        try {
-//                transaction = session.beginTransaction();
-//                transaction.commit();
-//                } catch (Exception e) {
-//                e.printStackTrace();
-//                if (transaction != null) {
-//                transaction.rollback();
-//                }
-//                } finally {
-//                session.close();
-//                }
-//          }
