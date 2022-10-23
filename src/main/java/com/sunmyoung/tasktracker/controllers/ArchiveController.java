@@ -3,7 +3,6 @@ package com.sunmyoung.tasktracker.controllers;
 
 import com.sunmyoung.tasktracker.pojos.Task;
 import com.sunmyoung.tasktracker.repositories.Database;
-import com.sunmyoung.tasktracker.repositories.TaskRepository;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,7 +13,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import lombok.Data;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -22,9 +20,7 @@ import javax.persistence.TypedQuery;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class ArchiveController {
     @FXML
@@ -58,8 +54,8 @@ public class ArchiveController {
     @FXML
     private TextField clientTF;
 
-    private StringBuilder queryBuilder = new StringBuilder("From Task t where");
-    private boolean firstParameter = true;
+    private StringBuilder queryBuilder;
+    private boolean isFirstParameter = true;
 
     @FXML
     void getResults(ActionEvent event) {
@@ -75,13 +71,7 @@ public class ArchiveController {
         startPicker.setValue(date);
 
         initTableView();
-//        loadInfo();
-        Session session = Database.getSessionFactory().openSession();
-        String str = "from Task t where t.client = :client";
-        TypedQuery<Task> query = session.createQuery(str, Task.class);
-        query.setParameter("client", "RN2");
-        tasksObservableList.clear();
-        tasksObservableList.addAll(query.getResultList());
+        loadInfo();
     }
 
     private void initTableView() {
@@ -103,19 +93,28 @@ public class ArchiveController {
     }
 
     private void loadInfo() {
+        queryBuilder = new StringBuilder("From Task t where");
+
         Session session = Database.getSessionFactory().openSession();
 
         if (startPicker.getValue() != null) {
             builderAddStartDate();
+            System.out.println(startPicker.getValue());
         }
         if (endPicker.getValue() != null) {
             builderAddEndDate();
         }
-        if (clientTF.getText() != null) {
+        if (!clientTF.getText().equals("")) {
             builderAddClient();
         }
+        //add new parameter here 1/4
 
-        TypedQuery<Task> typedQuery = session.createQuery(queryBuilder.toString(), Task.class);
+        isFirstParameter = true;
+
+        System.out.println(queryBuilder.toString());
+
+        String query = queryBuilder.toString();
+        TypedQuery<Task> typedQuery = session.createQuery(query, Task.class);
 
 
         if (startPicker.getValue() != null) {
@@ -124,9 +123,10 @@ public class ArchiveController {
         if (endPicker.getValue() != null) {
             addParameterEndDate(typedQuery);
         }
-        if (clientTF.getText() != null) {
+        if (!clientTF.getText().equals("")) {
             addParameterClient(typedQuery);
         }
+        //add new parameter here 2/4
 
         Transaction transaction = null;
         try {
@@ -150,8 +150,9 @@ public class ArchiveController {
     }
 
     private void builderAddStartDate() {
-        if (firstParameter) {
+        if (isFirstParameter) {
             queryBuilder.append(" t.dateIn >= :start");
+            isFirstParameter = false;
         } else {
             queryBuilder.append(" and t.dateIn >= :start");
         }
@@ -162,8 +163,9 @@ public class ArchiveController {
     }
 
     private void builderAddEndDate() {
-        if (firstParameter) {
+        if (isFirstParameter) {
             queryBuilder.append(" t.dateIn <= :end");
+            isFirstParameter = false;
         } else {
             queryBuilder.append(" and t.dateIn <= :end");
         }
@@ -174,10 +176,12 @@ public class ArchiveController {
     }
 
     private void builderAddClient() {
-        if (firstParameter) {
-            queryBuilder.append(" t.client >= :client");
+        if (isFirstParameter) {
+            queryBuilder.append(" t.client = :client");
+            isFirstParameter = false;
         } else {
-            queryBuilder.append(" and t.client >= :client");
+            queryBuilder.append(" and t.client = :client");
         }
     }
+    //add new parameter here 3/4 and 4/4
 }

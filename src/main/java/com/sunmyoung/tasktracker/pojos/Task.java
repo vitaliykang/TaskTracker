@@ -25,6 +25,11 @@ public class Task implements Comparable<Task>{
     @Getter @Setter
     private Set<Subtask> subtasks = new HashSet<>();
 
+    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    @Getter @Setter
+    private Set<InspectionReport> inspectionReports = new HashSet<>();
+
     @Column(name = "serial_number")
     @Getter @Setter
     private String serialNumber;
@@ -131,6 +136,9 @@ public class Task implements Comparable<Task>{
 
     public Task() {
         isComplete = false;
+        InspectionReport inspectionReport = new InspectionReport();
+        inspectionReport.setTask(this);
+        inspectionReports.add(inspectionReport);
     }
 
     public String getDeadline() {

@@ -168,6 +168,7 @@ public class CreateOrderDialogControllerV2 {
         initDatePickers();
         initTableView();
         countTF.setDisable(true);
+        enableEditCheckBox(false);
     }
 
     /**
@@ -313,12 +314,16 @@ public class CreateOrderDialogControllerV2 {
             frameOnlyToggle.setDisable(!bool);
             countTF.setEditable(bool);
         } else {
-            subtasksTableView.setEditable(bool);
-            subtasksTableView.setDisable(!bool);
+//            subtasksTableView.setEditable(bool);
+//            subtasksTableView.setDisable(!bool);
             addSubtaskButton.setDisable(!bool);
             removeSubtaskButton.setDisable(!bool);
             editSubtaskButton.setDisable(!bool);
         }
+    }
+
+    public void enableEditCheckBox(boolean bool) {
+        editCB.setVisible(bool);
     }
 
     @SneakyThrows
@@ -419,7 +424,7 @@ public class CreateOrderDialogControllerV2 {
     }
 
     private void initTableView() {
-        orderCol.setCellValueFactory(order -> new ReadOnlyObjectWrapper<>(Integer.toString(subtasksTableView.getItems().indexOf(order.getValue()) + 1)));
+        orderCol.setCellValueFactory(order -> new ReadOnlyObjectWrapper<>(Integer.toString(subtasks.indexOf(order.getValue()) + 1)));
         printCol.setCellValueFactory(new PropertyValueFactory<>("print"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("count"));
         thicknessCol.setCellValueFactory(new PropertyValueFactory<>("thickness"));

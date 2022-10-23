@@ -1,8 +1,9 @@
 package com.sunmyoung.tasktracker.controllers;
 
 import com.sunmyoung.tasktracker.Launcher;
-import com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogController;
 import com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
+import com.sunmyoung.tasktracker.controllers.dialogControllers.InspectionDialogController;
+import com.sunmyoung.tasktracker.pojos.InspectionReport;
 import com.sunmyoung.tasktracker.pojos.Task;
 import com.sunmyoung.tasktracker.repositories.Database;
 import com.sunmyoung.tasktracker.repositories.TaskRepository;
@@ -63,13 +64,13 @@ public class TaskMonitorController {
     }
 
     @FXML
-    void showDetails(ActionEvent event) {
-
+    void viewInspectionReport(ActionEvent event) {
+        viewInspectionReport();
     }
 
     @FXML
-    void editTask(ActionEvent event) {
-        editTask();
+    void viewDetails(ActionEvent event) {
+        viewDetails();
     }
 
     @FXML
@@ -241,7 +242,43 @@ public class TaskMonitorController {
     }
 
     @SneakyThrows
-    private void editTask() {
+    private void viewInspectionReport() {
+        Task selectedTask = tableView.getSelectionModel().getSelectedItem();
+        long taskId = selectedTask.getId();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("dialogs/inspectionDialog.fxml"));
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setDialogPane(fxmlLoader.load());
+
+        InspectionDialogController controller = fxmlLoader.getController();
+
+        Session session = Database.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            //get the task from db and load info into the form
+            Task task = session.createQuery("from Task t where t.id = :taskId", Task.class).setParameter("taskId", taskId).uniqueResult();
+            Set<InspectionReport> reportList = task.getInspectionReports();
+            System.out.println(reportList);
+            controller.getInspectionReportObservableList().addAll(reportList);
+            System.out.println(controller.getInspectionReportObservableList());
+
+            Optional<ButtonType> clickedButton = dialog.showAndWait();
+            if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            if(transaction != null)
+                transaction.rollback();
+        } finally {
+            session.close();
+        }
+    }
+
+    @SneakyThrows
+    private void viewDetails() {
         Task selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
@@ -251,6 +288,7 @@ public class TaskMonitorController {
         dialog.setDialogPane(dialogPane);
 
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
+        controller.enableEditCheckBox(true);
 
         Session session = Database.getSessionFactory().openSession();
         Transaction transaction = null;
