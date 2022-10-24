@@ -267,10 +267,11 @@ public class TaskMonitorController {
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
                 List<InspectionReport> inspectionReports = controller.getInspectionReportObservableList();
+                inspectionReports.forEach(report -> report.setTask(task));
                 task.getInspectionReports().addAll(inspectionReports);
-                transaction.commit();
                 //todo it does not save
             }
+            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
             if(transaction != null)
@@ -305,14 +306,15 @@ public class TaskMonitorController {
 
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
-                //subtasksChanged is triggered if addSubtask or removeSubtask buttons were pressed.
-                if (controller.isSubtasksChanged()) {
-                    task.getSubtasks().forEach(subtask -> subtask.setTask(null));
-                    controller.readFields(task);
-                    session.createQuery("delete from Subtask where task = null").executeUpdate();
-                } else {
-                    controller.readFields(task);
-                }
+                //subtasksChanged is triggered when addSubtask or removeSubtask buttons were pressed.
+//                if (controller.isSubtasksChanged()) {
+//                    task.getSubtasks().forEach(subtask -> subtask.setTask(null));
+//                    controller.readFields(task);
+//                    session.createQuery("delete from Subtask where task = null").executeUpdate();
+//                } else {
+//                    controller.readFields(task);
+//                }
+                controller.readFields(task);
 
                 transaction.commit();
                 loadData();

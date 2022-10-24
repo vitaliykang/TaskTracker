@@ -1,6 +1,7 @@
 package com.sunmyoung.tasktracker.controllers.dialogControllers;
 
 import com.sunmyoung.tasktracker.Launcher;
+import com.sunmyoung.tasktracker.pojos.InspectionReport;
 import com.sunmyoung.tasktracker.pojos.Subtask;
 import com.sunmyoung.tasktracker.pojos.Task;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -11,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -111,7 +113,7 @@ public class CreateOrderDialogControllerV2 {
             editSubtaskButton;
 
     @Getter
-    private ObservableList<Subtask> subtasks = FXCollections.observableArrayList();
+    private ObservableList<Subtask> subtaskObservableList = FXCollections.observableArrayList();
 
     @Getter
     private boolean subtasksChanged;
@@ -119,6 +121,7 @@ public class CreateOrderDialogControllerV2 {
     @FXML
     void enableEdit() {
         enableElements(editCB.isSelected());
+        makeTableViewEditable(editCB.isSelected());
     }
 
     @FXML
@@ -144,10 +147,10 @@ public class CreateOrderDialogControllerV2 {
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             subtasksChanged = true;
-            subtasks.remove(subtask);
+            subtaskObservableList.remove(subtask);
             subtask = controller.getSubtask();
-            subtasks.add(subtask);
-            Collections.sort(subtasks);
+            subtaskObservableList.add(subtask);
+            Collections.sort(subtaskObservableList);
         }
     }
 
@@ -155,7 +158,7 @@ public class CreateOrderDialogControllerV2 {
     void removeSubtask(ActionEvent event) {
         subtasksChanged = true;
         Subtask subtask = subtasksTableView.getSelectionModel().getSelectedItem();
-        subtasks.remove(subtask);
+        subtaskObservableList.remove(subtask);
     }
 
     @FXML
@@ -169,6 +172,35 @@ public class CreateOrderDialogControllerV2 {
         initTableView();
         countTF.setDisable(true);
         enableEditCheckBox(false);
+    }
+
+    private void makeTableViewEditable(boolean bool) {
+        subtasksTableView.getSelectionModel().cellSelectionEnabledProperty().set(true);
+        subtasksTableView.setEditable(bool);
+
+        printCol.setEditable(true);
+        printCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        printCol.setOnEditCommit(event -> {
+            Subtask selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setPrint(newValue);
+        });
+
+        thicknessCol.setEditable(true);
+        thicknessCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        thicknessCol.setOnEditCommit(event -> {
+            Subtask selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setThickness(newValue);
+        });
+
+        countCol.setEditable(true);
+        countCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        countCol.setOnEditCommit(event -> {
+            Subtask selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setCount(newValue);
+        });
     }
 
     /**
@@ -210,11 +242,11 @@ public class CreateOrderDialogControllerV2 {
             task.setCount(count);
         } else {
             int count = 0;
-            for (Subtask subtask : subtasks) {
+            for (Subtask subtask : subtaskObservableList) {
                 subtask.setTask(task);
                 count += Integer.parseInt(subtask.getCount());
             }
-            task.setSubtasks(new HashSet<>(subtasks));
+            task.setSubtasks(new HashSet<>(subtaskObservableList));
             task.setCount(count);
         }
     }
@@ -273,8 +305,8 @@ public class CreateOrderDialogControllerV2 {
             frameOnlyToggle.setSelected(true);
             countTF.setText(task.getCount().toString());
         } else {
-            subtasks.addAll(subtaskList);
-            Collections.sort(subtasks);
+            subtaskObservableList.addAll(subtaskList);
+            Collections.sort(subtaskObservableList);
         }
     }
 
@@ -337,7 +369,7 @@ public class CreateOrderDialogControllerV2 {
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             Subtask subtask = controller.getSubtask();
-            subtasks.add(subtask);
+            subtaskObservableList.add(subtask);
         }
     }
 
@@ -424,12 +456,12 @@ public class CreateOrderDialogControllerV2 {
     }
 
     private void initTableView() {
-        orderCol.setCellValueFactory(order -> new ReadOnlyObjectWrapper<>(Integer.toString(subtasks.indexOf(order.getValue()) + 1)));
+        orderCol.setCellValueFactory(order -> new ReadOnlyObjectWrapper<>(Integer.toString(subtaskObservableList.indexOf(order.getValue()) + 1)));
         printCol.setCellValueFactory(new PropertyValueFactory<>("print"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("count"));
         thicknessCol.setCellValueFactory(new PropertyValueFactory<>("thickness"));
 
-        subtasksTableView.setItems(subtasks);
+        subtasksTableView.setItems(subtaskObservableList);
     }
 
     private void initRadioButtons() {

@@ -136,9 +136,9 @@ public class Task implements Comparable<Task>{
 
     public Task() {
         isComplete = false;
-        InspectionReport inspectionReport = new InspectionReport();
-        inspectionReport.setTask(this);
-        inspectionReports.add(inspectionReport);
+//        InspectionReport inspectionReport = new InspectionReport();
+//        inspectionReport.setTask(this);
+//        inspectionReports.add(inspectionReport);r
     }
 
     public String getDeadline() {
