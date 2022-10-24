@@ -7,6 +7,7 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -75,6 +76,18 @@ public class InspectionDialogController {
         finalCheckCol.setCellValueFactory(new PropertyValueFactory<>("finalInspection"));
     }
 
+    private void activateCells() {
+        activateLotCol();
+        activateSerialNumberCol();
+        activateOneDayAgingCol();
+        activateDateCol();
+        activateMeshThicknessCol();
+        activateCoatingsCol();
+        activateTotalThicknessCol();
+        activateExposureCheckCol();
+        activateFinalCheckCol();
+    }
+
     private void activateLotCol() {
         lotCol.setEditable(true);
         lotCol.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -105,12 +118,64 @@ public class InspectionDialogController {
         });
     }
 
+    private void activateDateCol() {
+        dateCol.setEditable(true);
+        dateCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        dateCol.setOnEditCommit(event -> {
+            InspectionReport selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setDate(newValue);
+        });
+    }
 
+    private void activateMeshThicknessCol() {
+        meshThicknessCol.setEditable(true);
+        meshThicknessCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        meshThicknessCol.setOnEditCommit(event -> {
+            InspectionReport selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setMeshThickness(newValue);
+        });
+    }
 
-    private void activateCells() {
-        activateLotCol();
-        activateSerialNumberCol();
-        activateOneDayAgingCol();
+    private void activateCoatingsCol() {
+        coatingsCol.setEditable(true);
+        coatingsCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        coatingsCol.setOnEditCommit(event -> {
+            InspectionReport selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setCoatings(newValue);
+        });
+    }
+
+    private void activateTotalThicknessCol() {
+        totalThicknessCol.setEditable(true);
+        totalThicknessCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        totalThicknessCol.setOnEditCommit(event -> {
+            InspectionReport selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setTotalThickness(newValue);
+        });
+    }
+
+    private void activateExposureCheckCol() {
+        exposureCheckCol.setEditable(true);
+        exposureCheckCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        exposureCheckCol.setOnEditCommit(event -> {
+            InspectionReport selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setExposureInspection(newValue);
+        });
+    }
+
+    private void activateFinalCheckCol() {
+        finalCheckCol.setEditable(true);
+        finalCheckCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        finalCheckCol.setOnEditCommit(event -> {
+            InspectionReport selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setFinalInspection(newValue);
+        });
     }
 }
 

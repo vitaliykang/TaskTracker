@@ -266,7 +266,10 @@ public class TaskMonitorController {
 
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
-
+                List<InspectionReport> inspectionReports = controller.getInspectionReportObservableList();
+                task.getInspectionReports().addAll(inspectionReports);
+                transaction.commit();
+                //todo it does not save
             }
         } catch (Exception e) {
             e.printStackTrace();
