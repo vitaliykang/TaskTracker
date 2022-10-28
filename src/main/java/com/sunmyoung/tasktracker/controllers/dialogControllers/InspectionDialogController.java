@@ -1,24 +1,16 @@
 package com.sunmyoung.tasktracker.controllers.dialogControllers;
 
 import com.sunmyoung.tasktracker.pojos.InspectionReport;
-import com.sunmyoung.tasktracker.pojos.Task;
-import com.sunmyoung.tasktracker.repositories.Database;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import lombok.Getter;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class InspectionDialogController {
 

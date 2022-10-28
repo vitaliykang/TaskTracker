@@ -1,18 +1,20 @@
 package com.sunmyoung.tasktracker.controllers;
 
 
-import com.sunmyoung.tasktracker.pojos.Task;
-import com.sunmyoung.tasktracker.repositories.Database;
+import com.sunmyoung.tasktracker.Launcher;
+import com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
+import com.sunmyoung.tasktracker.controllers.dialogControllers.InspectionDialogController;
+import com.sunmyoung.tasktracker.pojos.CompletedTask;
+import com.sunmyoung.tasktracker.repositories.DatabaseConnection;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -21,13 +23,14 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 public class ArchiveController {
     @FXML
-    private TableColumn<Task, Integer> orderCol;
+    private TableColumn<CompletedTask, Integer> orderCol;
 
     @FXML
-    private TableColumn<Task, String>
+    private TableColumn<CompletedTask, String>
             clientCol,
             frameSizeCol,
             meshCol,
@@ -38,12 +41,12 @@ public class ArchiveController {
             shippingMethodCol;
 
     @FXML
-    private TableColumn<Task, LocalDate>
+    private TableColumn<CompletedTask, LocalDate>
             dateInCol,
             dateOutCol;
 
     @FXML
-    private TableView<Task> tasksTableView;
+    private TableView<CompletedTask> tasksTableView;
 
     @FXML
     private DatePicker startPicker;
@@ -62,7 +65,80 @@ public class ArchiveController {
         loadInfo();
     }
 
-    private ObservableList<Task> tasksObservableList = FXCollections.observableArrayList();
+    @FXML
+    void viewDetails(ActionEvent event) {
+        viewDetails();
+    }
+
+    @FXML
+    void viewInspectionReport(ActionEvent event) {
+        viewInspectionReport();
+    }
+
+    @SneakyThrows
+    private void viewDetails() {
+        CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("dialogs/createOrderDialogV2.fxml"));
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setResizable(false);
+        dialog.setDialogPane(fxmlLoader.load());
+
+        CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
+        controller.enableElements(false);
+
+        Session session = DatabaseConnection.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            selectedTask = session.createQuery("from CompletedTask t where t.id = :id", CompletedTask.class)
+                            .setParameter("id", selectedTask.getId()).uniqueResult();
+            controller.populateWindow(selectedTask);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        dialog.showAndWait();
+    }
+
+    @SneakyThrows
+    private void viewInspectionReport() {
+        CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("dialogs/inspectionDialog.fxml"));
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setResizable(false);
+        dialog.setDialogPane(fxmlLoader.load());
+
+        InspectionDialogController controller = fxmlLoader.getController();
+
+        Session session = DatabaseConnection.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            selectedTask = session.createQuery("from CompletedTask t where t.id = :id", CompletedTask.class)
+                    .setParameter("id", selectedTask.getId()).uniqueResult();
+            controller.getInspectionReportObservableList().addAll(selectedTask.getInspectionReports());
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+
+        dialog.showAndWait();
+    }
+
+    private ObservableList<CompletedTask> tasksObservableList = FXCollections.observableArrayList();
 
     public void initialize() {
         //setting start date picker initial value
@@ -93,9 +169,9 @@ public class ArchiveController {
     }
 
     private void loadInfo() {
-        queryBuilder = new StringBuilder("From Task t where");
+        queryBuilder = new StringBuilder("From CompletedTask t where");
 
-        Session session = Database.getSessionFactory().openSession();
+        Session session = DatabaseConnection.getSessionFactory().openSession();
 
         if (startPicker.getValue() != null) {
             builderAddStartDate();
@@ -114,7 +190,7 @@ public class ArchiveController {
         System.out.println(queryBuilder.toString());
 
         String query = queryBuilder.toString();
-        TypedQuery<Task> typedQuery = session.createQuery(query, Task.class);
+        TypedQuery<CompletedTask> typedQuery = session.createQuery(query, CompletedTask.class);
 
 
         if (startPicker.getValue() != null) {
@@ -131,7 +207,7 @@ public class ArchiveController {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            List<Task> tasks = typedQuery.getResultList();
+            List<CompletedTask> tasks = typedQuery.getResultList();
             tasksObservableList.clear();
             tasksObservableList.addAll(tasks);
             transaction.commit();
@@ -145,7 +221,7 @@ public class ArchiveController {
         }
     }
 
-    private TypedQuery<Task> addParameterStartDate(TypedQuery<Task> query) {
+    private TypedQuery<CompletedTask> addParameterStartDate(TypedQuery<CompletedTask> query) {
         return query.setParameter("start", startPicker.getValue());
     }
 
@@ -158,7 +234,7 @@ public class ArchiveController {
         }
     }
 
-    private TypedQuery<Task> addParameterEndDate(TypedQuery<Task> query) {
+    private TypedQuery<CompletedTask> addParameterEndDate(TypedQuery<CompletedTask> query) {
         return query.setParameter("end", endPicker.getValue());
     }
 
@@ -171,7 +247,7 @@ public class ArchiveController {
         }
     }
 
-    private TypedQuery<Task> addParameterClient(TypedQuery<Task> query) {
+    private TypedQuery<CompletedTask> addParameterClient(TypedQuery<CompletedTask> query) {
         return query.setParameter("client", clientTF.getText());
     }
 

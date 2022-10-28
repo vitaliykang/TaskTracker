@@ -8,7 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.TaskMonitorController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="900.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.TaskMonitorController">
    <children>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="900.0" prefWidth="1900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -16,6 +16,8 @@
                <children>
                   <Button fx:id="newTaskBtn" layoutX="36.0" layoutY="4.0" mnemonicParsing="false" onAction="#createNewTask" text="New Task" />
                   <Button fx:id="refreshBtn" layoutX="1772.0" layoutY="4.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
+                  <Button layoutX="275.0" layoutY="5.0" mnemonicParsing="false" onAction="#markAsCompleted" text="Mark as Completed" />
+                  <Button layoutX="429.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelTask" text="Cancel Task" />
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

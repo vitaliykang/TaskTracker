@@ -1,16 +1,15 @@
 package com.sunmyoung.tasktracker.repositories;
 
-import com.sunmyoung.tasktracker.pojos.Task;
+import com.sunmyoung.tasktracker.pojos.ActiveTask;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import javax.persistence.PersistenceException;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class TaskRepository {
-    public static void save(Task task) {
-        Session session = Database.getSessionFactory().openSession();
+    public static void save(ActiveTask task) {
+        Session session = DatabaseConnection.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
@@ -18,7 +17,7 @@ public class TaskRepository {
             transaction.commit();
         } catch (PersistenceException persistenceException) {
             transaction = session.beginTransaction();
-            Task repoTask = get(task.getId());
+            ActiveTask repoTask = get(task.getId());
             repoTask.setSubtasks(task.getSubtasks());
             repoTask.setBias(task.getBias());
             repoTask.setClient(task.getClient());
@@ -50,12 +49,32 @@ public class TaskRepository {
         }
     }
 
-    public static Task get(long taskId) {
-        Session session = Database.getSessionFactory().openSession();
+    public static void delete(long taskId) {
+        Session session = DatabaseConnection.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            Task result = session.createQuery("from Task t join fetch t.subtasks where t.id = :id", Task.class).setParameter("id", taskId).uniqueResult();
+
+            session.createQuery("delete ActiveTask t where t.id = :taskId").setParameter("taskId", taskId)
+                    .executeUpdate();
+
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
+        }
+    }
+
+    public static ActiveTask get(long taskId) {
+        Session session = DatabaseConnection.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+            ActiveTask result = session.createQuery("from ActiveTask t join fetch t.subtasks where t.id = :id", ActiveTask.class).setParameter("id", taskId).uniqueResult();
             transaction.commit();
             return result;
         } catch (Exception e) {
@@ -70,14 +89,14 @@ public class TaskRepository {
         return null;
     }
 
-    public static List<Task> getUnfinishedTasks() {
-        Session session = Database.getSessionFactory().openSession();;
+    public static List<ActiveTask> getUnfinishedTasks() {
+        Session session = DatabaseConnection.getSessionFactory().openSession();;
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            List<Task> resultList = session.createQuery("From Task t join fetch t.subtasks where t.isComplete = false", Task.class).getResultList();
+            List<ActiveTask> resultList = session.createQuery("From ActiveTask t join fetch t.subtasks where t.isComplete = false", ActiveTask.class).getResultList();
             transaction.commit();
-            Set<Task> taskSet = new HashSet<>(resultList);
+            Set<ActiveTask> taskSet = new HashSet<>(resultList);
             resultList = new ArrayList<>(taskSet);
             Collections.sort(resultList);
             return resultList;

@@ -18,7 +18,12 @@ public class InspectionReport {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")
     @Getter @Setter
-    private Task task;
+    private ActiveTask task;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "completed_task_id")
+    @Getter @Setter
+    private CompletedTask completedTask;
 
     @Column
     @Getter @Setter

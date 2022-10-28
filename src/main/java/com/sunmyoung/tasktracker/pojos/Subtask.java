@@ -16,8 +16,14 @@ public class Subtask implements Comparable<Subtask>{
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
     @Getter @Setter
-    private Task task;
+    private ActiveTask task;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "completed_task_id")
+    @Getter @Setter
+    private CompletedTask completedTask;
 
     @Column(name = "thickness")
     @Getter @Setter

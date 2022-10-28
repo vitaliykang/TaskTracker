@@ -19,9 +19,10 @@
         <!-- Drop and re-create the database schema on startup -->
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="com.sunmyoung.tasktracker.pojos.Task"></mapping>
+        <mapping class="com.sunmyoung.tasktracker.pojos.ActiveTask"></mapping>
         <mapping class="com.sunmyoung.tasktracker.pojos.Subtask"></mapping>
         <mapping class="com.sunmyoung.tasktracker.pojos.InspectionReport"></mapping>
+        <mapping class="com.sunmyoung.tasktracker.pojos.CompletedTask"></mapping>
 
     </session-factory>
 </hibernate-configuration>

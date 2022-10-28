@@ -2,8 +2,7 @@ package com.sunmyoung.tasktracker.controllers.dialogControllers;
 
 import com.sunmyoung.tasktracker.Launcher;
 import com.sunmyoung.tasktracker.pojos.Subtask;
-import com.sunmyoung.tasktracker.pojos.Task;
-import com.sunmyoung.tasktracker.repositories.Database;
+import com.sunmyoung.tasktracker.pojos.ActiveTask;
 import com.sunmyoung.tasktracker.repositories.TaskRepository;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -17,15 +16,11 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.MouseEvent;
 import javafx.util.StringConverter;
 import lombok.SneakyThrows;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 public class CreateOrderDialogController {
     private ObservableList<Subtask> subtasks = FXCollections.observableArrayList();
@@ -116,13 +111,13 @@ public class CreateOrderDialogController {
     }
 
     public void createTask() {
-        Task task = new Task();
+        ActiveTask task = new ActiveTask();
         readFields(task);
 
         TaskRepository.save(task);
     }
 
-    public void populateWindow(Task task){
+    public void populateWindow(ActiveTask task){
         clientTF.setText(task.getClient());
         datepicker.setValue(task.getDateOut());
         deadlineNoteTF.setText(task.getDeadlineNote());
@@ -150,7 +145,7 @@ public class CreateOrderDialogController {
         subtasks.addAll(task.getSubtasks());
     }
 
-    public void readFields(Task task) {
+    public void readFields(ActiveTask task) {
         task.setClient(clientTF.getText());
         task.setDateOut(datepicker.getValue());
         task.setDeadlineNote(deadlineNoteTF.getText());

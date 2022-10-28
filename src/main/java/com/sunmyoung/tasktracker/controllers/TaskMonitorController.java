@@ -1,11 +1,13 @@
 package com.sunmyoung.tasktracker.controllers;
 
 import com.sunmyoung.tasktracker.Launcher;
+import com.sunmyoung.tasktracker.controllers.dialogControllers.ConfirmDeleteDialogController;
 import com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
 import com.sunmyoung.tasktracker.controllers.dialogControllers.InspectionDialogController;
+import com.sunmyoung.tasktracker.pojos.CompletedTask;
 import com.sunmyoung.tasktracker.pojos.InspectionReport;
-import com.sunmyoung.tasktracker.pojos.Task;
-import com.sunmyoung.tasktracker.repositories.Database;
+import com.sunmyoung.tasktracker.pojos.ActiveTask;
+import com.sunmyoung.tasktracker.repositories.DatabaseConnection;
 import com.sunmyoung.tasktracker.repositories.TaskRepository;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -27,18 +29,18 @@ import java.util.*;
 
 public class TaskMonitorController {
     @Getter
-    private ObservableList<Task> tasksObservableList = FXCollections.observableArrayList();
+    private ObservableList<ActiveTask> tasksObservableList = FXCollections.observableArrayList();
 
     @FXML
-    private TableColumn<Task, LocalDate>
+    private TableColumn<ActiveTask, LocalDate>
             deadlineCol,
             dateInCol;
 
     @FXML
-    private TableColumn<Task, Integer> countCol;
+    private TableColumn<ActiveTask, Integer> countCol;
 
     @FXML
-    private TableColumn<Task, String>
+    private TableColumn<ActiveTask, String>
             orderCol,
             clientCol,
             sizeCol,
@@ -51,7 +53,7 @@ public class TaskMonitorController {
 
     @FXML
     @Getter
-    private TableView<Task> tableView;
+    private TableView<ActiveTask> tableView;
 
     @FXML
     void createNewTask(ActionEvent event) {
@@ -74,8 +76,13 @@ public class TaskMonitorController {
     }
 
     @FXML
-    void test(ActionEvent event) {
+    void markAsCompleted(ActionEvent event) {
+        markAsCompleted();
+    }
 
+    @FXML
+    void cancelTask(ActionEvent event) {
+        cancelTask();
     }
 
     public void initialize() {
@@ -86,7 +93,7 @@ public class TaskMonitorController {
     }
 
     public void loadData() {
-        List<Task> taskList = TaskRepository.getUnfinishedTasks();
+        List<ActiveTask> taskList = TaskRepository.getUnfinishedTasks();
         if (taskList == null) {
             taskList = new ArrayList<>();
         }
@@ -137,14 +144,14 @@ public class TaskMonitorController {
         tensioningCol.setEditable(true);
         tensioningCol.setCellFactory(TextFieldTableCell.forTableColumn());
         tensioningCol.setOnEditCommit(event -> {
-            Task selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = Database.getSessionFactory().openSession();
+                Session session = DatabaseConnection.getSessionFactory().openSession();
                 Transaction transaction = null;
                 try {
                     transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from Task t where t.id = :id", Task.class).setParameter("id", selectedTask.getId()).uniqueResult();
+                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
                     //here
                     selectedTask.setTensioning(newValue);
                     transaction.commit();
@@ -164,14 +171,14 @@ public class TaskMonitorController {
         coatingCol.setEditable(true);
         coatingCol.setCellFactory(TextFieldTableCell.forTableColumn());
         coatingCol.setOnEditCommit(event -> {
-            Task selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = Database.getSessionFactory().openSession();
+                Session session = DatabaseConnection.getSessionFactory().openSession();
                 Transaction transaction = null;
                 try {
                     transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from Task t where t.id = :id", Task.class).setParameter("id", selectedTask.getId()).uniqueResult();
+                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
                     //here
                     selectedTask.setCoating(newValue);
                     transaction.commit();
@@ -191,14 +198,14 @@ public class TaskMonitorController {
         packagingCol.setEditable(true);
         packagingCol.setCellFactory(TextFieldTableCell.forTableColumn());
         packagingCol.setOnEditCommit(event -> {
-            Task selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = Database.getSessionFactory().openSession();
+                Session session = DatabaseConnection.getSessionFactory().openSession();
                 Transaction transaction = null;
                 try {
                     transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from Task t where t.id = :id", Task.class).setParameter("id", selectedTask.getId()).uniqueResult();
+                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
                     //here
                     selectedTask.setPackaging(newValue);
                     transaction.commit();
@@ -218,14 +225,14 @@ public class TaskMonitorController {
         exposureCol.setEditable(true);
         exposureCol.setCellFactory(TextFieldTableCell.forTableColumn());
         exposureCol.setOnEditCommit(event -> {
-            Task selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = Database.getSessionFactory().openSession();
+                Session session = DatabaseConnection.getSessionFactory().openSession();
                 Transaction transaction = null;
                 try {
                     transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from Task t where t.id = :id", Task.class).setParameter("id", selectedTask.getId()).uniqueResult();
+                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
                     //here
                     selectedTask.setExposure(newValue);
                     transaction.commit();
@@ -243,7 +250,7 @@ public class TaskMonitorController {
 
     @SneakyThrows
     private void viewInspectionReport() {
-        Task selectedTask = tableView.getSelectionModel().getSelectedItem();
+        ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("dialogs/inspectionDialog.fxml"));
@@ -252,13 +259,13 @@ public class TaskMonitorController {
 
         InspectionDialogController controller = fxmlLoader.getController();
 
-        Session session = Database.getSessionFactory().openSession();
+        Session session = DatabaseConnection.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
 
             //get the task from db and load info into the form
-            Task task = session.createQuery("from Task t where t.id = :taskId", Task.class).setParameter("taskId", taskId).uniqueResult();
+            ActiveTask task = session.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class).setParameter("taskId", taskId).uniqueResult();
             Set<InspectionReport> reportList = task.getInspectionReports();
             System.out.println(reportList);
             controller.getInspectionReportObservableList().addAll(reportList);
@@ -269,7 +276,6 @@ public class TaskMonitorController {
                 List<InspectionReport> inspectionReports = controller.getInspectionReportObservableList();
                 inspectionReports.forEach(report -> report.setTask(task));
                 task.getInspectionReports().addAll(inspectionReports);
-                //todo it does not save
             }
             transaction.commit();
         } catch (Exception e) {
@@ -283,7 +289,7 @@ public class TaskMonitorController {
 
     @SneakyThrows
     private void viewDetails() {
-        Task selectedTask = tableView.getSelectionModel().getSelectedItem();
+        ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("dialogs/createOrderDialogV2.fxml"));
@@ -294,13 +300,13 @@ public class TaskMonitorController {
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
         controller.enableEditCheckBox(true);
 
-        Session session = Database.getSessionFactory().openSession();
+        Session session = DatabaseConnection.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
 
             //get the task from db and load info into the form
-            Task task = session.createQuery("from Task t where t.id = :taskId", Task.class).setParameter("taskId", taskId).uniqueResult();
+            ActiveTask task = session.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class).setParameter("taskId", taskId).uniqueResult();
             controller.populateWindow(task);
             controller.enableElements(false);
 
@@ -339,10 +345,69 @@ public class TaskMonitorController {
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
-            Task task = new Task();
+            ActiveTask task = new ActiveTask();
             controller.readFields(task);
             TaskRepository.save(task);
             loadData();
+        }
+    }
+
+    @SneakyThrows
+    private void cancelTask() {
+        ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
+        long taskId = selectedTask.getId();
+
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("dialogs/confirmDeleteDialog.fxml"));
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setResizable(false);
+        dialog.setDialogPane(fxmlLoader.load());
+
+        ConfirmDeleteDialogController controller = fxmlLoader.getController();
+        controller.getTaskInfoLabel().setText(selectedTask.toString());
+
+        Optional<ButtonType> clickedButton = dialog.showAndWait();
+        if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
+            TaskRepository.delete(taskId);
+            loadData();
+        }
+    }
+
+    private void markAsCompleted() {
+        ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
+        long taskId = selectedTask.getId();
+
+        Session session = DatabaseConnection.getSessionFactory().openSession();
+        Transaction transaction = null;
+        try {
+            transaction = session.beginTransaction();
+
+            selectedTask = session.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class)
+                    .setParameter("taskId", taskId).uniqueResult();
+            selectedTask.getSubtasks().forEach(subtask -> subtask.setTask(null));
+            selectedTask.getInspectionReports().forEach(report -> report.setTask(null));
+
+            CompletedTask completedTask = new CompletedTask(selectedTask);
+            completedTask.setSubtasks(selectedTask.getSubtasks());
+            completedTask.getSubtasks().forEach(subtask -> subtask.setCompletedTask(completedTask));
+            completedTask.setInspectionReports(selectedTask.getInspectionReports());
+            completedTask.getInspectionReports().forEach(report -> report.setCompletedTask(completedTask));
+            selectedTask.setSubtasks(null);
+            selectedTask.setInspectionReports(null);
+
+            session.save(completedTask);
+            session.createQuery("delete ActiveTask t where t.id = :taskId").setParameter("taskId", taskId)
+                    .executeUpdate();
+
+            loadData();
+
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            if (transaction != null) {
+                transaction.rollback();
+            }
+        } finally {
+            session.close();
         }
     }
 
@@ -357,7 +422,7 @@ public class TaskMonitorController {
                 while (true) {
                     Thread.sleep(delay);
                     Platform.runLater(() -> {
-                        List<Task> taskList = TaskRepository.getUnfinishedTasks();
+                        List<ActiveTask> taskList = TaskRepository.getUnfinishedTasks();
                         tasksObservableList.clear();
                         tasksObservableList.addAll(taskList);
                         System.out.println("Refreshed");

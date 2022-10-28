@@ -1,8 +1,8 @@
 package com.sunmyoung.tasktracker.controllers.dialogControllers;
 
 import com.sunmyoung.tasktracker.Launcher;
-import com.sunmyoung.tasktracker.pojos.InspectionReport;
 import com.sunmyoung.tasktracker.pojos.Subtask;
+import com.sunmyoung.tasktracker.pojos.ActiveTask;
 import com.sunmyoung.tasktracker.pojos.Task;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -207,7 +207,7 @@ public class CreateOrderDialogControllerV2 {
      * Reads info from the from and writes it into the provided Task object.
      * @param task - Task object, to which the information, gathered from the form, will be saved.
      */
-    public void readFields(Task task) {
+    public void readFields(ActiveTask task) {
         task.setSerialNumber(serialNumberTF.getText());
         task.setShipmentFrom(getShipmentFrom());
         task.setClient(companyTF.getText());
@@ -257,23 +257,29 @@ public class CreateOrderDialogControllerV2 {
      */
     public void populateWindow(Task task) {
         serialNumberTF.setText(task.getSerialNumber());
-        switch (task.getShipmentFrom()) {
-            case "사메기" -> shipmentSamegiRB.setSelected(true);
-            case "PS 판" -> shipmentPSRB.setSelected(true);
-            case "제판" -> shipmentChepanRB.setSelected(true);
+        if (task.getShipmentFrom() != null) {
+            switch (task.getShipmentFrom()) {
+                case "사메기" -> shipmentSamegiRB.setSelected(true);
+                case "PS 판" -> shipmentPSRB.setSelected(true);
+                case "제판" -> shipmentChepanRB.setSelected(true);
+            }
         }
         companyTF.setText(task.getClient());
         personTF.setText(task.getPersonInCharge());
-        switch (task.getFilm()) {
-            case "기존필림" -> filmExistingRB.setSelected(true);
-            case "제공필림" -> filmProvidedRB.setSelected(true);
-            case "신규필림" -> filmNewRB.setSelected(true);
+        if (task.getFilm() != null) {
+            switch (task.getFilm()) {
+                case "기존필림" -> filmExistingRB.setSelected(true);
+                case "제공필림" -> filmProvidedRB.setSelected(true);
+                case "신규필림" -> filmNewRB.setSelected(true);
+            }
         }
         frameSizeTF.setText(task.getFrameSize());
         meshTF.setText(task.getMesh());
-        switch (task.getCombi()) {
-            case "COMBI" -> typeCombiRB.setSelected(true);
-            case "직견장" -> typeDirectRB.setSelected(true);
+        if (task.getCombi() != null) {
+            switch (task.getCombi()) {
+                case "COMBI" -> typeCombiRB.setSelected(true);
+                case "직견장" -> typeDirectRB.setSelected(true);
+            }
         }
 
         if (task.getIsNewFrame()) {
@@ -286,15 +292,19 @@ public class CreateOrderDialogControllerV2 {
         tensionTF.setText(task.getTension());
         emulsionTF.setText(task.getEmulsion());
         dateInPicker.setValue(task.getDateIn());
-        switch (task.getShippingMethod()) {
-            case "배송" -> methodPesongRB.setSelected(true);
-            case "배달" -> methodPedalRB.setSelected(true);
+        if (task.getShippingMethod() != null) {
+            switch (task.getShippingMethod()) {
+                case "배송" -> methodPesongRB.setSelected(true);
+                case "배달" -> methodPedalRB.setSelected(true);
+            }
         }
         dateOutPicker.setValue(task.getDateOut());
         dateOutNoteTF.setText(task.getDeadlineNote());
-        switch (task.getPrintPosition()) {
-            case "지정위치" -> positionCustomRB.setSelected(true);
-            case "프레임중심" -> positionCenterRB.setSelected(true);
+        if (task.getPrintPosition() != null) {
+            switch (task.getPrintPosition()) {
+                case "지정위치" -> positionCustomRB.setSelected(true);
+                case "프레임중심" -> positionCenterRB.setSelected(true);
+            }
         }
         orderNoteTA.setText(task.getOrderNote());
 

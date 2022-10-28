@@ -1,163 +1,47 @@
 package com.sunmyoung.tasktracker.pojos;
 
-import com.sunmyoung.tasktracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
-import lombok.CustomLog;
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
-@Entity
-@Table(name = "tasks")
-public class Task implements Comparable<Task>{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    @Getter @Setter
-    private Long id;
+public interface Task {
+    String getSerialNumber();
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @Getter @Setter
-    private Set<Subtask> subtasks = new HashSet<>();
+    String getShipmentFrom();
 
-    @OneToMany(mappedBy = "task", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    @Getter @Setter
-    private Set<InspectionReport> inspectionReports = new HashSet<>();
+    String getClient();
 
-    @Column(name = "serial_number")
-    @Getter @Setter
-    private String serialNumber;
+    String getPersonInCharge();
 
-    @Column(name = "shipment_from")
-    @Getter @Setter
-    private String shipmentFrom;
+    String getFilm();
 
-    @Column(name = "client_company", length = 200)
-    @Getter @Setter
-    private String client;
+    String getFrameSize();
 
-    @Column(name = "person_in_charge", length = 45)
-    @Getter @Setter
-    private String personInCharge;
+    String getMesh();
 
-    @Column(length = 45)
-    @Getter @Setter
-    private String film;
+    String getCombi();
 
-    @Column(name = "frame_size", length = 45)
-    @Getter @Setter
-    private String frameSize;
+    Boolean getIsNewFrame();
 
-    @Column(length = 45)
-    @Getter @Setter
-    private String mesh;
+    String getBias();
 
-    @Column(length = 45)
-    @Getter @Setter
-    private String combi;
+    String getTension();
 
-    @Column(name = "new_frame")
-    @Getter @Setter
-    private Boolean isNewFrame;
+    String getEmulsion();
 
-    @Column(name = "bias")
-    @Getter @Setter
-    private String bias;
+    LocalDate getDateIn();
 
-    @Column(length = 40)
-    @Getter @Setter
-    private String tension;
+    String getShippingMethod();
 
-    @Column(length = 40)
-    @Getter @Setter
-    private String emulsion;
+    LocalDate getDateOut();
 
-    @Column(name = "date_in")
-    @Getter @Setter
-    private LocalDate dateIn;
+    String getDeadlineNote();
 
-    @Column(name = "shipping_method", length = 40)
-    @Getter @Setter
-    private String shippingMethod;
+    String getPrintPosition();
 
-    @Column(name = "date_out", length = 40)
-    @Getter @Setter
-    private LocalDate dateOut;
+    String getOrderNote();
 
-    @Column(name = "deadline_note", length = 40)
-    @Getter @Setter
-    private String deadlineNote;
+    Set<Subtask> getSubtasks();
 
-    @Column(name = "print_position", length = 40)
-    @Getter @Setter
-    private String printPosition;
-
-    @Column(name = "order_note", length = 250)
-    @Getter @Setter
-    private String orderNote;
-
-    @Column(name = "count")
-    @Getter @Setter
-    private Integer count;
-
-    @Column(name = "type", length = 45)
-    @Getter @Setter
-    private String type;
-
-    @Column(name = "is_aluminum")
-    @Getter @Setter
-    private Boolean isAluminum;
-
-    @Column(name = "tensioning", length = 45)
-    @Getter @Setter
-    private String tensioning;
-
-    @Column(name = "coating", length = 45)
-    @Getter @Setter
-    private String coating;
-
-    @Column(name = "exposure", length = 45)
-    @Getter @Setter
-    private String exposure;
-
-    @Column(name = "packaging", length = 45)
-    @Getter @Setter
-    private String packaging;
-
-    @Column(name = "is_complete")
-    @Getter @Setter
-    private Boolean isComplete;
-
-    public Task() {
-        isComplete = false;
-//        InspectionReport inspectionReport = new InspectionReport();
-//        inspectionReport.setTask(this);
-//        inspectionReports.add(inspectionReport);r
-    }
-
-    public String getDeadline() {
-        return String.format("%s - %s", dateOut.format(CreateOrderDialogControllerV2.getKoreanFormat()), deadlineNote);
-    }
-
-    public String getFrameNewOld() {
-        return isNewFrame ? "신규프레임" : "지급프레임";
-    }
-
-    @Override
-    public String toString() {
-        return String.format("%s - %s : %d %nSubtasks: %s", client, frameSize, count, subtasks.toString());
-    }
-
-    @Override
-    public int compareTo(Task otherTask) {
-        int compareByDateOut = dateOut.compareTo(otherTask.dateOut);
-        return compareByDateOut != 0 ? compareByDateOut :
-                client.compareTo(otherTask.getClient());
-    }
+    Integer getCount();
 }
