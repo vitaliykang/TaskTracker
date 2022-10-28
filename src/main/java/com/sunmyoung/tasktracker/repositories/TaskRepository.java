@@ -89,12 +89,13 @@ public class TaskRepository {
         return null;
     }
 
-    public static List<ActiveTask> getUnfinishedTasks() {
+    public static List<ActiveTask> getActiveTasks() {
         Session session = DatabaseConnection.getSessionFactory().openSession();;
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-            List<ActiveTask> resultList = session.createQuery("From ActiveTask t join fetch t.subtasks where t.isComplete = false", ActiveTask.class).getResultList();
+//            List<ActiveTask> resultList = session.createQuery("From ActiveTask t join fetch t.subtasks", ActiveTask.class).getResultList();
+            List<ActiveTask> resultList = session.createQuery("from ActiveTask", ActiveTask.class).getResultList();
             transaction.commit();
             Set<ActiveTask> taskSet = new HashSet<>(resultList);
             resultList = new ArrayList<>(taskSet);

@@ -6,6 +6,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,6 +14,8 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import lombok.Getter;
 
 public class InspectionDialogController {
+    @FXML
+    private Button addButton, removeButton;
 
     @FXML
     private TableColumn<InspectionReport, String>
@@ -47,6 +50,12 @@ public class InspectionDialogController {
     public void initialize() {
         initTableView();
         activateCells();
+    }
+
+    public void enableEditing(boolean bool) {
+        inspectionTableView.setEditable(bool);
+        addButton.setDisable(!bool);
+        removeButton.setDisable(!bool);
     }
 
     private void initTableView() {

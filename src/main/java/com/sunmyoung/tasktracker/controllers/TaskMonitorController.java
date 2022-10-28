@@ -93,7 +93,7 @@ public class TaskMonitorController {
     }
 
     public void loadData() {
-        List<ActiveTask> taskList = TaskRepository.getUnfinishedTasks();
+        List<ActiveTask> taskList = TaskRepository.getActiveTasks();
         if (taskList == null) {
             taskList = new ArrayList<>();
         }
@@ -422,7 +422,7 @@ public class TaskMonitorController {
                 while (true) {
                     Thread.sleep(delay);
                     Platform.runLater(() -> {
-                        List<ActiveTask> taskList = TaskRepository.getUnfinishedTasks();
+                        List<ActiveTask> taskList = TaskRepository.getActiveTasks();
                         tasksObservableList.clear();
                         tasksObservableList.addAll(taskList);
                         System.out.println("Refreshed");

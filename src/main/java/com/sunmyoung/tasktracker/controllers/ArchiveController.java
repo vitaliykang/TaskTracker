@@ -117,6 +117,7 @@ public class ArchiveController {
         dialog.setDialogPane(fxmlLoader.load());
 
         InspectionDialogController controller = fxmlLoader.getController();
+        controller.enableEditing(false);
 
         Session session = DatabaseConnection.getSessionFactory().openSession();
         Transaction transaction = null;

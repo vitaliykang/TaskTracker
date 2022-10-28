@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.dialogControllers.InspectionDialogController">
+<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.dialogControllers.InspectionDialogController">
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
          <children>
@@ -38,8 +38,8 @@
                   </TableColumn>
               </columns>
             </TableView>
-            <Button layoutX="32.0" layoutY="9.0" mnemonicParsing="false" onAction="#addInspectionReport" prefHeight="30.0" prefWidth="30.0" text="+" />
-            <Button layoutX="82.0" layoutY="9.0" mnemonicParsing="false" onAction="#removeInspectionReport" prefHeight="30.0" prefWidth="30.0" text="-">
+            <Button fx:id="addButton" layoutX="32.0" layoutY="9.0" mnemonicParsing="false" onAction="#addInspectionReport" prefHeight="30.0" prefWidth="30.0" text="+" />
+            <Button fx:id="removeButton" layoutX="82.0" layoutY="9.0" mnemonicParsing="false" onAction="#removeInspectionReport" prefHeight="30.0" prefWidth="30.0" text="-">
                <font>
                   <Font size="14.0" />
                </font>
