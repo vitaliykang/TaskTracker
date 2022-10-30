@@ -7,8 +7,11 @@ module com.sunmyoung.tasktracker {
     requires java.persistence;
     requires lombok;
 
-
     requires org.controlsfx.controls;
+    requires org.kordamp.ikonli.core;
+    requires org.kordamp.ikonli.javafx;
+    requires org.kordamp.ikonli.fontawesome;
+
 
     opens com.sunmyoung.tasktracker to javafx.fxml;
     opens com.sunmyoung.tasktracker.controllers to javafx.fxml;

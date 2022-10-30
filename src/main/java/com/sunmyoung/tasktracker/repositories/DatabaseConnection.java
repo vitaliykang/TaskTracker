@@ -11,10 +11,16 @@ public class DatabaseConnection {
     @Getter
     private static SessionFactory sessionFactory;
 
-    public static void connect() {
-        StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure("hibernate.cfg.xml").build();
-        Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
-        sessionFactory = metadata.getSessionFactoryBuilder().build();
+    public static Boolean connect() {
+        try {
+            StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+                    .configure("hibernate.cfg.xml").build();
+            Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
+            sessionFactory = metadata.getSessionFactoryBuilder().build();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 }

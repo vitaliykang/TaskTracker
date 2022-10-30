@@ -75,6 +75,12 @@ public class ArchiveController {
         viewInspectionReport();
     }
 
+    @FXML
+    @SneakyThrows
+    void returnToMainMenu(ActionEvent event) {
+        MainV2Controller.showMainScreen(event);
+    }
+
     @SneakyThrows
     private void viewDetails() {
         CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();

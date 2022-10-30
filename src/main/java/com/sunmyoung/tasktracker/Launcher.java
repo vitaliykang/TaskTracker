@@ -6,25 +6,24 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
 
 public class Launcher extends Application {
-
     @Override
     @SneakyThrows
     public void start(Stage stage) throws IOException {
-        DatabaseConnection.connect();
+//        DatabaseConnection.connect();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("main.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("loginScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 //        scene.getStylesheets().add(getClass().getResource("fontstyle.css").toExternalForm());
-        stage.setTitle("Task Tracker");
-        stage.setMinWidth(1900);
-        stage.setMinHeight(900);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

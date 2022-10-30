@@ -16,9 +16,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
@@ -27,7 +30,7 @@ import org.hibernate.Transaction;
 import java.time.LocalDate;
 import java.util.*;
 
-public class TaskMonitorController {
+public class TaskBoardController {
     @Getter
     private ObservableList<ActiveTask> tasksObservableList = FXCollections.observableArrayList();
 
@@ -83,6 +86,12 @@ public class TaskMonitorController {
     @FXML
     void cancelTask(ActionEvent event) {
         cancelTask();
+    }
+
+    @FXML
+    @SneakyThrows
+    void returnToMainMenu(ActionEvent event) {
+        MainV2Controller.showMainScreen(event);
     }
 
     public void initialize() {

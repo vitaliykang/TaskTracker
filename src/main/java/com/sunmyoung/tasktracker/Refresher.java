@@ -1,6 +1,6 @@
 package com.sunmyoung.tasktracker;
 
-import com.sunmyoung.tasktracker.controllers.TaskMonitorController;
+import com.sunmyoung.tasktracker.controllers.TaskBoardController;
 import javafx.fxml.FXMLLoader;
 import lombok.SneakyThrows;
 
@@ -8,11 +8,11 @@ import java.io.IOException;
 
 public class Refresher implements Runnable{
     private final int time;
-    private final TaskMonitorController controller;
+    private final TaskBoardController controller;
 
     public Refresher(int time) {
         this.time = time * 1000;
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskMonitor.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskBoard.fxml"));
         try {
             loader.load();
         } catch (IOException e) {

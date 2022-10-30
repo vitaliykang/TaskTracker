@@ -10,7 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="880.0" prefWidth="1900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.ArchiveController">
+<AnchorPane prefHeight="880.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.tasktracker.controllers.ArchiveController">
    <children>
       <SplitPane dividerPositions="0.5" layoutX="361.0" layoutY="146.0" orientation="VERTICAL" prefHeight="900.0" prefWidth="1900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -18,8 +18,9 @@
                <children>
                   <DatePicker fx:id="startPicker" layoutX="76.0" layoutY="14.0" promptText="Start" />
                   <DatePicker fx:id="endPicker" layoutX="76.0" layoutY="50.0" promptText="End" />
-                  <Button layoutX="1137.0" layoutY="38.0" mnemonicParsing="false" onAction="#getResults" text="Refresh" />
+                  <Button layoutX="549.0" layoutY="27.0" mnemonicParsing="false" onAction="#getResults" text="Show Results" />
                   <TextField fx:id="clientTF" layoutX="290.0" layoutY="27.0" prefHeight="25.0" prefWidth="239.0" promptText="Client" />
+                  <Button layoutX="996.0" layoutY="38.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu" />
                </children></AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>

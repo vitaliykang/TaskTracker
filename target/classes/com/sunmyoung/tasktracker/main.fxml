@@ -12,7 +12,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <fx:include source="TaskMonitor.fxml" />
+                        <fx:include source="TaskBoard.fxml" />
                      </children>
                   </AnchorPane>
             </content>
@@ -21,7 +21,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <fx:include prefHeight="880.0" source="Archive.fxml" />
+                        <fx:include prefHeight="880.0" source="archive.fxml" />
                      </children></AnchorPane>
             </content>
           </Tab>
