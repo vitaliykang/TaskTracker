@@ -1,7 +1,7 @@
 package com.sunmyoung.tasktracker.controllers;
 
 import com.sunmyoung.tasktracker.Launcher;
-import com.sunmyoung.tasktracker.controllers.settings.ConfigV2;
+import com.sunmyoung.tasktracker.controllers.settings.SimpleConfig;
 import com.sunmyoung.tasktracker.repositories.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
@@ -25,31 +24,28 @@ public class LoginScreenController {
             passwordTF;
 
     @FXML
-    private Button connectButton;
-
-    @FXML
-    private FontIcon errorIcon;
+    private FontIcon
+            errorIcon,
+            gearsIcon;
 
     @FXML
     void connect(ActionEvent event) {
+        //saving credentials taken from fields into cfg file
+        SimpleConfig.saveInfo(addressTF.getText(), loginTF.getText(), passwordTF.getText());
         connectToDatabase(event);
     }
 
-    @FXML
-    void apply(ActionEvent event) {
-        ConfigV2.setCredentials(addressTF.getText(), loginTF.getText(), passwordTF.getText());
-        connectButton.setDisable(false);
-    }
-
     public void initialize() {
-        addressTF.setText(ConfigV2.getUrl());
-        loginTF.setText(ConfigV2.getUsername());
-        passwordTF.setText(ConfigV2.getPassword());
+        addressTF.setText(SimpleConfig.getURL());
+        loginTF.setText(SimpleConfig.getUsername());
+        passwordTF.setText(SimpleConfig.getPassword());
     }
 
     @SneakyThrows
     public void connectToDatabase(ActionEvent event) {
-        if (DatabaseConnection.connect()) {
+        String url = addressTF.getText();
+        url = String.format("jdbc:mysql://%s/sunmyoung?useSSL=false", url);
+        if (DatabaseConnection.connect(url, loginTF.getText(), passwordTF.getText())) {
             FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("mainV2.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -61,6 +57,7 @@ public class LoginScreenController {
             stage.show();
         } else {
             errorIcon.setVisible(true);
+            gearsIcon.setVisible(false);
         }
     }
 }
