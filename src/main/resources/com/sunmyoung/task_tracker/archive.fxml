@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ContextMenu?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="880.0" prefWidth="1100.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.ArchiveController">
+   <children>
+      <SplitPane dividerPositions="0.5" layoutX="361.0" layoutY="146.0" orientation="VERTICAL" prefHeight="900.0" prefWidth="1900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <DatePicker fx:id="startPicker" layoutX="76.0" layoutY="14.0" promptText="Start" />
+                  <DatePicker fx:id="endPicker" layoutX="76.0" layoutY="50.0" promptText="End" />
+                  <Button layoutX="549.0" layoutY="27.0" mnemonicParsing="false" onAction="#getResults" text="Show Results" />
+                  <TextField fx:id="clientTF" layoutX="290.0" layoutY="27.0" prefHeight="25.0" prefWidth="239.0" promptText="Client" />
+                  <Button layoutX="996.0" layoutY="38.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu" />
+               </children></AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <TableView fx:id="tasksTableView" layoutX="250.0" layoutY="135.0" prefHeight="792.0" prefWidth="1898.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columns>
+                      <TableColumn fx:id="orderCol" prefWidth="75.0" text="№" />
+                      <TableColumn fx:id="dateInCol" prefWidth="104.0" text="Date In" />
+                        <TableColumn fx:id="dateOutCol" prefWidth="104.0" text="Date Out" />
+                        <TableColumn fx:id="clientCol" prefWidth="104.0" text="Client" />
+                        <TableColumn fx:id="countCol" prefWidth="104.0" text="Count" />
+                        <TableColumn fx:id="frameSizeCol" prefWidth="104.0" text="Frame Size" />
+                        <TableColumn fx:id="meshCol" prefWidth="104.0" text="Mesh" />
+                        <TableColumn fx:id="combiCol" prefWidth="104.0" text="Combi" />
+                        <TableColumn fx:id="frameNewOldCol" prefWidth="104.0" text="프레임" />
+                        <TableColumn fx:id="filmTypeCol" prefWidth="104.0" text="포지필림" />
+                        <TableColumn fx:id="shippingMethodCol" prefWidth="104.0" text="납품 방법" />
+                    </columns>
+                     <contextMenu>
+                        <ContextMenu>
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#viewDetails" text="View Details" />
+                              <MenuItem mnemonicParsing="false" onAction="#viewInspectionReport" text="Inspection Report" />
+                          </items>
+                        </ContextMenu>
+                     </contextMenu>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>

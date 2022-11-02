@@ -18,10 +18,10 @@
         <property name="current_session_context_class">thread</property>
         <property name="hbm2ddl.auto">update</property>
 
-        <mapping class="com.sunmyoung.tasktracker.pojos.ActiveTask"></mapping>
-        <mapping class="com.sunmyoung.tasktracker.pojos.Subtask"></mapping>
-        <mapping class="com.sunmyoung.tasktracker.pojos.InspectionReport"></mapping>
-        <mapping class="com.sunmyoung.tasktracker.pojos.CompletedTask"></mapping>
+        <mapping class="com.sunmyoung.task_tracker.pojos.ActiveTask"></mapping>
+        <mapping class="com.sunmyoung.task_tracker.pojos.Model"></mapping>
+        <mapping class="com.sunmyoung.task_tracker.pojos.InspectionReport"></mapping>
+        <mapping class="com.sunmyoung.task_tracker.pojos.CompletedTask"></mapping>
 
     </session-factory>
 </hibernate-configuration>

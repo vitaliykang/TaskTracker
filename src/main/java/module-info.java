@@ -13,12 +13,12 @@ module com.sunmyoung.tasktracker {
     requires org.kordamp.ikonli.fontawesome;
 
 
-    opens com.sunmyoung.tasktracker to javafx.fxml;
-    opens com.sunmyoung.tasktracker.controllers to javafx.fxml;
-    opens com.sunmyoung.tasktracker.controllers.dialogControllers to javafx.fxml;
-    opens com.sunmyoung.tasktracker.pojos;
+    opens com.sunmyoung.task_tracker to javafx.fxml;
+    opens com.sunmyoung.task_tracker.controllers to javafx.fxml;
+    opens com.sunmyoung.task_tracker.controllers.dialogControllersD to javafx.fxml;
+    opens com.sunmyoung.task_tracker.pojos;
 
-    exports com.sunmyoung.tasktracker;
-    exports com.sunmyoung.tasktracker.pojos;
-    exports com.sunmyoung.tasktracker.controllers;
+    exports com.sunmyoung.task_tracker;
+    exports com.sunmyoung.task_tracker.pojos;
+    exports com.sunmyoung.task_tracker.controllers;
 }
