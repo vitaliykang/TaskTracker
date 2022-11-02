@@ -1,0 +1,6 @@
+- Need to create 'completed_tasks' table in the database, that will store all the tasks that were marked as completed.
+    * 'tasks' table will store only current tasks to reduce load on the mainframe;
+    * when the task is marked as finished, its copy is created in the 'completed_tasks' table, and the entry is deleted
+        from the 'tasks' table.
+
+- Need to add 'Status' type String field to Task and CompletedTask
