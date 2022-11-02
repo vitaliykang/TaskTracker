@@ -1,12 +1,16 @@
 package com.sunmyoung.tasktracker;
 
+import com.sunmyoung.tasktracker.repositories.DatabaseConnection;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
@@ -15,6 +19,8 @@ public class Launcher extends Application {
     @Override
     @SneakyThrows
     public void start(Stage stage) throws IOException {
+//        DatabaseConnection.connect();
+
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("loginScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 //        scene.getStylesheets().add(getClass().getResource("fontstyle.css").toExternalForm());
