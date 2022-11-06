@@ -2,9 +2,9 @@ package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
-import com.sunmyoung.task_tracker.controllers.dialogControllersD.ConfirmDeleteDialogController;
-import com.sunmyoung.task_tracker.controllers.dialogControllersD.CreateOrderDialogControllerV2;
-import com.sunmyoung.task_tracker.controllers.dialogControllersD.InspectionDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.ConfirmDeleteDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
 import com.sunmyoung.task_tracker.pojos.InspectionReport;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
@@ -25,8 +25,6 @@ import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -297,7 +295,7 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialogV2.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog.fxml"));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -341,7 +339,7 @@ public class TaskBoardController {
 
     @SneakyThrows
     private void createOrderDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialogV2.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog.fxml"));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);

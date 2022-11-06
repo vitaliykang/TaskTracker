@@ -2,8 +2,8 @@ package com.sunmyoung.task_tracker.controllers;
 
 
 import com.sunmyoung.task_tracker.Main;
-import com.sunmyoung.task_tracker.controllers.dialogControllersD.CreateOrderDialogControllerV2;
-import com.sunmyoung.task_tracker.controllers.dialogControllersD.InspectionDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -84,7 +84,7 @@ public class ArchiveController {
     private void viewDetails() {
         CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialogV2.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog.fxml"));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setResizable(false);
         dialog.setDialogPane(fxmlLoader.load());

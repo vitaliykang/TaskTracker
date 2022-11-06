@@ -14,11 +14,15 @@ public class Utilities {
     /**
      * Path to the folder with the TaskTracker.jar
      */
-    private static String pathStr;
+    private static String pathStr = "";
 
     static {
-        String str = Main.class.getResource("main.fxml").toString();
-        pathStr = str.substring(str.indexOf('/') + 1, str.indexOf("TaskTracker.jar!"));
+        String str = Main.class.getResource("mainV2.fxml").toString();
+        try {
+            pathStr = str.substring(str.indexOf('/') + 1, str.indexOf("TaskTracker.jar!"));
+        } catch (Exception e) {
+            System.out.println("No cfg file detected. Loading default parameters.");
+        }
     }
 
     /**

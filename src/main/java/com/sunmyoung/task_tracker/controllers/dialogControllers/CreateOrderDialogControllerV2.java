@@ -1,4 +1,4 @@
-package com.sunmyoung.task_tracker.controllers.dialogControllersD;
+package com.sunmyoung.task_tracker.controllers.dialogControllers;
 
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.pojos.Model;

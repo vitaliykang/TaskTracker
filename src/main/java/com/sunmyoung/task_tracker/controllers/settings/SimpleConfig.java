@@ -18,9 +18,13 @@ public class SimpleConfig {
     private static List<String> lines = new ArrayList<>();
 
     static {
-        lines = Utilities.readFromFile(CFG);
-        if (lines.size() == 0) {
+        try {
+            lines = Utilities.readFromFile(CFG);
+        } catch (Exception e) {
             Utilities.printStatus("No cfg file found");
+        }
+
+        if (lines.size() == 0) {
             lines.add("localhost:3306");
             lines.add("root");
             lines.add("wasd");

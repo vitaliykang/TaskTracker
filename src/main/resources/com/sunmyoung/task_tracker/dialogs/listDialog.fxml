@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.ListDialogController">
+   <content>
+      <AnchorPane prefHeight="400.0" prefWidth="300.0">
+         <children>
+            <TextField fx:id="textField" layoutX="21.0" layoutY="21.0" onKeyTyped="#filterList" prefHeight="25.0" prefWidth="259.0" />
+            <ListView fx:id="listView" layoutX="21.0" layoutY="62.0" onMouseClicked="#selectEntry" prefHeight="320.0" prefWidth="259.0" />
+         </children>
+      </AnchorPane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="OK" />
+      <ButtonType fx:constant="CANCEL" />
+   </buttonTypes>
+</DialogPane>

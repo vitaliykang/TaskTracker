@@ -19,7 +19,7 @@ public class Main extends Application {
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("loginScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-//        scene.getStylesheets().add(getClass().getResource("fontstyle.css").toExternalForm());
+//        scene.getStylesheets().add(getClass().getResource("TVstyle.css").toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {

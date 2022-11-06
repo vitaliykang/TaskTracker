@@ -1,4 +1,4 @@
-package com.sunmyoung.task_tracker.controllers.dialogControllersD;
+package com.sunmyoung.task_tracker.controllers.dialogControllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

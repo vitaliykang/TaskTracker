@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.TaskBoardController">
    <children>
@@ -14,16 +15,31 @@
         <items>
           <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="32.0" prefWidth="160.0">
                <children>
-                  <Button fx:id="newTaskBtn" layoutX="36.0" layoutY="4.0" mnemonicParsing="false" onAction="#createNewTask" text="New Task" />
-                  <Button fx:id="refreshBtn" layoutX="1043.0" layoutY="5.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
-                  <Button layoutX="275.0" layoutY="5.0" mnemonicParsing="false" onAction="#markAsCompleted" text="Mark as Completed" />
-                  <Button layoutX="429.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelTask" text="Cancel Task" />
-                  <Button layoutX="1307.0" layoutY="5.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu" />
+                  <Button fx:id="newTaskBtn" layoutX="36.0" layoutY="4.0" mnemonicParsing="false" onAction="#createNewTask" text="New Task">
+                     <graphic>
+                        <FontIcon iconColor="#2b1cff" iconLiteral="fa-plus" iconSize="16" />
+                     </graphic></Button>
+                  <Button fx:id="refreshBtn" layoutX="1043.0" layoutY="5.0" mnemonicParsing="false" onAction="#refresh" text="Refresh">
+                     <graphic>
+                        <FontIcon iconLiteral="fa-refresh" iconSize="16" />
+                     </graphic></Button>
+                  <Button layoutX="275.0" layoutY="5.0" mnemonicParsing="false" onAction="#markAsCompleted" text="Mark as Completed">
+                     <graphic>
+                        <FontIcon iconColor="#1cc340" iconLiteral="fa-check-square-o" iconSize="16" />
+                     </graphic></Button>
+                  <Button layoutX="429.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelTask" text="Cancel Task">
+                     <graphic>
+                        <FontIcon iconColor="#e41414" iconLiteral="fa-times" iconSize="16" />
+                     </graphic></Button>
+                  <Button layoutX="1307.0" layoutY="5.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu">
+                     <graphic>
+                        <FontIcon iconLiteral="fa-arrow-left" iconSize="16" />
+                     </graphic></Button>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="900.0" prefWidth="1900.0" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tableView" prefHeight="900.0" prefWidth="1900.0" stylesheets="@../../../TaskBoardStyle.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="orderCol" prefWidth="51.0" resizable="false" text="№" />
                         <TableColumn fx:id="deadlineCol" minWidth="-Infinity" prefWidth="153.0" resizable="false" text="출하예정일" />

@@ -15,7 +15,7 @@ module com.sunmyoung.tasktracker {
 
     opens com.sunmyoung.task_tracker to javafx.fxml;
     opens com.sunmyoung.task_tracker.controllers to javafx.fxml;
-    opens com.sunmyoung.task_tracker.controllers.dialogControllersD to javafx.fxml;
+    opens com.sunmyoung.task_tracker.controllers.dialogControllers to javafx.fxml;
     opens com.sunmyoung.task_tracker.pojos;
 
     exports com.sunmyoung.task_tracker;

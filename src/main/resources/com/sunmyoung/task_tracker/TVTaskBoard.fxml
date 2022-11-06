@@ -23,7 +23,7 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                <children>
-                  <TableView fx:id="tableView" prefHeight="900.0" prefWidth="1900.0" styleClass="fontstyle.css" stylesheets="@../../../fontstyle.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <TableView fx:id="tableView" prefHeight="900.0" prefWidth="1900.0" styleClass="TVstyle.css" stylesheets="@../../../TVstyle.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="orderCol" prefWidth="51.0" resizable="false" text="№" />
                         <TableColumn fx:id="deadlineCol" minWidth="-Infinity" prefWidth="230.0" resizable="false" text="출하예정일" />
