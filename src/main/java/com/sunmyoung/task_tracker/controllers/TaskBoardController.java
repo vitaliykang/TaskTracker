@@ -1,6 +1,7 @@
 package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
+import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.dialogControllersD.ConfirmDeleteDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllersD.CreateOrderDialogControllerV2;
 import com.sunmyoung.task_tracker.controllers.dialogControllersD.InspectionDialogController;
@@ -24,6 +25,8 @@ import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -62,7 +65,7 @@ public class TaskBoardController {
 
     @FXML
     void refresh(ActionEvent event) {
-        refreshTable();
+        loadData();
     }
 
     @FXML
@@ -98,23 +101,19 @@ public class TaskBoardController {
         startAutoRefresh(600000);
     }
 
+    /**
+     * Download the list of active tasks from database and load them into the tableview.
+     * Use this method to refresh the table.
+     */
     public void loadData() {
         List<ActiveTask> taskList = TaskRepository.getActiveTasks();
         if (taskList == null) {
             taskList = new ArrayList<>();
         }
-        System.out.println(taskList);
+        Utilities.printStatus(String.format("Number of active tasks: %d", taskList.size()));
 
         tasksObservableList.clear();
         tasksObservableList.addAll(taskList);
-    }
-
-    /**
-     * Manually refresh the tasks table.
-     */
-    private void refreshTable() {
-        tasksObservableList.clear();
-        loadData();
     }
 
     private void initTableView() {
@@ -354,6 +353,7 @@ public class TaskBoardController {
             ActiveTask task = new ActiveTask();
             controller.readFields(task);
             TaskRepository.save(task);
+            Utilities.printStatus(String.format("New task [%s] is created.", task));
             loadData();
         }
     }
@@ -374,6 +374,7 @@ public class TaskBoardController {
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             TaskRepository.delete(taskId);
+            Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask));
             loadData();
         }
     }
@@ -403,6 +404,7 @@ public class TaskBoardController {
             session.save(completedTask);
             session.createQuery("delete ActiveTask t where t.id = :taskId").setParameter("taskId", taskId)
                     .executeUpdate();
+            Utilities.printStatus(String.format("Task [%s] was marked as completed", completedTask));
 
             loadData();
 
@@ -418,9 +420,11 @@ public class TaskBoardController {
     }
 
     /**
+     * Sets tableView auto-refresh rate.
      * @param delay - pause time between table updates in milliseconds.
      */
     private void startAutoRefresh(int delay) {
+        Utilities.printStatus(String.format("Refresh rate is set to: 1 in %d minutes", delay/60000));
         Thread thread = new Thread(new Runnable() {
             @Override
             @SneakyThrows
@@ -428,10 +432,8 @@ public class TaskBoardController {
                 while (true) {
                     Thread.sleep(delay);
                     Platform.runLater(() -> {
-                        List<ActiveTask> taskList = TaskRepository.getActiveTasks();
-                        tasksObservableList.clear();
-                        tasksObservableList.addAll(taskList);
-                        System.out.println("Refreshed");
+                        loadData();
+                        Utilities.printStatus("Table Refreshed");
                     });
                 }
             }

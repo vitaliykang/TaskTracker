@@ -101,7 +101,11 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
     }
 
     public String getDeadline() {
-        return String.format("%s - %s", dateOut.format(CreateOrderDialogControllerV2.getKoreanFormat()), deadlineNote);
+        try {
+            return String.format("%s - %s", dateOut.format(CreateOrderDialogControllerV2.getKoreanFormat()), deadlineNote);
+        } catch (NullPointerException e) {
+            return deadlineNote;
+        }
     }
 
     public String getFrameNewOld() {
@@ -110,8 +114,8 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
 
     @Override
     public String toString() {
-        return String.format("Client - %s %n" +
-                "Size - [%s] %n" +
+        return String.format("Client - %s, " +
+                "Size - [%s], " +
                 "Count - %d %n", client, frameSize, count);
     }
 

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllersD.ConfirmDeleteDialogController">
+<DialogPane prefHeight="122.0" prefWidth="440.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllersD.ConfirmDeleteDialogController">
    <content>
       <AnchorPane prefHeight="150.0" prefWidth="400.0">
          <children>

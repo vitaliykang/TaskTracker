@@ -173,6 +173,8 @@ public class CompletedTask implements TaskInterface {
 
     @Override
     public String toString() {
-        return String.format("%s - %s : %d %nSubtasks: %s", client, frameSize, count, subtasks.toString());
+        return String.format("Client - %s, " +
+                "Size - [%s], " +
+                "Count - %d %n", client, frameSize, count);
     }
 }

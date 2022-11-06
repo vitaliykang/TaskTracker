@@ -1,5 +1,6 @@
 package com.sunmyoung.task_tracker.repositories;
 
+import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -93,7 +94,6 @@ public class TaskRepository {
         Transaction transaction = null;
         try {
             transaction = session.beginTransaction();
-//            List<ActiveTask> resultList = session.createQuery("From ActiveTask t join fetch t.subtasks", ActiveTask.class).getResultList();
             List<ActiveTask> resultList = session.createQuery("from ActiveTask", ActiveTask.class).getResultList();
             transaction.commit();
             Set<ActiveTask> taskSet = new HashSet<>(resultList);

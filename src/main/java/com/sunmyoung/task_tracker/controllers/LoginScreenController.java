@@ -1,6 +1,7 @@
 package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
+import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.settings.SimpleConfig;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import javafx.event.ActionEvent;
@@ -33,6 +34,7 @@ public class LoginScreenController {
         //saving credentials taken from fields into cfg file
         SimpleConfig.saveInfo(addressTF.getText(), loginTF.getText(), passwordTF.getText());
         connectToDatabase(event);
+        Utilities.printStatus("Connected.");
     }
 
     public void initialize() {

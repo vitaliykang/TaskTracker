@@ -1,6 +1,7 @@
 package com.sunmyoung.task_tracker.controllers.settings;
 
 import com.sunmyoung.task_tracker.Main;
+import com.sunmyoung.task_tracker.Utilities;
 
 import java.io.*;
 import java.net.URI;
@@ -13,27 +14,17 @@ import java.util.List;
 import java.util.Scanner;
 
 public class SimpleConfig {
-    private static Path path;
+    private static final String CFG = "cfg";
     private static List<String> lines = new ArrayList<>();
 
     static {
-        try {
-            String str = Main.class.getResource("main.fxml").toString();
-            //path to the folder where the jar file is located
-            String pathStr = str.substring(str.indexOf('/') + 1, str.indexOf("TaskTracker.jar!")).concat("cfg");
-            path = Paths.get(pathStr);
-            lines = Files.readAllLines(path);
-            System.out.println(lines);
-        } catch (Exception e) {
-            e.printStackTrace();
-            lines.add("url");
-            lines.add("username");
-            lines.add("password");
+        lines = Utilities.readFromFile(CFG);
+        if (lines.size() == 0) {
+            Utilities.printStatus("No cfg file found");
+            lines.add("localhost:3306");
+            lines.add("root");
+            lines.add("wasd");
         }
-    }
-
-    public static void main(String[] args) {
-
     }
 
     public static String getURL() {
@@ -49,16 +40,7 @@ public class SimpleConfig {
     }
 
     public static void saveInfo(String url, String username, String password) {
-        if (path != null) {
-            try (FileWriter fileWriter = new FileWriter(path.toFile())) {
-                fileWriter.write(url);
-                fileWriter.write("\n");
-                fileWriter.write(username);
-                fileWriter.write("\n");
-                fileWriter.write(password);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        List<String> info = List.of(url, username, password);
+        Utilities.writeToFile(CFG, info);
     }
 }
