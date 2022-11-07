@@ -1,6 +1,5 @@
 package com.sunmyoung.task_tracker.repositories;
 
-import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

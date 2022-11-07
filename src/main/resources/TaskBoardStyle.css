@@ -1,7 +1,3 @@
-@font-face {
-    src: url("com/sunmyoung/task_tracker/fonts/HoonGomulsang.ttf");
-    /*src: url("com/sunmyoung/tasktracker/fonts/BareunBatang.ttf");*/
-}
 
 .table-view .column-header-background .label {
     /*-fx-font-family: "1HoonGomulsang Regular";*/

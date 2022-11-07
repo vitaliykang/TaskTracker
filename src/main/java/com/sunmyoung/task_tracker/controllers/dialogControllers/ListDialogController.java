@@ -1,5 +1,6 @@
 package com.sunmyoung.task_tracker.controllers.dialogControllers;
 
+import com.sunmyoung.task_tracker.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -8,12 +9,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import lombok.Getter;
+import lombok.Setter;
 
 public class ListDialogController {
+    @Getter @Setter
     private String fileName;
     private ObservableList<String> content = FXCollections.observableArrayList();
     private FilteredList<String> filteredContent = new FilteredList<>(content, predicate -> true);
@@ -22,6 +22,7 @@ public class ListDialogController {
     private ListView<String> listView;
 
     @FXML
+    @Getter
     private TextField textField;
 
     @FXML
@@ -40,23 +41,8 @@ public class ListDialogController {
         textField.setText(selectedEntry);
     }
 
-    public ListDialogController() {
-
-    }
-
-    public ListDialogController(String fileName) {
-        this.fileName = fileName;
-    }
-
     public void initialize() {
-//        content.addAll(Utilities.readFromFile(fileName));
-        try {
-           Path path = Paths.get("src/main/resources/com/sunmyoung/task_tracker/test.txt");
-           content.addAll(Files.readAllLines(path));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        content.addAll(Utilities.readFromFile(fileName));
         listView.setItems(filteredContent);
-
     }
 }

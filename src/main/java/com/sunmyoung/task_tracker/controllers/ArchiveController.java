@@ -17,8 +17,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.SneakyThrows;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
-import javax.persistence.TypedQuery;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -196,7 +196,7 @@ public class ArchiveController {
         System.out.println(queryBuilder.toString());
 
         String query = queryBuilder.toString();
-        TypedQuery<CompletedTask> typedQuery = session.createQuery(query, CompletedTask.class);
+        Query<CompletedTask> typedQuery = session.createQuery(query, CompletedTask.class);
 
 
         if (startPicker.getValue() != null) {
@@ -227,7 +227,7 @@ public class ArchiveController {
         }
     }
 
-    private TypedQuery<CompletedTask> addParameterStartDate(TypedQuery<CompletedTask> query) {
+    private Query<CompletedTask> addParameterStartDate(Query<CompletedTask> query) {
         return query.setParameter("start", startPicker.getValue());
     }
 
@@ -240,7 +240,7 @@ public class ArchiveController {
         }
     }
 
-    private TypedQuery<CompletedTask> addParameterEndDate(TypedQuery<CompletedTask> query) {
+    private Query<CompletedTask> addParameterEndDate(Query<CompletedTask> query) {
         return query.setParameter("end", endPicker.getValue());
     }
 
@@ -253,7 +253,7 @@ public class ArchiveController {
         }
     }
 
-    private TypedQuery<CompletedTask> addParameterClient(TypedQuery<CompletedTask> query) {
+    private Query<CompletedTask> addParameterClient(Query<CompletedTask> query) {
         return query.setParameter("client", clientTF.getText());
     }
 

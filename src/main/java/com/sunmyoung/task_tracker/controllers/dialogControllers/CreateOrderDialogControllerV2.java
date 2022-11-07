@@ -110,7 +110,8 @@ public class CreateOrderDialogControllerV2 {
     private Button
             addSubtaskButton,
             removeSubtaskButton,
-            editSubtaskButton;
+            searchByCodeButton,
+            searchClientButton;
 
     @Getter
     private ObservableList<Model> subtaskObservableList = FXCollections.observableArrayList();
@@ -164,6 +165,16 @@ public class CreateOrderDialogControllerV2 {
     @FXML
     void frameOnlyToggleAction(ActionEvent event) {
         setFrameOnly(frameOnlyToggle.isSelected());
+    }
+
+    @FXML
+    void searchClient(ActionEvent event) {
+        openSearchClientDialog();
+    }
+
+    @FXML
+    void searchByCode(ActionEvent event) {
+
     }
 
     public void initialize() {
@@ -268,9 +279,9 @@ public class CreateOrderDialogControllerV2 {
         personTF.setText(task.getPersonInCharge());
         if (task.getFilm() != null) {
             switch (task.getFilm()) {
-                case "기존필림" -> filmExistingRB.setSelected(true);
-                case "제공필림" -> filmProvidedRB.setSelected(true);
-                case "신규필림" -> filmNewRB.setSelected(true);
+                case "기존필름" -> filmExistingRB.setSelected(true);
+                case "제공필름" -> filmProvidedRB.setSelected(true);
+                case "신규필름" -> filmNewRB.setSelected(true);
             }
         }
         frameSizeTF.setText(task.getFrameSize());
@@ -351,6 +362,8 @@ public class CreateOrderDialogControllerV2 {
         typeDirectRB.setDisable(!bool);
         frameExistingRB.setDisable(!bool);
         frameNewRB.setDisable(!bool);
+        searchClientButton.setDisable(!bool);
+        searchByCodeButton.setDisable(!bool);
 
         if (frameOnlyToggle.isSelected()) {
             frameOnlyToggle.setDisable(!bool);
@@ -360,7 +373,6 @@ public class CreateOrderDialogControllerV2 {
 //            subtasksTableView.setDisable(!bool);
             addSubtaskButton.setDisable(!bool);
             removeSubtaskButton.setDisable(!bool);
-            editSubtaskButton.setDisable(!bool);
         }
     }
 
@@ -513,8 +525,26 @@ public class CreateOrderDialogControllerV2 {
         subtasksTableView.setDisable(bool);
         addSubtaskButton.setDisable(bool);
         removeSubtaskButton.setDisable(bool);
-        editSubtaskButton.setDisable(bool);
 
         countTF.setDisable(!bool);
+    }
+
+    @SneakyThrows
+    private void openSearchClientDialog() {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/listDialog.fxml"));
+        DialogPane dialogPane = fxmlLoader.load();
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setDialogPane(dialogPane);
+
+        ListDialogController controller = fxmlLoader.getController();
+        controller.setFileName("data/clients.txt");
+        Optional<ButtonType> clickedButton = dialog.showAndWait();
+
+        if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK
+                && controller.getTextField().getText() != null && !controller.getTextField().getText().equals("")) {
+            String[] clientInfo = controller.getTextField().getText().split("::");
+            companyTF.setText(clientInfo[0]);
+            personTF.setText(clientInfo[1]);
+        }
     }
 }

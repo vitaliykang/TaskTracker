@@ -4,6 +4,6 @@
     <option name="defaultUnitInitialized" value="true" />
     <option name="renamerInitialized" value="true" />
     <option name="reverseEngineeringLastDbConnectionId" value="bce5017d-e5c1-4821-9bd9-bab03b3eaee0" />
-    <option name="reLastEntityCreationPackage" value="src/main/java/com/sunmyoung/tasktracker/pojos" />
+    <option name="reLastEntityCreationPackage" value="src/main/java/com/sunmyoung/task_tracker/pojos" />
   </component>
 </project>

@@ -12,16 +12,16 @@
             <TextField fx:id="addressTF" layoutX="55.0" layoutY="26.0" prefHeight="25.0" prefWidth="144.0" />
             <TextField fx:id="loginTF" layoutX="55.0" layoutY="63.0" prefHeight="25.0" prefWidth="144.0" />
             <TextField fx:id="passwordTF" layoutX="55.0" layoutY="100.0" prefHeight="25.0" prefWidth="144.0" />
-            <FontIcon iconLiteral="fa-link" iconSize="24" layoutX="14.0" layoutY="47.0" />
-            <FontIcon iconLiteral="fa-address-card" iconSize="24" layoutX="11.0" layoutY="85.0" text="" />
-            <FontIcon iconLiteral="fa-key" iconSize="24" layoutX="13.0" layoutY="121.0" />
+            <FontIcon iconLiteral="bi-link-45deg" iconSize="24" layoutX="14.0" layoutY="47.0" />
+            <FontIcon iconLiteral="bi-key-fill" iconSize="24" layoutX="22.0" layoutY="125.0" />
             <Button layoutX="204.0" layoutY="137.0" mnemonicParsing="false" onAction="#connect" prefWidth="80.0" text="Connect">
                <graphic>
-                  <FontIcon iconLiteral="fa-unlock-alt" />
+                  <FontIcon iconLiteral="bi-unlock-fill" />
                </graphic>
             </Button>
-            <FontIcon fx:id="errorIcon" iconColor="#cd1717" iconLiteral="fa-times-circle" iconSize="60" layoutX="218.0" layoutY="96.0" visible="false" />
-            <FontIcon fx:id="gearsIcon" iconLiteral="fa-gears" iconSize="60" layoutX="211.0" layoutY="96.0" />
+            <FontIcon fx:id="errorIcon" iconColor="#cd1717" iconLiteral="bi-shield-exclamation" iconSize="60" layoutX="218.0" layoutY="96.0" visible="false" />
+            <FontIcon fx:id="gearsIcon" iconLiteral="bi-shield-lock" iconSize="60" layoutX="211.0" layoutY="96.0" />
+            <FontIcon iconLiteral="bi-person-circle" iconSize="16" layoutX="18.0" layoutY="83.0" text="" />
          </children>
       </AnchorPane>
    </children>

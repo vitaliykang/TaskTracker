@@ -1,20 +1,20 @@
 package com.sunmyoung.task_tracker.pojos;
 
 import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "completed_tasks")
-public class CompletedTask implements TaskInterface {
+public class CompletedTask implements TaskInterface{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    @Getter @Setter
+    @Column(name = "id", nullable = false)
     private Long id;
 
     @OneToMany(mappedBy = "completedTask", fetch = FetchType.LAZY,
@@ -27,113 +27,85 @@ public class CompletedTask implements TaskInterface {
     @Getter @Setter
     private Set<InspectionReport> inspectionReports = new HashSet<>();
 
-    @Column(name = "serial_number")
-    @Getter @Setter
-    private String serialNumber;
-
-    @Column(name = "shipment_from")
-    @Getter @Setter
-    private String shipmentFrom;
-
-    @Column(name = "client_company", length = 200)
-    @Getter @Setter
-    private String client;
-
-    @Column(name = "person_in_charge", length = 45)
-    @Getter @Setter
-    private String personInCharge;
-
-    @Column(length = 45)
-    @Getter @Setter
-    private String film;
-
-    @Column(name = "frame_size", length = 45)
-    @Getter @Setter
-    private String frameSize;
-
-    @Column(length = 45)
-    @Getter @Setter
-    private String mesh;
-
-    @Column(length = 45)
-    @Getter @Setter
-    private String combi;
-
-    @Column(name = "new_frame")
-    @Getter @Setter
-    private Boolean isNewFrame;
-
     @Column(name = "bias")
-    @Getter @Setter
     private String bias;
 
-    @Column(length = 40)
-    @Getter @Setter
-    private String tension;
+    @Column(name = "client_company", length = 200)
+    private String client;
 
-    @Column(length = 40)
-    @Getter @Setter
-    private String emulsion;
+    @Column(name = "coating", length = 45)
+    private String coating;
+
+    @Column(name = "combi", length = 45)
+    private String combi;
+
+    @Column(name = "count")
+    private Integer count;
 
     @Column(name = "date_in")
-    @Getter @Setter
     private LocalDate dateIn;
 
-    @Column(name = "shipping_method", length = 40)
-    @Getter @Setter
-    private String shippingMethod;
-
-    @Column(name = "date_out", length = 40)
-    @Getter @Setter
+    @Column(name = "date_out")
     private LocalDate dateOut;
 
     @Column(name = "deadline_note", length = 40)
-    @Getter @Setter
     private String deadlineNote;
 
-    @Column(name = "print_position", length = 40)
-    @Getter @Setter
-    private String printPosition;
-
-    @Column(name = "order_note", length = 250)
-    @Getter @Setter
-    private String orderNote;
-
-    @Column(name = "count")
-    @Getter @Setter
-    private Integer count;
-
-    @Column(name = "type", length = 45)
-    @Getter @Setter
-    private String type;
-
-    @Column(name = "is_aluminum")
-    @Getter @Setter
-    private Boolean isAluminum;
-
-    @Column(name = "tensioning", length = 45)
-    @Getter @Setter
-    private String tensioning;
-
-    @Column(name = "coating", length = 45)
-    @Getter @Setter
-    private String coating;
+    @Column(name = "emulsion", length = 40)
+    private String emulsion;
 
     @Column(name = "exposure", length = 45)
-    @Getter @Setter
     private String exposure;
 
+    @Column(name = "film", length = 45)
+    private String film;
+
+    @Column(name = "frame_size", length = 45)
+    private String frameSize;
+
+    @Column(name = "is_aluminum")
+    private Boolean isAluminum;
+
+    @Column(name = "new_frame")
+    private Boolean isNewFrame;
+
+    @Column(name = "mesh", length = 45)
+    private String mesh;
+
+    @Column(name = "order_note", length = 250)
+    private String orderNote;
+
     @Column(name = "packaging", length = 45)
-    @Getter @Setter
     private String packaging;
 
-    @Column
-    @Getter @Setter
+    @Column(name = "person_in_charge", length = 45)
+    private String personInCharge;
+
+    @Column(name = "print_position", length = 40)
+    private String printPosition;
+
+    @Column(name = "serial_number")
+    private String serialNumber;
+
+    @Column(name = "shipment_from")
+    private String shipmentFrom;
+
+    @Column(name = "shipping_method", length = 40)
+    private String shippingMethod;
+
+    @Column(name = "status")
     private String status;
 
-    public CompletedTask() {
+    @Column(name = "tension", length = 40)
+    private String tension;
 
-    }
+    @Column(name = "tensioning", length = 45)
+    private String tensioning;
+
+    @Column(name = "type", length = 45)
+    private String type;
+
+    public CompletedTask() {}
 
     public CompletedTask(ActiveTask task) {
         serialNumber = task.getSerialNumber();
@@ -177,4 +149,221 @@ public class CompletedTask implements TaskInterface {
                 "Size - [%s], " +
                 "Count - %d %n", client, frameSize, count);
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getBias() {
+        return bias;
+    }
+
+    public void setBias(String bias) {
+        this.bias = bias;
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String clientCompany) {
+        this.client = clientCompany;
+    }
+
+    public String getCoating() {
+        return coating;
+    }
+
+    public void setCoating(String coating) {
+        this.coating = coating;
+    }
+
+    public String getCombi() {
+        return combi;
+    }
+
+    public void setCombi(String combi) {
+        this.combi = combi;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public LocalDate getDateIn() {
+        return dateIn;
+    }
+
+    public void setDateIn(LocalDate dateIn) {
+        this.dateIn = dateIn;
+    }
+
+    public LocalDate getDateOut() {
+        return dateOut;
+    }
+
+    public void setDateOut(LocalDate dateOut) {
+        this.dateOut = dateOut;
+    }
+
+    public String getDeadlineNote() {
+        return deadlineNote;
+    }
+
+    public void setDeadlineNote(String deadlineNote) {
+        this.deadlineNote = deadlineNote;
+    }
+
+    public String getEmulsion() {
+        return emulsion;
+    }
+
+    public void setEmulsion(String emulsion) {
+        this.emulsion = emulsion;
+    }
+
+    public String getExposure() {
+        return exposure;
+    }
+
+    public void setExposure(String exposure) {
+        this.exposure = exposure;
+    }
+
+    public String getFilm() {
+        return film;
+    }
+
+    public void setFilm(String film) {
+        this.film = film;
+    }
+
+    public String getFrameSize() {
+        return frameSize;
+    }
+
+    public void setFrameSize(String frameSize) {
+        this.frameSize = frameSize;
+    }
+
+    public Boolean getIsAluminum() {
+        return isAluminum;
+    }
+
+    public void setIsAluminum(Boolean isAluminum) {
+        this.isAluminum = isAluminum;
+    }
+
+    public Boolean getIsNewFrame() {
+        return isNewFrame;
+    }
+
+    public void setIsNewFrame(Boolean newFrame) {
+        this.isNewFrame = newFrame;
+    }
+
+    public String getMesh() {
+        return mesh;
+    }
+
+    public void setMesh(String mesh) {
+        this.mesh = mesh;
+    }
+
+    public String getOrderNote() {
+        return orderNote;
+    }
+
+    public void setOrderNote(String orderNote) {
+        this.orderNote = orderNote;
+    }
+
+    public String getPackaging() {
+        return packaging;
+    }
+
+    public void setPackaging(String packaging) {
+        this.packaging = packaging;
+    }
+
+    public String getPersonInCharge() {
+        return personInCharge;
+    }
+
+    public void setPersonInCharge(String personInCharge) {
+        this.personInCharge = personInCharge;
+    }
+
+    public String getPrintPosition() {
+        return printPosition;
+    }
+
+    public void setPrintPosition(String printPosition) {
+        this.printPosition = printPosition;
+    }
+
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public String getShipmentFrom() {
+        return shipmentFrom;
+    }
+
+    public void setShipmentFrom(String shipmentFrom) {
+        this.shipmentFrom = shipmentFrom;
+    }
+
+    public String getShippingMethod() {
+        return shippingMethod;
+    }
+
+    public void setShippingMethod(String shippingMethod) {
+        this.shippingMethod = shippingMethod;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getTension() {
+        return tension;
+    }
+
+    public void setTension(String tension) {
+        this.tension = tension;
+    }
+
+    public String getTensioning() {
+        return tensioning;
+    }
+
+    public void setTensioning(String tensioning) {
+        this.tensioning = tensioning;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

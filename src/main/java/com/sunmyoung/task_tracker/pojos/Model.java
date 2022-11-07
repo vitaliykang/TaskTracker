@@ -1,62 +1,70 @@
 package com.sunmyoung.task_tracker.pojos;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
-import java.util.Objects;
-
 @Entity
 @Table(name = "subtasks")
-public class Model implements Comparable<Model>{
+public class Model implements Comparable<Model> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    @Getter @Setter
-    private long id;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "task_id")
-    @Getter @Setter
-    private ActiveTask task;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "completed_task_id")
     @Getter @Setter
     private CompletedTask completedTask;
 
-    @Column(name = "thickness")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "task_id")
     @Getter @Setter
-    private String thickness;
+    private ActiveTask task;
 
-    @Column(name = "print", length = 254)
-    @Getter @Setter
-    private String print;
-
-    @Column
-    @Getter @Setter
+    @Column(name = "count")
     private String count;
 
-    public String toString()
-    {
-        return String.format("%s - %s - %s", print, thickness, count);
+    @Column(name = "print", length = 254)
+    private String print;
+
+    @Column(name = "thickness")
+    private String thickness;
+
+    public Long getId() {
+        return id;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Model subtask = (Model) o;
-        return Objects.equals(thickness, subtask.thickness) && Objects.equals(print, subtask.print) && Objects.equals(count, subtask.count);
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(thickness, print, count);
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
+
+    public String getPrint() {
+        return print;
+    }
+
+    public void setPrint(String print) {
+        this.print = print;
+    }
+
+    public String getThickness() {
+        return thickness;
+    }
+
+    public void setThickness(String thickness) {
+        this.thickness = thickness;
     }
 
     @Override
     public int compareTo(Model o) {
-        return Long.compare(id, o.id);
+        return this.print.compareTo(o.print);
     }
 }
