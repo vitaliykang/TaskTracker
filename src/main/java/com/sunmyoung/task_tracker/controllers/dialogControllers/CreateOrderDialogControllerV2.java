@@ -110,6 +110,7 @@ public class CreateOrderDialogControllerV2 {
     private Button
             addSubtaskButton,
             removeSubtaskButton,
+            editSubtaskButton,
             searchByCodeButton,
             searchClientButton;
 
@@ -233,7 +234,11 @@ public class CreateOrderDialogControllerV2 {
         task.setEmulsion(emulsionTF.getText());
         task.setDateIn(dateInPicker.getValue());
         task.setShippingMethod(getShippingMethod());
-        task.setDateOut(dateOutPicker.getValue());
+        if (dateOutPicker.getValue() != null) {
+            task.setDateOut(dateOutPicker.getValue());
+        } else {
+            task.setDateOut(dateInPicker.getValue());
+        }
         task.setDeadlineNote(dateOutNoteTF.getText());
         task.setPrintPosition(getPrintPosition());
         task.setOrderNote(orderNoteTA.getText());
@@ -364,6 +369,7 @@ public class CreateOrderDialogControllerV2 {
         frameNewRB.setDisable(!bool);
         searchClientButton.setDisable(!bool);
         searchByCodeButton.setDisable(!bool);
+        editSubtaskButton.setDisable(!bool);
 
         if (frameOnlyToggle.isSelected()) {
             frameOnlyToggle.setDisable(!bool);

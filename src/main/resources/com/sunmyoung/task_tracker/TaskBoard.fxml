@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.TaskBoardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.TaskBoardController">
    <children>
       <SplitPane dividerPositions="0.5" orientation="VERTICAL" prefHeight="900.0" prefWidth="1900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <items>
@@ -17,23 +17,23 @@
                <children>
                   <Button fx:id="newTaskBtn" layoutX="36.0" layoutY="4.0" mnemonicParsing="false" onAction="#createNewTask" text="New Task">
                      <graphic>
-                        <FontIcon iconColor="#2b1cff" iconLiteral="fa-plus" iconSize="16" />
+                        <FontIcon iconColor="#2b1cff" iconLiteral="bi-plus-square" iconSize="16" />
                      </graphic></Button>
                   <Button fx:id="refreshBtn" layoutX="1043.0" layoutY="5.0" mnemonicParsing="false" onAction="#refresh" text="Refresh">
                      <graphic>
-                        <FontIcon iconLiteral="fa-refresh" iconSize="16" />
+                        <FontIcon iconLiteral="bi-arrow-repeat" iconSize="16" />
                      </graphic></Button>
                   <Button layoutX="275.0" layoutY="5.0" mnemonicParsing="false" onAction="#markAsCompleted" text="Mark as Completed">
                      <graphic>
-                        <FontIcon iconColor="#1cc340" iconLiteral="fa-check-square-o" iconSize="16" />
+                        <FontIcon iconColor="#0b9025" iconLiteral="bi-check2-square" iconSize="16" />
                      </graphic></Button>
                   <Button layoutX="429.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelTask" text="Cancel Task">
                      <graphic>
-                        <FontIcon iconColor="#e41414" iconLiteral="fa-times" iconSize="16" />
+                        <FontIcon iconColor="#e41414" iconLiteral="bi-x-circle" iconSize="16" />
                      </graphic></Button>
-                  <Button layoutX="1307.0" layoutY="5.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu">
+                  <Button layoutX="1291.0" layoutY="5.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu">
                      <graphic>
-                        <FontIcon iconLiteral="fa-arrow-left" iconSize="16" />
+                        <FontIcon iconLiteral="bi-power" iconSize="16" />
                      </graphic></Button>
                </children>
             </AnchorPane>

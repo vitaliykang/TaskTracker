@@ -17,7 +17,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
          <children>
@@ -82,7 +82,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
                <graphic>
-                  <FontIcon iconColor="#290ef8" iconLiteral="fa-plus" />
+                  <FontIcon iconColor="#290ef8" iconLiteral="bi-plus" iconSize="50" />
                </graphic>
             </Button>
             <Button fx:id="removeSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="491.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeSubtask" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" wrapText="true">
@@ -90,7 +90,7 @@
                   <Font name="System Bold" size="21.0" />
                </font>
                <graphic>
-                  <FontIcon iconColor="#ff0404" iconLiteral="fa-minus" />
+                  <FontIcon iconColor="#ff0404" iconLiteral="bi-dash" iconSize="50" />
                </graphic>
             </Button>
             <RadioButton fx:id="typeDirectRB" layoutX="459.0" layoutY="305.0" mnemonicParsing="false" text="직견장" />
@@ -100,12 +100,20 @@
             <CheckBox fx:id="editCB" layoutX="901.0" layoutY="14.0" mnemonicParsing="false" onAction="#enableEdit" text="Edit" />
             <Button fx:id="searchClientButton" layoutX="57.0" layoutY="153.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchClient" prefHeight="30.0" prefWidth="30.0">
                <graphic>
-                  <FontIcon iconLiteral="fa-search" iconSize="16" />
+                  <FontIcon iconLiteral="bi-search" iconSize="16" />
                </graphic>
             </Button>
             <Button fx:id="searchByCodeButton" layoutX="57.0" layoutY="299.0" mnemonicParsing="false" onAction="#searchByCode" prefHeight="30.0" prefWidth="30.0">
                <graphic>
-                  <FontIcon iconLiteral="fa-search" iconSize="16" />
+                  <FontIcon iconLiteral="bi-search" iconSize="16" />
+               </graphic>
+            </Button>
+            <Button fx:id="editSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="560.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editSubtask" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="#4d05ff" iconLiteral="bi-pencil" iconSize="30" />
                </graphic>
             </Button>
          </children>
