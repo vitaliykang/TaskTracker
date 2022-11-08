@@ -45,7 +45,7 @@ public class Utilities {
         try {
             content = Files.readAllLines(path);
         } catch (IOException e) {
-            System.out.printf("File \"%s\" not found. %n", fileName);
+            System.out.printf("File \"%s\" not found. %n", path.toString());
         }
 
         return content;
@@ -67,7 +67,7 @@ public class Utilities {
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
             fileWriter.write(stringBuilder.toString());
         } catch (IOException e) {
-            System.out.printf("File \"%s\" not found. %n", fileName);
+            System.out.printf("File \"%s\" not found. %n", path);
         }
     }
 
@@ -84,5 +84,13 @@ public class Utilities {
         } catch (IOException e) {
             System.out.printf("File \"%s\" not found. %n", fileName);
         }
+    }
+
+    public static void main(String[] args) {
+        List<String> list = List.of("인피세라::(양산) 이출일 부장\n" +
+                "삼화콘덴서공업 (MLC)::이진수 대리\n" +
+                "삼화콘덴서공업 (CI)::이진수 대리\n" +
+                "엠펙스 메디칼::(개발) 이진희 님");
+        writeToFile("C:\\Users\\admin\\IdeaProjects\\TaskTracker\\out\\artifacts\\TaskTracker_jar\\data\\clients", list);
     }
 }

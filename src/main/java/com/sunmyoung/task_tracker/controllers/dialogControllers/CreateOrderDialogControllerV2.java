@@ -543,7 +543,9 @@ public class CreateOrderDialogControllerV2 {
         dialog.setDialogPane(dialogPane);
 
         ListDialogController controller = fxmlLoader.getController();
-        controller.setFileName("data/clients.txt");
+        controller.setFileName("data/clients");
+        controller.init();
+
         Optional<ButtonType> clickedButton = dialog.showAndWait();
 
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK

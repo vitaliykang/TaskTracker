@@ -41,7 +41,8 @@ public class ListDialogController {
         textField.setText(selectedEntry);
     }
 
-    public void initialize() {
+    public void init() {
+        System.out.println(fileName);
         content.addAll(Utilities.readFromFile(fileName));
         listView.setItems(filteredContent);
     }
