@@ -14,10 +14,7 @@
         <items>
           <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" minWidth="0.0" prefHeight="32.0" prefWidth="160.0">
                <children>
-                  <Button fx:id="newTaskBtn" layoutX="36.0" layoutY="4.0" mnemonicParsing="false" onAction="#createNewTask" text="New Task" />
                   <Button fx:id="refreshBtn" layoutX="1589.0" layoutY="5.0" mnemonicParsing="false" onAction="#refresh" text="Refresh" />
-                  <Button layoutX="275.0" layoutY="5.0" mnemonicParsing="false" onAction="#markAsCompleted" text="Mark as Completed" />
-                  <Button layoutX="429.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelTask" text="Cancel Task" />
                   <Button layoutX="1793.0" layoutY="5.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu" />
                </children>
             </AnchorPane>
@@ -26,21 +23,21 @@
                   <TableView fx:id="tableView" prefHeight="900.0" prefWidth="1900.0" styleClass="TVstyle.css" stylesheets="@../../../TVstyle.css" tableMenuButtonVisible="true" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columns>
                         <TableColumn fx:id="orderCol" prefWidth="51.0" resizable="false" text="№" />
-                        <TableColumn fx:id="deadlineCol" minWidth="-Infinity" prefWidth="230.0" resizable="false" text="출하예정일" />
-                      <TableColumn fx:id="dateInCol" prefWidth="150.0" resizable="false" sortable="false" text="작성일" />
-                      <TableColumn fx:id="clientCol" prefWidth="481.0" resizable="false" text="고객명" />
+                        <TableColumn fx:id="deadlineCol" minWidth="-Infinity" prefWidth="308.0" resizable="false" text="출하예정일" />
+                      <TableColumn fx:id="dateInCol" prefWidth="149.0" resizable="false" sortable="false" text="작성일" />
+                      <TableColumn fx:id="clientCol" prefWidth="479.0" resizable="false" text="고객명" />
                         <TableColumn fx:id="countCol" prefWidth="81.0" resizable="false" sortable="false" text="수량" />
-                        <TableColumn fx:id="clientCol4" prefWidth="429.0" resizable="false" sortable="false" text="FRAME">
+                        <TableColumn fx:id="clientCol4" prefWidth="581.0" resizable="false" sortable="false" text="FRAME">
                            <columns>
-                              <TableColumn fx:id="sizeCol" prefWidth="160.0" resizable="false" sortable="false" text="사이즈" />
-                              <TableColumn fx:id="meshCol" prefWidth="160.0" resizable="false" sortable="false" text="망사" />
-                              <TableColumn fx:id="combiCol" prefWidth="160.0" resizable="false" sortable="false" text="콤비 / 직견장" />
+                              <TableColumn fx:id="sizeCol" prefWidth="166.0" resizable="false" sortable="false" text="사이즈" />
+                              <TableColumn fx:id="meshCol" prefWidth="268.0" resizable="false" sortable="false" text="망사" />
+                              <TableColumn fx:id="combiCol" prefWidth="141.0" resizable="false" sortable="false" text="콤비 / 직견장" />
                            </columns>
                         </TableColumn>
-                        <TableColumn fx:id="tensioningCol" prefWidth="99.0" resizable="false" sortable="false" text="견장" />
-                        <TableColumn fx:id="coatingCol" prefWidth="99.0" resizable="false" sortable="false" text="코팅" />
-                        <TableColumn fx:id="exposureCol" prefWidth="99.0" resizable="false" sortable="false" text="노광" />
-                        <TableColumn fx:id="packagingCol" prefWidth="99.0" resizable="false" sortable="false" text="포장" />
+                        <TableColumn fx:id="tensioningCol" prefWidth="60.0" resizable="false" sortable="false" text="견장" />
+                        <TableColumn fx:id="coatingCol" prefWidth="60.0" resizable="false" sortable="false" text="코팅" />
+                        <TableColumn fx:id="exposureCol" prefWidth="60.0" resizable="false" sortable="false" text="노광" />
+                        <TableColumn fx:id="packagingCol" prefWidth="60.0" resizable="false" sortable="false" text="포장" />
                     </columns>
                      <contextMenu>
                         <ContextMenu minWidth="-Infinity" prefWidth="200.0">

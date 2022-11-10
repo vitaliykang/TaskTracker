@@ -22,6 +22,7 @@
             <FontIcon fx:id="errorIcon" iconColor="#cd1717" iconLiteral="bi-shield-exclamation" iconSize="60" layoutX="218.0" layoutY="96.0" visible="false" />
             <FontIcon fx:id="gearsIcon" iconLiteral="bi-shield-lock" iconSize="60" layoutX="211.0" layoutY="96.0" />
             <FontIcon iconLiteral="bi-person-circle" iconSize="16" layoutX="18.0" layoutY="83.0" text="" />
+            <Button layoutX="55.0" layoutY="137.0" mnemonicParsing="false" onAction="#test" text="Button" />
          </children>
       </AnchorPane>
    </children>

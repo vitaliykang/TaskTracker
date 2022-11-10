@@ -344,9 +344,16 @@ public class TaskBoardController {
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
 
+
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
+
+        Button button = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
+        button.addEventFilter(ActionEvent.ACTION, event -> {
+            event.consume();
+        });
+
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             ActiveTask task = new ActiveTask();
             controller.readFields(task);

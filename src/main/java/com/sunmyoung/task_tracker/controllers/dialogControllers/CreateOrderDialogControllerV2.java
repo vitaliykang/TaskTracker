@@ -31,6 +31,7 @@ public class CreateOrderDialogControllerV2 {
     private CheckBox editCB;
 
     @FXML
+    @Getter
     private TextField serialNumberTF;
 
     @FXML

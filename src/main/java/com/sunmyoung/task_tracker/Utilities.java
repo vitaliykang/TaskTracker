@@ -1,5 +1,6 @@
 package com.sunmyoung.task_tracker;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +21,7 @@ public class Utilities {
         String str = Main.class.getResource("mainV2.fxml").toString();
         try {
             pathStr = str.substring(str.indexOf('/') + 1, str.indexOf("TaskTracker.jar!"));
+            pathStr = pathStr.replaceAll("%20", " ");
         } catch (Exception e) {
             System.out.println("No cfg file detected. Loading default parameters.");
         }
@@ -46,9 +48,23 @@ public class Utilities {
             content = Files.readAllLines(path);
         } catch (IOException e) {
             System.out.printf("File \"%s\" not found. %n", path.toString());
+            System.out.println("Creating a new file");
+            createFile(path);
         }
 
         return content;
+    }
+
+    private static void createFile(Path path) {
+        File file = new File(path.toString());
+        if (!file.exists()) {
+            try {
+                String result = file.createNewFile() ? "File successfully created" : "Failed to create a file";
+                System.out.println(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -86,11 +102,20 @@ public class Utilities {
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         List<String> list = List.of("인피세라::(양산) 이출일 부장\n" +
                 "삼화콘덴서공업 (MLC)::이진수 대리\n" +
                 "삼화콘덴서공업 (CI)::이진수 대리\n" +
                 "엠펙스 메디칼::(개발) 이진희 님");
-        writeToFile("C:\\Users\\admin\\IdeaProjects\\TaskTracker\\out\\artifacts\\TaskTracker_jar\\data\\clients", list);
+
+        File file = new File("out/artifacts/TaskTracker_jar/data/clients");
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+        FileWriter fileWriter = new FileWriter(file);
+        for (String line : list) {
+            fileWriter.write(line);
+        }
+        fileWriter.close();
     }
 }
