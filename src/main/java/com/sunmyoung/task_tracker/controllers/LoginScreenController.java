@@ -49,10 +49,11 @@ public class LoginScreenController {
         dialog.setDialogPane(dialogPane);
         ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.APPLY);
-        dialogPane.getButtonTypes().add(cancelButtonType);
-        dialogPane.getButtonTypes().add(applyButtonType);
-//        Button applyButton = (Button) dialogPane.lookupButton(ButtonType.APPLY);
-        Button applyButton = (Button) dialogPane.lookupButton(applyButtonType);
+        //working
+//        dialogPane.getButtonTypes().add(cancelButtonType);
+//        dialogPane.getButtonTypes().add(applyButtonType);
+//        Button applyButton = (Button) dialogPane.lookupButton(applyButtonType);
+        Button applyButton = (Button) dialogPane.lookupButton(ButtonType.OK);
 
         TestDialogController controller = fxmlLoader.getController();
         applyButton.addEventFilter(ActionEvent.ACTION, actionEvent -> {

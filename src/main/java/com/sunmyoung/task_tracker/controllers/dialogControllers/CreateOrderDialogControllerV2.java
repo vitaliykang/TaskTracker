@@ -13,6 +13,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.shape.Rectangle;
 import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -115,11 +116,32 @@ public class CreateOrderDialogControllerV2 {
             searchByCodeButton,
             searchClientButton;
 
+    @FXML
+    @Getter
+    private Rectangle
+            serialNumberHighlight,
+            clientHighlight,
+            personHighlight,
+            frameSizeHighlight,
+            meshHighlight,
+            dateOutHighlight;
+
     @Getter
     private ObservableList<Model> subtaskObservableList = FXCollections.observableArrayList();
 
     @Getter
     private boolean subtasksChanged;
+
+    private Map<TextField, Rectangle> textFieldHighlightMap = new HashMap<>();
+
+    {
+        //initMap
+        textFieldHighlightMap.put(serialNumberTF, serialNumberHighlight);
+        textFieldHighlightMap.put(companyTF, clientHighlight);
+        textFieldHighlightMap.put(personTF, personHighlight);
+        textFieldHighlightMap.put(frameSizeTF, frameSizeHighlight);
+        textFieldHighlightMap.put(meshTF, meshHighlight);
+    }
 
     @FXML
     void enableEdit() {
@@ -185,35 +207,7 @@ public class CreateOrderDialogControllerV2 {
         initTableView();
         countTF.setDisable(true);
         enableEditCheckBox(false);
-    }
-
-    private void makeTableViewEditable(boolean bool) {
-        subtasksTableView.getSelectionModel().cellSelectionEnabledProperty().set(true);
-        subtasksTableView.setEditable(bool);
-
-        printCol.setEditable(true);
-        printCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        printCol.setOnEditCommit(event -> {
-            Model selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
-            String newValue = event.getNewValue();
-            selectedReport.setPrint(newValue);
-        });
-
-        thicknessCol.setEditable(true);
-        thicknessCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        thicknessCol.setOnEditCommit(event -> {
-            Model selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
-            String newValue = event.getNewValue();
-            selectedReport.setThickness(newValue);
-        });
-
-        countCol.setEditable(true);
-        countCol.setCellFactory(TextFieldTableCell.forTableColumn());
-        countCol.setOnEditCommit(event -> {
-            Model selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
-            String newValue = event.getNewValue();
-            selectedReport.setCount(newValue);
-        });
+        hideHighlight(true);
     }
 
     /**
@@ -387,6 +381,54 @@ public class CreateOrderDialogControllerV2 {
         editCB.setVisible(bool);
     }
 
+    /**
+     * Checks fields that must not contain empty data and highlights those fields that have null data.
+     * @return - true, if no null data fields are present, false otherwise.
+     */
+    public boolean nonNullFieldsOK() {
+        List<TextField> list = new ArrayList<>(textFieldHighlightMap.keySet());
+        boolean flag = true;
+        for (TextField field : list) {
+            if (isPresent(field)) {
+                textFieldHighlightMap.get(field).setVisible(false);
+            } else {
+                textFieldHighlightMap.get(field).setVisible(true);
+                flag = false;
+            }
+        }
+
+        if (hasDateOut()) {
+            dateOutHighlight.setVisible(false);
+        } else {
+            dateOutHighlight.setVisible(true);
+            flag = false;
+        }
+        return flag;
+    }
+
+    /**
+     * Checks if given TextField holds information.
+     * @param field - TextField that needs to be checked.
+     * @return - true, if it has data, and false otherwise.
+     */
+    private boolean isPresent(TextField field) {
+        if (field.getText().equals("") || field.getText() == null) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Checks if the user has set the date out.
+     * @return - true, if the date is set, and false otherwise.
+     */
+    private boolean hasDateOut() {
+        if (dateOutPicker.getValue() != null) {
+            return true;
+        }
+        return false;
+    }
+
     @SneakyThrows
     private void createSubtaskDialogWindow() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createSubtaskDialog.fxml"));
@@ -425,6 +467,35 @@ public class CreateOrderDialogControllerV2 {
         dateOutPicker.setConverter(stringConverter);
 
         dateInPicker.setValue(LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()));
+    }
+
+    private void makeTableViewEditable(boolean bool) {
+        subtasksTableView.getSelectionModel().cellSelectionEnabledProperty().set(true);
+        subtasksTableView.setEditable(bool);
+
+        printCol.setEditable(true);
+        printCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        printCol.setOnEditCommit(event -> {
+            Model selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setPrint(newValue);
+        });
+
+        thicknessCol.setEditable(true);
+        thicknessCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        thicknessCol.setOnEditCommit(event -> {
+            Model selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setThickness(newValue);
+        });
+
+        countCol.setEditable(true);
+        countCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        countCol.setOnEditCommit(event -> {
+            Model selectedReport = event.getTableView().getItems().get(event.getTablePosition().getRow());
+            String newValue = event.getNewValue();
+            selectedReport.setCount(newValue);
+        });
     }
 
     //returns result based on selected RB. Returns null if none selected.
@@ -555,5 +626,14 @@ public class CreateOrderDialogControllerV2 {
             companyTF.setText(clientInfo[0]);
             personTF.setText(clientInfo[1]);
         }
+    }
+
+    private void hideHighlight(boolean bool) {
+        serialNumberHighlight.setVisible(!bool);
+        clientHighlight.setVisible(!bool);
+        personHighlight.setVisible(!bool);
+        frameSizeHighlight.setVisible(!bool);
+        meshHighlight.setVisible(!bool);
+        dateOutHighlight.setVisible(!bool);
     }
 }

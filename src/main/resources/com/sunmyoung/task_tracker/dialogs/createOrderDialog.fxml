@@ -14,6 +14,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
@@ -50,12 +51,12 @@
             <TextField fx:id="biasTF" layoutX="54.0" layoutY="337.0" prefHeight="25.0" prefWidth="105.0" promptText="각도" text="22.5" />
             <TextField fx:id="tensionTF" layoutX="186.0" layoutY="337.0" prefHeight="25.0" prefWidth="105.0" promptText="텐션" />
             <TextField fx:id="emulsionTF" layoutX="317.0" layoutY="337.0" prefHeight="25.0" prefWidth="105.0" promptText="유제" />
-            <Label layoutX="564.0" layoutY="84.0" text="납품 방법">
+            <Label layoutX="683.0" layoutY="84.0" text="납품 방법">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <RadioButton fx:id="methodPesongRB" layoutX="640.0" layoutY="84.0" mnemonicParsing="false" text="배송" />
-            <RadioButton fx:id="methodPedalRB" layoutX="691.0" layoutY="84.0" mnemonicParsing="false" text="배달" />
+            <RadioButton fx:id="methodPesongRB" layoutX="759.0" layoutY="84.0" mnemonicParsing="false" text="배송" />
+            <RadioButton fx:id="methodPedalRB" layoutX="810.0" layoutY="84.0" mnemonicParsing="false" text="배달" />
             <DatePicker fx:id="dateOutPicker" layoutX="563.0" layoutY="113.0" promptText="출하예정일" />
             <TextField fx:id="dateOutNoteTF" layoutX="769.0" layoutY="113.0" promptText="출하예정일 Note" />
             <Label layoutX="662.0" layoutY="151.0" text="제판 (PRINTING)">
@@ -116,6 +117,14 @@
                   <FontIcon iconColor="#4d05ff" iconLiteral="bi-pencil" iconSize="30" />
                </graphic>
             </Button>
+            <Rectangle fx:id="serialNumberHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="41.0" layoutY="30.0" stroke="#e40404" strokeType="INSIDE" width="516.0" />
+            <Rectangle fx:id="clientHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="97.0" layoutY="147.0" stroke="#e40404" strokeType="INSIDE" width="168.0" />
+            <Rectangle fx:id="personHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="265.0" layoutY="147.0" stroke="#e40404" strokeType="INSIDE" width="168.0" />
+            <Rectangle fx:id="frameSizeHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="97.0" layoutY="292.0" stroke="#e40404" strokeType="INSIDE" width="168.0" />
+            <Rectangle fx:id="meshHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="265.0" layoutY="292.0" stroke="#e40404" strokeType="INSIDE" width="168.0" />
+            <Label layoutX="563.0" layoutY="93.0" text="출하예정일" textFill="#909090" />
+            <Label layoutX="649.0" layoutY="22.0" text="작성일" textFill="#909090" />
+            <Rectangle fx:id="dateOutHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="555.0" layoutY="104.0" stroke="#e40404" strokeType="INSIDE" width="197.0" />
          </children>
       </AnchorPane>
    </content>
