@@ -1,6 +1,8 @@
 package com.sunmyoung.task_tracker.controllers.dialogControllers;
 
+import com.sunmyoung.task_tracker.DialogUtilities;
 import com.sunmyoung.task_tracker.Main;
+import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.pojos.Model;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import com.sunmyoung.task_tracker.pojos.TaskInterface;
@@ -13,6 +15,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import javafx.util.StringConverter;
 import lombok.Getter;
@@ -26,7 +30,7 @@ import java.util.*;
 
 public class CreateOrderDialogControllerV2 {
     @Getter
-    private static DateTimeFormatter koreanFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+    private static final DateTimeFormatter koreanFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
     @FXML
     private CheckBox editCB;
@@ -43,7 +47,7 @@ public class CreateOrderDialogControllerV2 {
 
     @FXML
     private TextField
-            companyTF,
+            clientTF,
             personTF;
 
     @FXML
@@ -124,24 +128,20 @@ public class CreateOrderDialogControllerV2 {
             personHighlight,
             frameSizeHighlight,
             meshHighlight,
+            modelHighlight,
             dateOutHighlight;
 
     @Getter
-    private ObservableList<Model> subtaskObservableList = FXCollections.observableArrayList();
+    private final ObservableList<Model> subtaskObservableList = FXCollections.observableArrayList();
 
     @Getter
     private boolean subtasksChanged;
 
-    private Map<TextField, Rectangle> textFieldHighlightMap = new HashMap<>();
+    private final Map<TextField, Rectangle> textFieldHighlightMap = new HashMap<>();
 
-    {
-        //initMap
-        textFieldHighlightMap.put(serialNumberTF, serialNumberHighlight);
-        textFieldHighlightMap.put(companyTF, clientHighlight);
-        textFieldHighlightMap.put(personTF, personHighlight);
-        textFieldHighlightMap.put(frameSizeTF, frameSizeHighlight);
-        textFieldHighlightMap.put(meshTF, meshHighlight);
-    }
+    private Dialog<ButtonType> clientListDialog;
+    private ListDialogController listDialogController;
+    private List<String> clientList;
 
     @FXML
     void enableEdit() {
@@ -152,6 +152,7 @@ public class CreateOrderDialogControllerV2 {
     @FXML
     void addSubtask(ActionEvent event) {
         subtasksChanged = true;
+        modelHighlight.setVisible(false);
         createSubtaskDialogWindow();
     }
 
@@ -188,36 +189,53 @@ public class CreateOrderDialogControllerV2 {
 
     @FXML
     void frameOnlyToggleAction(ActionEvent event) {
+        modelHighlight.setVisible(false);
         setFrameOnly(frameOnlyToggle.isSelected());
     }
 
     @FXML
     void searchClient(ActionEvent event) {
-        openSearchClientDialog();
+        openClientListDialog();
     }
 
     @FXML
     void searchByCode(ActionEvent event) {
+        openCodeSearchDialog();
+    }
 
+    @SneakyThrows
+    private void openCodeSearchDialog() {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/codeSearchDialog.fxml"));
+        DialogPane dialogPane = fxmlLoader.load();
+        Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setDialogPane(dialogPane);
+
+        CodeSearchDialogController controller = fxmlLoader.getController();
+
+        Optional<ButtonType> clickedButton = dialog.showAndWait();
+        if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
+
+        }
     }
 
     public void initialize() {
         initRadioButtons();
         initDatePickers();
         initTableView();
+        initHighlight();
         countTF.setDisable(true);
         enableEditCheckBox(false);
-        hideHighlight(true);
+        initClientListDialog();
     }
 
     /**
-     * Reads info from the from and writes it into the provided Task object.
+     * Reads info from the form and writes it into the provided Task object.
      * @param task - Task object, to which the information, gathered from the form, will be saved.
      */
     public void readFields(ActiveTask task) {
         task.setSerialNumber(serialNumberTF.getText());
         task.setShipmentFrom(getShipmentFrom());
-        task.setClient(companyTF.getText());
+        task.setClient(clientTF.getText());
         task.setPersonInCharge(personTF.getText());
         task.setFilm(getFilm());
         task.setFrameSize(frameSizeTF.getText());
@@ -275,7 +293,7 @@ public class CreateOrderDialogControllerV2 {
                 case "제판" -> shipmentChepanRB.setSelected(true);
             }
         }
-        companyTF.setText(task.getClient());
+        clientTF.setText(task.getClient());
         personTF.setText(task.getPersonInCharge());
         if (task.getFilm() != null) {
             switch (task.getFilm()) {
@@ -348,7 +366,7 @@ public class CreateOrderDialogControllerV2 {
         orderNoteTA.setEditable(bool);
         frameOnlyToggle.setDisable(!bool);
         countTF.setEditable(bool);
-        companyTF.setEditable(bool);
+        clientTF.setEditable(bool);
         personTF.setEditable(bool);
         filmExistingRB.setDisable(!bool);
         filmNewRB.setDisable(!bool);
@@ -385,48 +403,30 @@ public class CreateOrderDialogControllerV2 {
      * Checks fields that must not contain empty data and highlights those fields that have null data.
      * @return - true, if no null data fields are present, false otherwise.
      */
-    public boolean nonNullFieldsOK() {
-        List<TextField> list = new ArrayList<>(textFieldHighlightMap.keySet());
-        boolean flag = true;
-        for (TextField field : list) {
-            if (isPresent(field)) {
-                textFieldHighlightMap.get(field).setVisible(false);
-            } else {
-                textFieldHighlightMap.get(field).setVisible(true);
-                flag = false;
-            }
-        }
+    public boolean fieldsOK() {
+        boolean flag = DialogUtilities.checkNonNullFields(textFieldHighlightMap);
 
-        if (hasDateOut()) {
-            dateOutHighlight.setVisible(false);
-        } else {
+        if (dateOutPicker.getValue() == null) {
             dateOutHighlight.setVisible(true);
             flag = false;
         }
+
+        if (subtaskObservableList.size() == 0 && (countTF.getText().equals("") || countTF.getText() == null)) {
+            modelHighlight.setVisible(true);
+            flag = false;
+        }
+
         return flag;
     }
 
     /**
-     * Checks if given TextField holds information.
-     * @param field - TextField that needs to be checked.
-     * @return - true, if it has data, and false otherwise.
+     * Saves the current client info in the "data/clients" file, unless such entry already exists.
      */
-    private boolean isPresent(TextField field) {
-        if (field.getText().equals("") || field.getText() == null) {
-            return false;
+    public void saveClientInfo() {
+        String clientInfo = String.format("%n%s :: %s", clientTF.getText(), personTF.getText());
+        if (!clientList.contains(clientInfo)) {
+            Utilities.appendToFile("data/clients", clientInfo);
         }
-        return true;
-    }
-
-    /**
-     * Checks if the user has set the date out.
-     * @return - true, if the date is set, and false otherwise.
-     */
-    private boolean hasDateOut() {
-        if (dateOutPicker.getValue() != null) {
-            return true;
-        }
-        return false;
     }
 
     @SneakyThrows
@@ -437,6 +437,14 @@ public class CreateOrderDialogControllerV2 {
         dialog.setDialogPane(dialogPane);
 
         CreateSubtaskDialogController controller = fxmlLoader.getController();
+
+        Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+        okButton.addEventFilter(ActionEvent.ACTION, event -> {
+            if (!controller.fieldsOK()) {
+                event.consume();
+            }
+        });
+
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             Model subtask = controller.getSubtask();
@@ -446,7 +454,7 @@ public class CreateOrderDialogControllerV2 {
 
     //change the display time format to yyyy.MM.dd
     private void initDatePickers(){
-        StringConverter<LocalDate> stringConverter = new StringConverter<LocalDate>() {
+        StringConverter<LocalDate> stringConverter = new StringConverter<>() {
             @Override
             public String toString(LocalDate localDate) {
                 if(localDate == null)
@@ -608,32 +616,50 @@ public class CreateOrderDialogControllerV2 {
     }
 
     @SneakyThrows
-    private void openSearchClientDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/listDialog.fxml"));
-        DialogPane dialogPane = fxmlLoader.load();
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setDialogPane(dialogPane);
-
-        ListDialogController controller = fxmlLoader.getController();
-        controller.setFileName("data/clients");
-        controller.init();
-
-        Optional<ButtonType> clickedButton = dialog.showAndWait();
+    private void openClientListDialog() {
+        Optional<ButtonType> clickedButton = clientListDialog.showAndWait();
 
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK
-                && controller.getTextField().getText() != null && !controller.getTextField().getText().equals("")) {
-            String[] clientInfo = controller.getTextField().getText().split("::");
-            companyTF.setText(clientInfo[0]);
+                && listDialogController.getTextField().getText() != null && !listDialogController.getTextField().getText().equals("")) {
+            String[] clientInfo = listDialogController.getTextField().getText().split(" :: ");
+            clientTF.setText(clientInfo[0]);
             personTF.setText(clientInfo[1]);
         }
     }
 
-    private void hideHighlight(boolean bool) {
-        serialNumberHighlight.setVisible(!bool);
-        clientHighlight.setVisible(!bool);
-        personHighlight.setVisible(!bool);
-        frameSizeHighlight.setVisible(!bool);
-        meshHighlight.setVisible(!bool);
-        dateOutHighlight.setVisible(!bool);
+    @SneakyThrows
+    private void initClientListDialog() {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/listDialog.fxml"));
+        DialogPane dialogPane = fxmlLoader.load();
+        clientListDialog = new Dialog<>();
+        clientListDialog.setDialogPane(dialogPane);
+
+        listDialogController = fxmlLoader.getController();
+        listDialogController.setFileName("data/clients");
+        listDialogController.init();
+        clientList = new ArrayList<>(listDialogController.getContent());
+    }
+
+    private void initHighlight() {
+        textFieldHighlightMap.put(serialNumberTF, serialNumberHighlight);
+        textFieldHighlightMap.put(clientTF, clientHighlight);
+        textFieldHighlightMap.put(personTF, personHighlight);
+        textFieldHighlightMap.put(frameSizeTF, frameSizeHighlight);
+        textFieldHighlightMap.put(meshTF, meshHighlight);
+
+        serialNumberHighlight.setVisible(false);
+        clientHighlight.setVisible(false);
+        personHighlight.setVisible(false);
+        frameSizeHighlight.setVisible(false);
+        meshHighlight.setVisible(false);
+        dateOutHighlight.setVisible(false);
+        modelHighlight.setVisible(false);
+
+        serialNumberTF.addEventHandler(KeyEvent.KEY_TYPED, event -> serialNumberHighlight.setVisible(false));
+        clientTF.addEventHandler(KeyEvent.KEY_TYPED, event -> clientHighlight.setVisible(false));
+        personTF.addEventHandler(KeyEvent.KEY_TYPED, event -> personHighlight.setVisible(false));
+        frameSizeTF.addEventHandler(KeyEvent.KEY_TYPED, event -> frameSizeHighlight.setVisible(false));
+        meshTF.addEventHandler(KeyEvent.KEY_TYPED, event -> meshHighlight.setVisible(false));
+        dateOutPicker.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> dateOutHighlight.setVisible(false));
     }
 }

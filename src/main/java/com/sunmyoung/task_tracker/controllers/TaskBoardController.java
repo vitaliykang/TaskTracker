@@ -10,6 +10,8 @@ import com.sunmyoung.task_tracker.pojos.InspectionReport;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import com.sunmyoung.task_tracker.repositories.TaskRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -22,9 +24,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
 import java.time.LocalDate;
 import java.util.*;
 
@@ -150,12 +149,12 @@ public class TaskBoardController {
             ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = DatabaseConnection.getSessionFactory().openSession();
-                Transaction transaction = null;
+                EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+                EntityTransaction transaction = null;
                 try {
-                    transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
-                    //here
+                    transaction = entityManager.getTransaction();
+                    transaction.begin();
+                    selectedTask = entityManager.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).getSingleResult();
                     selectedTask.setTensioning(newValue);
                     transaction.commit();
                 } catch (Exception e) {
@@ -164,7 +163,7 @@ public class TaskBoardController {
                         transaction.rollback();
                     }
                 } finally {
-                    session.close();
+                    entityManager.close();
                 }
             }
         });
@@ -177,12 +176,12 @@ public class TaskBoardController {
             ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = DatabaseConnection.getSessionFactory().openSession();
-                Transaction transaction = null;
+                EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+                EntityTransaction transaction = null;
                 try {
-                    transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
-                    //here
+                    transaction = entityManager.getTransaction();
+                    transaction.begin();
+                    selectedTask = entityManager.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).getSingleResult();
                     selectedTask.setCoating(newValue);
                     transaction.commit();
                 } catch (Exception e) {
@@ -191,7 +190,7 @@ public class TaskBoardController {
                         transaction.rollback();
                     }
                 } finally {
-                    session.close();
+                    entityManager.close();
                 }
             }
         });
@@ -204,12 +203,12 @@ public class TaskBoardController {
             ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = DatabaseConnection.getSessionFactory().openSession();
-                Transaction transaction = null;
+                EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+                EntityTransaction transaction = null;
                 try {
-                    transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
-                    //here
+                    transaction = entityManager.getTransaction();
+                    transaction.begin();
+                    selectedTask = entityManager.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).getSingleResult();
                     selectedTask.setPackaging(newValue);
                     transaction.commit();
                 } catch (Exception e) {
@@ -218,7 +217,7 @@ public class TaskBoardController {
                         transaction.rollback();
                     }
                 } finally {
-                    session.close();
+                    entityManager.close();
                 }
             }
         });
@@ -231,12 +230,12 @@ public class TaskBoardController {
             ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                Session session = DatabaseConnection.getSessionFactory().openSession();
-                Transaction transaction = null;
+                EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+                EntityTransaction transaction = null;
                 try {
-                    transaction = session.beginTransaction();
-                    selectedTask = session.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).uniqueResult();
-                    //here
+                    transaction = entityManager.getTransaction();
+                    transaction.begin();
+                    selectedTask = entityManager.createQuery("from ActiveTask t where t.id = :id", ActiveTask.class).setParameter("id", selectedTask.getId()).getSingleResult();
                     selectedTask.setExposure(newValue);
                     transaction.commit();
                 } catch (Exception e) {
@@ -245,7 +244,7 @@ public class TaskBoardController {
                         transaction.rollback();
                     }
                 } finally {
-                    session.close();
+                    entityManager.close();
                 }
             }
         });
@@ -262,13 +261,14 @@ public class TaskBoardController {
 
         InspectionDialogController controller = fxmlLoader.getController();
 
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
 
             //get the task from db and load info into the form
-            ActiveTask task = session.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class).setParameter("taskId", taskId).uniqueResult();
+            ActiveTask task = entityManager.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class).setParameter("taskId", taskId).getSingleResult();
             Set<InspectionReport> reportList = task.getInspectionReports();
             System.out.println(reportList);
             controller.getInspectionReportObservableList().addAll(reportList);
@@ -286,7 +286,7 @@ public class TaskBoardController {
             if(transaction != null)
                 transaction.rollback();
         } finally {
-            session.close();
+            entityManager.close();
         }
     }
 
@@ -303,26 +303,19 @@ public class TaskBoardController {
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
         controller.enableEditCheckBox(true);
 
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
 
             //get the task from db and load info into the form
-            ActiveTask task = session.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class).setParameter("taskId", taskId).uniqueResult();
+            ActiveTask task = entityManager.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class).setParameter("taskId", taskId).getSingleResult();
             controller.populateWindow(task);
             controller.enableElements(false);
 
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
-                //subtasksChanged is triggered when addSubtask or removeSubtask buttons were pressed.
-//                if (controller.isSubtasksChanged()) {
-//                    task.getSubtasks().forEach(subtask -> subtask.setTask(null));
-//                    controller.readFields(task);
-//                    session.createQuery("delete from Subtask where task = null").executeUpdate();
-//                } else {
-//                    controller.readFields(task);
-//                }
                 controller.readFields(task);
 
                 transaction.commit();
@@ -333,7 +326,7 @@ public class TaskBoardController {
             if(transaction != null)
                 transaction.rollback();
         } finally {
-            session.close();
+            entityManager.close();
         }
     }
 
@@ -347,23 +340,18 @@ public class TaskBoardController {
 
         Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
         okButton.addEventFilter(ActionEvent.ACTION, event -> {
-            if (!controller.nonNullFieldsOK()) {
+            if (!controller.fieldsOK()) {
                 event.consume();
-                //todo here
             }
         });
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
 
-        Button button = (Button) dialog.getDialogPane().lookupButton(ButtonType.OK);
-        button.addEventFilter(ActionEvent.ACTION, event -> {
-            event.consume();
-        });
-
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             ActiveTask task = new ActiveTask();
             controller.readFields(task);
             TaskRepository.save(task);
+            controller.saveClientInfo();
             Utilities.printStatus(String.format("New task [%s] is created.", task));
             loadData();
         }
@@ -394,13 +382,14 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
 
-            selectedTask = session.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class)
-                    .setParameter("taskId", taskId).uniqueResult();
+            selectedTask = entityManager.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class)
+                    .setParameter("taskId", taskId).getSingleResult();
             selectedTask.getSubtasks().forEach(subtask -> subtask.setTask(null));
             selectedTask.getInspectionReports().forEach(report -> report.setTask(null));
 
@@ -412,9 +401,8 @@ public class TaskBoardController {
             selectedTask.setSubtasks(null);
             selectedTask.setInspectionReports(null);
 
-            session.save(completedTask);
-            session.createQuery("delete ActiveTask t where t.id = :taskId").setParameter("taskId", taskId)
-                    .executeUpdate();
+            entityManager.persist(completedTask);
+
             Utilities.printStatus(String.format("Task [%s] was marked as completed", completedTask));
 
             loadData();
@@ -426,7 +414,7 @@ public class TaskBoardController {
                 transaction.rollback();
             }
         } finally {
-            session.close();
+            entityManager.close();
         }
     }
 

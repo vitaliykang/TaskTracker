@@ -101,21 +101,4 @@ public class Utilities {
             System.out.printf("File \"%s\" not found. %n", fileName);
         }
     }
-
-    public static void main(String[] args) throws Exception{
-        List<String> list = List.of("인피세라::(양산) 이출일 부장\n" +
-                "삼화콘덴서공업 (MLC)::이진수 대리\n" +
-                "삼화콘덴서공업 (CI)::이진수 대리\n" +
-                "엠펙스 메디칼::(개발) 이진희 님");
-
-        File file = new File("out/artifacts/TaskTracker_jar/data/clients");
-        if (!file.exists()) {
-            file.createNewFile();
-        }
-        FileWriter fileWriter = new FileWriter(file);
-        for (String line : list) {
-            fileWriter.write(line);
-        }
-        fileWriter.close();
-    }
 }

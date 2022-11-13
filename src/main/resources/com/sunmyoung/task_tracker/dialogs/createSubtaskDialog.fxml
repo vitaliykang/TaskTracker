@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Rectangle?>
 
 <DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.CreateSubtaskDialogController">
    <content>
@@ -22,17 +23,20 @@
          <children>
             <AnchorPane>
                <children>
-                  <TextField fx:id="printTF" layoutX="20.0" layoutY="18.0" prefHeight="25.0" prefWidth="307.0" promptText="Print" />
+                  <Rectangle fx:id="printHighlight" arcHeight="5.0" arcWidth="5.0" fill="#0f0f0f00" height="36.0" layoutX="14.0" layoutY="13.0" stroke="#f23c00" strokeType="INSIDE" width="321.0" />
+                  <TextField fx:id="printTF" layoutX="20.0" layoutY="18.0" prefHeight="25.0" prefWidth="307.0" promptText="Model" />
                </children>
             </AnchorPane>
             <AnchorPane prefWidth="73.0" GridPane.columnIndex="1">
                <children>
-                  <TextField fx:id="thicknessTF" layoutY="18.0" prefHeight="25.0" prefWidth="52.0" promptText="&gt;|&lt;" />
+                  <Rectangle fx:id="thicknessHighlight" arcHeight="5.0" arcWidth="5.0" fill="#0f0f0f00" height="36.0" layoutX="-4.0" layoutY="13.0" stroke="#f23c00" strokeType="INSIDE" width="60.0" />
+                  <TextField fx:id="thicknessTF" alignment="CENTER" layoutY="18.0" prefHeight="25.0" prefWidth="52.0" promptText="&gt;|&lt;" />
                </children>
             </AnchorPane>
             <AnchorPane GridPane.columnIndex="2">
                <children>
-                  <TextField fx:id="countTF" layoutY="18.0" prefHeight="25.0" prefWidth="52.0" promptText="#" />
+                  <Rectangle fx:id="countHighlight" arcHeight="5.0" arcWidth="5.0" fill="#0f0f0f00" height="36.0" layoutX="-4.0" layoutY="13.0" stroke="#f23c00" strokeType="INSIDE" width="60.0" />
+                  <TextField fx:id="countTF" alignment="CENTER" layoutY="18.0" prefHeight="25.0" prefWidth="52.0" promptText="#" />
                </children>
             </AnchorPane>
          </children>

@@ -12,11 +12,15 @@ import javafx.scene.input.MouseEvent;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collections;
+import java.util.List;
+
 public class ListDialogController {
     @Getter @Setter
     private String fileName;
-    private ObservableList<String> content = FXCollections.observableArrayList();
-    private FilteredList<String> filteredContent = new FilteredList<>(content, predicate -> true);
+    @Getter
+    private final ObservableList<String> content = FXCollections.observableArrayList();
+    private final FilteredList<String> filteredContent = new FilteredList<>(content, predicate -> true);
 
     @FXML
     private ListView<String> listView;
@@ -43,7 +47,9 @@ public class ListDialogController {
 
     public void init() {
         System.out.println(fileName);
-        content.addAll(Utilities.readFromFile(fileName));
+        List<String> itemList = Utilities.readFromFile(fileName);
+        Collections.sort(itemList);
+        content.addAll(itemList);
         listView.setItems(filteredContent);
     }
 }

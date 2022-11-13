@@ -33,11 +33,17 @@ public class LoginScreenController {
             gearsIcon;
 
     @FXML
+    private Button testButton;
+
+    @FXML
     void connect(ActionEvent event) {
         //saving credentials taken from fields into cfg file
         SimpleConfig.saveInfo(addressTF.getText(), loginTF.getText(), passwordTF.getText());
-        connectToDatabase(event);
-        Utilities.printStatus("Connected.");
+        if (connectToDatabase(event)) {
+            Utilities.printStatus("Connected.");
+        } else {
+            Utilities.printStatus("Failed to connect.");
+        }
     }
 
     @FXML
@@ -72,10 +78,11 @@ public class LoginScreenController {
         addressTF.setText(SimpleConfig.getURL());
         loginTF.setText(SimpleConfig.getUsername());
         passwordTF.setText(SimpleConfig.getPassword());
+        testButton.setVisible(false);
     }
 
     @SneakyThrows
-    public void connectToDatabase(ActionEvent event) {
+    public boolean connectToDatabase(ActionEvent event) {
         String url = addressTF.getText();
         url = String.format("jdbc:mysql://%s/sunmyoung?useSSL=false", url);
         if (DatabaseConnection.connect(url, loginTF.getText(), passwordTF.getText())) {
@@ -88,9 +95,11 @@ public class LoginScreenController {
             stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
             stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
             stage.show();
+            return true;
         } else {
             errorIcon.setVisible(true);
             gearsIcon.setVisible(false);
+            return false;
         }
     }
 }

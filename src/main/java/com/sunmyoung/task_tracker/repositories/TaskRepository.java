@@ -1,22 +1,25 @@
 package com.sunmyoung.task_tracker.repositories;
 
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.PersistenceException;
 
-import javax.persistence.PersistenceException;
 import java.util.*;
 
 public class TaskRepository {
     public static void save(ActiveTask task) {
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityTransaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
         try {
-            transaction = session.beginTransaction();
-            session.persist(task);
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            entityManager.persist(task);
             transaction.commit();
         } catch (PersistenceException persistenceException) {
-            transaction = session.beginTransaction();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
             ActiveTask repoTask = get(task.getId());
             repoTask.setSubtasks(task.getSubtasks());
             repoTask.setBias(task.getBias());
@@ -37,6 +40,7 @@ public class TaskRepository {
             repoTask.setTensioning(task.getTensioning());
             repoTask.setType(task.getType());
             repoTask.setPackaging(task.getPackaging());
+
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,17 +48,18 @@ public class TaskRepository {
                 transaction.rollback();
             }
         } finally {
-            session.close();
+            entityManager.close();
         }
     }
 
     public static void delete(long taskId) {
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
 
-            session.createQuery("delete ActiveTask t where t.id = :taskId").setParameter("taskId", taskId)
+            entityManager.createQuery("delete ActiveTask t where t.id = :taskId").setParameter("taskId", taskId)
                     .executeUpdate();
 
             transaction.commit();
@@ -64,16 +69,19 @@ public class TaskRepository {
                 transaction.rollback();
             }
         } finally {
-            session.close();
+            entityManager.close();
         }
     }
 
     public static ActiveTask get(long taskId) {
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            ActiveTask result = session.createQuery("from ActiveTask t join fetch t.subtasks where t.id = :id", ActiveTask.class).setParameter("id", taskId).uniqueResult();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+
+            ActiveTask result = entityManager.createQuery("from ActiveTask t join fetch t.subtasks where t.id = :id", ActiveTask.class).setParameter("id", taskId).getSingleResult();
+
             transaction.commit();
             return result;
         } catch (Exception e) {
@@ -82,18 +90,19 @@ public class TaskRepository {
                 transaction.rollback();
             }
         } finally {
-            session.close();
+            entityManager.close();
         }
 
         return null;
     }
 
     public static List<ActiveTask> getActiveTasks() {
-        Session session = DatabaseConnection.getSessionFactory().openSession();;
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            List<ActiveTask> resultList = session.createQuery("from ActiveTask", ActiveTask.class).getResultList();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            List<ActiveTask> resultList = entityManager.createQuery("from ActiveTask", ActiveTask.class).getResultList();
             transaction.commit();
             Set<ActiveTask> taskSet = new HashSet<>(resultList);
             resultList = new ArrayList<>(taskSet);
@@ -104,7 +113,7 @@ public class TaskRepository {
             if (transaction != null)
                 transaction.rollback();
         } finally {
-            session.close();
+            entityManager.close();
         }
         return null;
     }

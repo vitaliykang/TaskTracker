@@ -1,5 +1,6 @@
 package com.sunmyoung.task_tracker;
 
+import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -25,6 +26,7 @@ public class Main extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
+                DatabaseConnection.getEntityManagerFactory().close();
                 Platform.exit();
                 System.exit(0);
             }

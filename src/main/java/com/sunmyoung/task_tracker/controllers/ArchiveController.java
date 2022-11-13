@@ -6,6 +6,9 @@ import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialo
 import com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityTransaction;
+import jakarta.persistence.TypedQuery;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,9 +18,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lombok.SneakyThrows;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -92,12 +92,13 @@ public class ArchiveController {
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
         controller.enableElements(false);
 
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            selectedTask = session.createQuery("from CompletedTask t where t.id = :id", CompletedTask.class)
-                            .setParameter("id", selectedTask.getId()).uniqueResult();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
+            selectedTask = entityManager.createQuery("from CompletedTask t where t.id = :id", CompletedTask.class)
+                            .setParameter("id", selectedTask.getId()).getSingleResult();
             controller.populateWindow(selectedTask);
             transaction.commit();
         } catch (Exception e) {
@@ -106,7 +107,7 @@ public class ArchiveController {
                 transaction.rollback();
             }
         } finally {
-            session.close();
+            entityManager.close();
         }
 
         dialog.showAndWait();
@@ -124,12 +125,12 @@ public class ArchiveController {
         InspectionDialogController controller = fxmlLoader.getController();
         controller.enableEditing(false);
 
-        Session session = DatabaseConnection.getSessionFactory().openSession();
-        Transaction transaction = null;
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
-            selectedTask = session.createQuery("from CompletedTask t where t.id = :id", CompletedTask.class)
-                    .setParameter("id", selectedTask.getId()).uniqueResult();
+            transaction = entityManager.getTransaction();
+            selectedTask = entityManager.createQuery("from CompletedTask t where t.id = :id", CompletedTask.class)
+                    .setParameter("id", selectedTask.getId()).getSingleResult();
             controller.getInspectionReportObservableList().addAll(selectedTask.getInspectionReports());
             transaction.commit();
         } catch (Exception e) {
@@ -138,7 +139,7 @@ public class ArchiveController {
                 transaction.rollback();
             }
         } finally {
-            session.close();
+            entityManager.close();
         }
 
         dialog.showAndWait();
@@ -177,7 +178,7 @@ public class ArchiveController {
     private void loadInfo() {
         queryBuilder = new StringBuilder("From CompletedTask t where");
 
-        Session session = DatabaseConnection.getSessionFactory().openSession();
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
 
         if (startPicker.getValue() != null) {
             builderAddStartDate();
@@ -196,7 +197,7 @@ public class ArchiveController {
         System.out.println(queryBuilder.toString());
 
         String query = queryBuilder.toString();
-        Query<CompletedTask> typedQuery = session.createQuery(query, CompletedTask.class);
+        TypedQuery<CompletedTask> typedQuery = entityManager.createQuery(query, CompletedTask.class);
 
 
         if (startPicker.getValue() != null) {
@@ -210,9 +211,10 @@ public class ArchiveController {
         }
         //add new parameter here 2/4
 
-        Transaction transaction = null;
+        EntityTransaction transaction = null;
         try {
-            transaction = session.beginTransaction();
+            transaction = entityManager.getTransaction();
+            transaction.begin();
             List<CompletedTask> tasks = typedQuery.getResultList();
             tasksObservableList.clear();
             tasksObservableList.addAll(tasks);
@@ -223,11 +225,11 @@ public class ArchiveController {
                 transaction.rollback();
             }
         } finally {
-            session.close();
+            entityManager.close();
         }
     }
 
-    private Query<CompletedTask> addParameterStartDate(Query<CompletedTask> query) {
+    private TypedQuery<CompletedTask> addParameterStartDate(TypedQuery<CompletedTask> query) {
         return query.setParameter("start", startPicker.getValue());
     }
 
@@ -240,7 +242,7 @@ public class ArchiveController {
         }
     }
 
-    private Query<CompletedTask> addParameterEndDate(Query<CompletedTask> query) {
+    private TypedQuery<CompletedTask> addParameterEndDate(TypedQuery<CompletedTask> query) {
         return query.setParameter("end", endPicker.getValue());
     }
 
@@ -253,7 +255,7 @@ public class ArchiveController {
         }
     }
 
-    private Query<CompletedTask> addParameterClient(Query<CompletedTask> query) {
+    private TypedQuery<CompletedTask> addParameterClient(TypedQuery<CompletedTask> query) {
         return query.setParameter("client", clientTF.getText());
     }
 
