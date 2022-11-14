@@ -27,6 +27,9 @@ public class CompletedTask implements TaskInterface{
     @Getter @Setter
     private Set<InspectionReport> inspectionReports = new HashSet<>();
 
+    @Column(length = 40)
+    private String code;
+
     @Column(name = "bias")
     private String bias;
 
@@ -108,6 +111,7 @@ public class CompletedTask implements TaskInterface{
     public CompletedTask() {}
 
     public CompletedTask(ActiveTask task) {
+        code = task.getCode();
         serialNumber = task.getSerialNumber();
         shipmentFrom = task.getShipmentFrom();
         client = task.getClient();
@@ -133,6 +137,15 @@ public class CompletedTask implements TaskInterface{
         coating = task.getCoating();
         exposure = task.getExposure();
         packaging = task.getPackaging();
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDeadline() {

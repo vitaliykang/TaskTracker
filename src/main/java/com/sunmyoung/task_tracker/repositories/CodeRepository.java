@@ -48,6 +48,23 @@ public class CodeRepository {
         return result;
     }
 
+    public static Code findByCode(String code) {
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        Code result = null;
+        try {
+            entityManager.getTransaction().begin();
+            result = entityManager.createQuery("from Code c where c.code = :code", Code.class).setParameter("code", code).getSingleResult();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+        } finally {
+            entityManager.close();
+        }
+
+        return result;
+    }
+
     public static void delete(long id) {
         EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
         try {

@@ -22,6 +22,9 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
             cascade = CascadeType.ALL)
     private Set<InspectionReport> inspectionReports = new HashSet<>();
 
+    @Column(length = 40)
+    private String code;
+
     @Column(name = "serial_number")
     private String serialNumber;
 
@@ -149,6 +152,15 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
 
     public void setInspectionReports(Set<InspectionReport> inspectionReports) {
         this.inspectionReports = inspectionReports;
+    }
+
+    @Override
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     @Override

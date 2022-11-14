@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.Set;
 
 public interface TaskInterface {
+    String getCode();
+
     String getSerialNumber();
 
     String getShipmentFrom();

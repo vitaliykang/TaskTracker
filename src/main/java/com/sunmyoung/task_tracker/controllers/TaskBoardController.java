@@ -402,10 +402,9 @@ public class TaskBoardController {
             selectedTask.setInspectionReports(null);
 
             entityManager.persist(completedTask);
+            entityManager.remove(selectedTask);
 
             Utilities.printStatus(String.format("Task [%s] was marked as completed", completedTask));
-
-            loadData();
 
             transaction.commit();
         } catch (Exception e) {
@@ -416,6 +415,8 @@ public class TaskBoardController {
         } finally {
             entityManager.close();
         }
+
+        loadData();
     }
 
     /**

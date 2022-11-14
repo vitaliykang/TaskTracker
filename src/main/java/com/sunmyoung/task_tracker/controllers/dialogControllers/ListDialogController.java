@@ -42,7 +42,9 @@ public class ListDialogController {
     @FXML
     void selectEntry(MouseEvent event) {
         String selectedEntry = listView.getSelectionModel().getSelectedItem();
-        textField.setText(selectedEntry);
+        if (selectedEntry != null) {
+            textField.setText(selectedEntry);
+        }
     }
 
     public void init() {

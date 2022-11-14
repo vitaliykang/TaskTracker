@@ -25,6 +25,9 @@ public class Code {
     @Column(name = "mesh", length = 100)
     private String mesh;
 
+    @Column(length = 10)
+    private String bias;
+
     @Column(name = "combi", length = 45)
     private String combi;
 
@@ -74,6 +77,14 @@ public class Code {
 
     public void setMesh(String mesh) {
         this.mesh = mesh;
+    }
+
+    public String getBias() {
+        return bias;
+    }
+
+    public void setBias(String bias) {
+        this.bias = bias;
     }
 
     public String getCombi() {

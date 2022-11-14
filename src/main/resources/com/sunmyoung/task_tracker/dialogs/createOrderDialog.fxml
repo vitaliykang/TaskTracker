@@ -19,16 +19,50 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
          <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cfe7ff77" height="53.0" layoutX="442.0" layoutY="288.0" stroke="TRANSPARENT" strokeType="INSIDE" width="111.0" />
+            <Button fx:id="searchByCodeButton" layoutX="57.0" layoutY="299.0" mnemonicParsing="false" onAction="#searchByCode" prefHeight="30.0" prefWidth="30.0">
+               <graphic>
+                  <FontIcon iconLiteral="bi-search" iconSize="16" />
+               </graphic>
+            </Button>
+            <Button fx:id="editSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="560.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editSubtask" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="#4d05ff" iconLiteral="bi-pencil" iconSize="30" />
+               </graphic>
+            </Button>
+            <Button fx:id="removeSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="491.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeSubtask" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="#ff0404" iconLiteral="bi-dash" iconSize="50" />
+               </graphic>
+            </Button>
+            <Button fx:id="addSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="436.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSubtask" prefHeight="40.0" prefWidth="40.0">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <graphic>
+                  <FontIcon iconColor="#290ef8" iconLiteral="bi-plus" iconSize="50" />
+               </graphic>
+            </Button>
+            <Separator layoutX="57.0" layoutY="69.0" prefHeight="7.0" prefWidth="886.0" />
+            <TextField fx:id="emulsionTF" layoutX="323.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="유제" />
+            <TextField fx:id="tensionTF" layoutX="192.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="텐션" />
+            <TextField fx:id="biasTF" layoutX="62.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="각도" text="22.5" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00000026" height="28.0" layoutX="894.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="86.0" />
             <Rectangle fx:id="modelHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="372.0" layoutX="46.0" layoutY="398.0" stroke="RED" strokeType="INSIDE" strokeWidth="3.0" width="913.0" />
             <Rectangle fx:id="clientHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="97.0" layoutY="147.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
             <Rectangle fx:id="personHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="265.0" layoutY="147.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
-            <Rectangle fx:id="frameSizeHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="97.0" layoutY="292.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
-            <Rectangle fx:id="meshHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="265.0" layoutY="292.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
+            <Rectangle fx:id="frameSizeHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="53.0" layoutY="328.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
+            <Rectangle fx:id="meshHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="221.0" layoutY="328.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="217.0" />
             <Rectangle fx:id="dateOutHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="555.0" layoutY="104.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="197.0" />
             <Rectangle fx:id="serialNumberHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="39.0" layoutY="30.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="495.0">
                <cursor>
@@ -56,13 +90,10 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <TextField fx:id="frameSizeTF" layoutX="106.0" layoutY="302.0" promptText="Frame Size" />
-            <TextField fx:id="meshTF" layoutX="274.0" layoutY="302.0" promptText="망사" />
-            <RadioButton fx:id="frameNewRB" layoutX="53.0" layoutY="378.0" mnemonicParsing="false" text="신규프레임" />
-            <RadioButton fx:id="frameExistingRB" layoutX="152.0" layoutY="378.0" mnemonicParsing="false" text="지급프레임" />
-            <TextField fx:id="biasTF" layoutX="54.0" layoutY="337.0" prefHeight="25.0" prefWidth="105.0" promptText="각도" text="22.5" />
-            <TextField fx:id="tensionTF" layoutX="186.0" layoutY="337.0" prefHeight="25.0" prefWidth="105.0" promptText="텐션" />
-            <TextField fx:id="emulsionTF" layoutX="317.0" layoutY="337.0" prefHeight="25.0" prefWidth="105.0" promptText="유제" />
+            <TextField fx:id="frameSizeTF" layoutX="62.0" layoutY="338.0" promptText="Frame Size" />
+            <TextField fx:id="meshTF" layoutX="230.0" layoutY="338.0" prefHeight="25.0" prefWidth="198.0" promptText="망사" />
+            <RadioButton fx:id="frameNewRB" layoutX="458.0" layoutY="294.0" mnemonicParsing="false" text="신규프레임" />
+            <RadioButton fx:id="frameExistingRB" layoutX="458.0" layoutY="318.0" mnemonicParsing="false" text="지급프레임" />
             <Label layoutX="683.0" layoutY="84.0" text="납품 방법">
                <font>
                   <Font size="14.0" />
@@ -88,26 +119,9 @@
             </TableView>
             <TextArea fx:id="orderNoteTA" layoutX="563.0" layoutY="218.0" prefHeight="131.0" prefWidth="378.0" promptText="Order Note" />
             <Separator layoutX="55.0" layoutY="261.0" prefHeight="0.0" prefWidth="482.0" />
-            <Separator layoutX="57.0" layoutY="69.0" prefHeight="7.0" prefWidth="886.0" />
             <Separator layoutX="567.0" layoutY="177.0" prefHeight="2.0" prefWidth="370.0" />
-            <Button fx:id="addSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="436.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSubtask" prefHeight="40.0" prefWidth="40.0">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-               <graphic>
-                  <FontIcon iconColor="#290ef8" iconLiteral="bi-plus" iconSize="50" />
-               </graphic>
-            </Button>
-            <Button fx:id="removeSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="491.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#removeSubtask" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <graphic>
-                  <FontIcon iconColor="#ff0404" iconLiteral="bi-dash" iconSize="50" />
-               </graphic>
-            </Button>
-            <RadioButton fx:id="typeDirectRB" layoutX="459.0" layoutY="305.0" mnemonicParsing="false" text="직견장" />
-            <RadioButton fx:id="typeCombiRB" layoutX="459.0" layoutY="327.0" mnemonicParsing="false" text="COMBI" />
+            <RadioButton fx:id="typeDirectRB" layoutX="458.0" layoutY="350.0" mnemonicParsing="false" text="직견장" />
+            <RadioButton fx:id="typeCombiRB" layoutX="458.0" layoutY="372.0" mnemonicParsing="false" text="COMBI" />
             <ToggleButton fx:id="frameOnlyToggle" layoutX="567.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="프레임만" />
             <TextField fx:id="countTF" layoutX="639.0" layoutY="369.0" promptText="수량" />
             <CheckBox fx:id="editCB" layoutX="901.0" layoutY="14.0" mnemonicParsing="false" onAction="#enableEdit" text="편집" textFill="#fcfcfc" />
@@ -116,22 +130,10 @@
                   <FontIcon iconLiteral="bi-search" iconSize="16" />
                </graphic>
             </Button>
-            <Button fx:id="searchByCodeButton" layoutX="57.0" layoutY="299.0" mnemonicParsing="false" onAction="#searchByCode" prefHeight="30.0" prefWidth="30.0">
-               <graphic>
-                  <FontIcon iconLiteral="bi-search" iconSize="16" />
-               </graphic>
-            </Button>
-            <Button fx:id="editSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="560.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#editSubtask" prefHeight="40.0" prefWidth="40.0" textAlignment="CENTER" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="21.0" />
-               </font>
-               <graphic>
-                  <FontIcon iconColor="#4d05ff" iconLiteral="bi-pencil" iconSize="30" />
-               </graphic>
-            </Button>
             <Label layoutX="563.0" layoutY="93.0" text="출하예정일" textFill="#c3c2c2" />
             <Label layoutX="649.0" layoutY="22.0" text="작성일" textFill="#c3c2c2" />
             <FontIcon iconColor="WHITE" iconLiteral="bi-pencil" iconSize="20" layoutX="949.0" layoutY="32.0" />
+            <TextField fx:id="codeTF" layoutX="97.0" layoutY="302.0" prefHeight="25.0" prefWidth="330.0" promptText="Code" />
          </children>
       </AnchorPane>
    </content>

@@ -3,9 +3,11 @@ package com.sunmyoung.task_tracker.controllers.dialogControllers;
 import com.sunmyoung.task_tracker.DialogUtilities;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
+import com.sunmyoung.task_tracker.pojos.Code;
 import com.sunmyoung.task_tracker.pojos.Model;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import com.sunmyoung.task_tracker.pojos.TaskInterface;
+import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,6 +48,7 @@ public class CreateOrderDialogControllerV2 {
             shipmentSamegiRB;
 
     @FXML
+    @Getter
     private TextField
             clientTF,
             personTF;
@@ -57,7 +60,9 @@ public class CreateOrderDialogControllerV2 {
             filmProvidedRB;
 
     @FXML
+    @Getter
     private TextField
+            codeTF,
             frameSizeTF,
             meshTF,
             biasTF,
@@ -65,6 +70,7 @@ public class CreateOrderDialogControllerV2 {
             emulsionTF;
 
     @FXML
+    @Getter
     private RadioButton
             typeCombiRB,
             typeDirectRB;
@@ -130,6 +136,8 @@ public class CreateOrderDialogControllerV2 {
             meshHighlight,
             modelHighlight,
             dateOutHighlight;
+
+    private final String DEFAULT_SN = " / 제조지도서 ()";
 
     @Getter
     private final ObservableList<Model> subtaskObservableList = FXCollections.observableArrayList();
@@ -200,7 +208,32 @@ public class CreateOrderDialogControllerV2 {
 
     @FXML
     void searchByCode(ActionEvent event) {
-        openCodeSearchDialog();
+        if (codeTF.getText().equals("") || codeTF.getText() == null) {
+            openCodeSearchDialog();
+        } else {
+            searchCode();
+        }
+    }
+
+    private void searchCode() {
+        Code code = CodeRepository.findByCode(codeTF.getText());
+        if (code != null) {
+            clientTF.setText(code.getClient());
+            frameSizeTF.setText(code.getFrameSize());
+            meshTF.setText(code.getMesh());
+            tensionTF.setText(code.getTension());
+            biasTF.setText(code.getBias());
+
+            if (code.getCombi().equals("COMBI")) {
+                typeCombiRB.setSelected(true);
+                typeDirectRB.setSelected(false);
+            } else {
+                typeCombiRB.setSelected(false);
+                typeDirectRB.setSelected(true);
+            }
+        } else {
+            openCodeSearchDialog();
+        }
     }
 
     @SneakyThrows
@@ -214,7 +247,19 @@ public class CreateOrderDialogControllerV2 {
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
-
+            codeTF.setText(controller.getTextField().getText());
+            clientTF.setText(controller.getClientLabel().getText());
+            frameSizeTF.setText(controller.getFrameSizeLabel().getText());
+            meshTF.setText(controller.getMeshLabel().getText());
+            tensionTF.setText(controller.getTensionLabel().getText());
+            biasTF.setText(controller.getBiasLabel().getText());
+            if (controller.getCombiHighlight().isVisible()) {
+                typeCombiRB.setSelected(true);
+                typeDirectRB.setSelected(false);
+            } else {
+                typeCombiRB.setSelected(false);
+                typeDirectRB.setSelected(true);
+            }
         }
     }
 
@@ -226,6 +271,7 @@ public class CreateOrderDialogControllerV2 {
         countTF.setDisable(true);
         enableEditCheckBox(false);
         initClientListDialog();
+        serialNumberTF.setText(DEFAULT_SN);
     }
 
     /**
@@ -233,6 +279,7 @@ public class CreateOrderDialogControllerV2 {
      * @param task - Task object, to which the information, gathered from the form, will be saved.
      */
     public void readFields(ActiveTask task) {
+        task.setCode(codeTF.getText());
         task.setSerialNumber(serialNumberTF.getText());
         task.setShipmentFrom(getShipmentFrom());
         task.setClient(clientTF.getText());
@@ -285,6 +332,9 @@ public class CreateOrderDialogControllerV2 {
      * @param task - Task object, from which the information will be read.
      */
     public void populateWindow(TaskInterface task) {
+        if (task.getCode() != null) {
+            codeTF.setText(task.getCode());
+        }
         serialNumberTF.setText(task.getSerialNumber());
         if (task.getShipmentFrom() != null) {
             switch (task.getShipmentFrom()) {
@@ -350,6 +400,7 @@ public class CreateOrderDialogControllerV2 {
     }
 
     public void enableElements(boolean bool) {
+        codeTF.setEditable(bool);
         serialNumberTF.setEditable(bool);
         shipmentChepanRB.setDisable(!bool);
         shipmentPSRB.setDisable(!bool);
@@ -406,6 +457,11 @@ public class CreateOrderDialogControllerV2 {
     public boolean fieldsOK() {
         boolean flag = DialogUtilities.checkNonNullFields(textFieldHighlightMap);
 
+        if (serialNumberTF.getText() == null || serialNumberTF.getText().equals("") || serialNumberTF.getText().equals(DEFAULT_SN)) {
+            serialNumberHighlight.setVisible(true);
+            flag = false;
+        }
+
         if (dateOutPicker.getValue() == null) {
             dateOutHighlight.setVisible(true);
             flag = false;
@@ -420,12 +476,12 @@ public class CreateOrderDialogControllerV2 {
     }
 
     /**
-     * Saves the current client info in the "data/clients" file, unless such entry already exists.
+     * Saves the current client info in the "data/clients.txt" file, unless such entry already exists.
      */
     public void saveClientInfo() {
         String clientInfo = String.format("%n%s :: %s", clientTF.getText(), personTF.getText());
         if (!clientList.contains(clientInfo)) {
-            Utilities.appendToFile("data/clients", clientInfo);
+            Utilities.appendToFile("data/clients.txt", clientInfo);
         }
     }
 
@@ -522,13 +578,13 @@ public class CreateOrderDialogControllerV2 {
 
     private String getFilm() {
         if (filmNewRB.isSelected()) {
-            return "신규필림";
+            return "신규필름";
         }
         if (filmExistingRB.isSelected()) {
-            return "기존필림";
+            return "기존필름";
         }
         if (filmProvidedRB.isSelected()) {
-            return "제공필림";
+            return "제공필름";
         }
         return "null";
     }
@@ -635,13 +691,12 @@ public class CreateOrderDialogControllerV2 {
         clientListDialog.setDialogPane(dialogPane);
 
         listDialogController = fxmlLoader.getController();
-        listDialogController.setFileName("data/clients");
+        listDialogController.setFileName("data/clients.txt");
         listDialogController.init();
         clientList = new ArrayList<>(listDialogController.getContent());
     }
 
     private void initHighlight() {
-        textFieldHighlightMap.put(serialNumberTF, serialNumberHighlight);
         textFieldHighlightMap.put(clientTF, clientHighlight);
         textFieldHighlightMap.put(personTF, personHighlight);
         textFieldHighlightMap.put(frameSizeTF, frameSizeHighlight);
