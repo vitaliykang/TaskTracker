@@ -16,10 +16,7 @@ import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 public class CodeSearchDialogController {
 
@@ -45,6 +42,10 @@ public class CodeSearchDialogController {
     @FXML
     @Getter
     private TextField textField;
+
+    @FXML
+    @Getter
+    private Button addBtn, removeBtn;
 
     private final Map<String, Code> codeMap = new HashMap<>();
     private final ObservableList<String> content = FXCollections.observableArrayList();
@@ -119,24 +120,23 @@ public class CodeSearchDialogController {
     }
 
     @FXML
+    @SneakyThrows
     void remove(ActionEvent event) {
         String selectedEntry = listView.getSelectionModel().getSelectedItem();
         if (selectedEntry != null) {
             Code code = codeMap.get(selectedEntry);
-            textField.setText(selectedEntry);
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/confirmDeleteDialog.fxml"));
+            DialogPane dialogPane = fxmlLoader.load();
+            Dialog<ButtonType> dialog = new Dialog<>();
+            dialog.setDialogPane(dialogPane);
 
-            clientLabel.setText(code.getClient());
-            frameSizeLabel.setText(code.getFrameSize());
-            meshLabel.setText(code.getMesh());
-            tensionLabel.setText(code.getTension());
-            biasLabel.setText(code.getBias());
+            ConfirmDeleteDialogController controller = fxmlLoader.getController();
+            controller.getTaskInfoLabel().setText(code.toString());
 
-            if (code.getCombi().equals("직견장")) {
-                chickenHighlight.setVisible(true);
-                combiHighlight.setVisible(false);
-            } else {
-                chickenHighlight.setVisible(false);
-                combiHighlight.setVisible(true);
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
+                CodeRepository.delete(code.getCode());
+                loadInfo();
             }
         }
     }
@@ -149,11 +149,14 @@ public class CodeSearchDialogController {
     }
 
     private void loadInfo() {
+        content.clear();
+        codeMap.clear();
         List<Code> codeList = CodeRepository.findAll();
         codeList.forEach(code -> {
             codeMap.put(code.getCode(), code);
         });
         content.addAll(codeMap.keySet());
+        Collections.sort(content);
     }
 }
 

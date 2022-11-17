@@ -76,4 +76,16 @@ public class CodeRepository {
             entityManager.getTransaction().rollback();
         }
     }
+
+    public static void delete(String code) {
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.createQuery("DELETE Code c where c.code = :code").setParameter("code", code).executeUpdate();
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            entityManager.getTransaction().rollback();
+        }
+    }
 }

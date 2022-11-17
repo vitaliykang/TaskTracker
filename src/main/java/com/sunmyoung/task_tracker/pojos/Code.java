@@ -31,6 +31,19 @@ public class Code {
     @Column(name = "combi", length = 45)
     private String combi;
 
+    @Override
+    public String toString() {
+        return "Code{" +
+                "code='" + code + '\'' +
+                ", client='" + client + '\'' +
+                ", frameSize='" + frameSize + '\'' +
+                ", tension='" + tension + '\'' +
+                ", mesh='" + mesh + '\'' +
+                ", bias='" + bias + '\'' +
+                ", combi='" + combi + '\'' +
+                '}';
+    }
+
     public Long getId() {
         return id;
     }

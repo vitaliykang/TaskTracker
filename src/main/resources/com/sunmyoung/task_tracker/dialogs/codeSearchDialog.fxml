@@ -64,12 +64,12 @@
                </font>
             </Label>
             <Rectangle fx:id="chickenHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff38" height="32.0" layoutX="306.0" layoutY="207.0" stroke="#6f0a68" strokeType="INSIDE" width="81.0" />
-            <Button layoutX="212.0" layoutY="293.0" mnemonicParsing="false" onAction="#add" text="더하다">
+            <Button fx:id="addBtn" layoutX="212.0" layoutY="293.0" mnemonicParsing="false" onAction="#add" text="더하다">
                <graphic>
                   <FontIcon iconColor="#2410b9" iconLiteral="bi-plus-square" />
                </graphic>
             </Button>
-            <Button layoutX="320.0" layoutY="293.0" mnemonicParsing="false" onAction="#remove" text="지우다">
+            <Button fx:id="removeBtn" layoutX="320.0" layoutY="293.0" mnemonicParsing="false" onAction="#remove" text="지우다">
                <graphic>
                   <FontIcon iconColor="#e10e0e" iconLiteral="bi-dash-square" />
                </graphic>

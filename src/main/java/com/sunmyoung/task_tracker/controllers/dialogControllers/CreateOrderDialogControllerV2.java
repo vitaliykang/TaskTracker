@@ -248,7 +248,9 @@ public class CreateOrderDialogControllerV2 {
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             codeTF.setText(controller.getTextField().getText());
-            clientTF.setText(controller.getClientLabel().getText());
+            if (clientTF.getText().equals("") || clientTF.getText() == null) {
+                clientTF.setText(controller.getClientLabel().getText());
+            }
             frameSizeTF.setText(controller.getFrameSizeLabel().getText());
             meshTF.setText(controller.getMeshLabel().getText());
             tensionTF.setText(controller.getTensionLabel().getText());
