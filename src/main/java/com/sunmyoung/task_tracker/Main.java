@@ -26,7 +26,9 @@ public class Main extends Application {
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {
-                DatabaseConnection.getEntityManagerFactory().close();
+                if (DatabaseConnection.getEntityManagerFactory() != null) {
+                    DatabaseConnection.getEntityManagerFactory().close();
+                }
                 Platform.exit();
                 System.exit(0);
             }

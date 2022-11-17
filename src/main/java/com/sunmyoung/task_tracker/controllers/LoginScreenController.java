@@ -12,8 +12,11 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -34,6 +37,10 @@ public class LoginScreenController {
 
     @FXML
     private Button testButton;
+
+    @FXML
+    @Getter
+    private ImageView imageView;
 
     @FXML
     void connect(ActionEvent event) {
@@ -74,11 +81,15 @@ public class LoginScreenController {
         }
     }
 
+    @SneakyThrows
     public void initialize() {
         addressTF.setText(SimpleConfig.getURL());
         loginTF.setText(SimpleConfig.getUsername());
         passwordTF.setText(SimpleConfig.getPassword());
         testButton.setVisible(false);
+
+        Image image = new Image(Main.class.getResource("logo-lightgray.gif").toURI().toString());
+        imageView.setImage(image);
     }
 
     @SneakyThrows
