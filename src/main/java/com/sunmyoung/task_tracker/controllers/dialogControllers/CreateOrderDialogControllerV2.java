@@ -87,12 +87,14 @@ public class CreateOrderDialogControllerV2 {
             dateOutPicker;
 
     @FXML
-    private TextField dateOutNoteTF;
-
-    @FXML
     private RadioButton
             methodPesongRB,
             methodPedalRB;
+
+    @FXML
+    private RadioButton
+            amRB,
+            deliveryRB;
 
     @FXML
     private RadioButton
@@ -218,7 +220,6 @@ public class CreateOrderDialogControllerV2 {
     private void searchCode() {
         Code code = CodeRepository.findByCode(codeTF.getText());
         if (code != null) {
-            clientTF.setText(code.getClient());
             frameSizeTF.setText(code.getFrameSize());
             meshTF.setText(code.getMesh());
             tensionTF.setText(code.getTension());
@@ -301,7 +302,7 @@ public class CreateOrderDialogControllerV2 {
         } else {
             task.setDateOut(dateInPicker.getValue());
         }
-        task.setDeadlineNote(dateOutNoteTF.getText());
+        task.setDeadlineNote(getDeadlineNote());
         task.setPrintPosition(getPrintPosition());
         task.setOrderNote(orderNoteTA.getText());
 
@@ -380,7 +381,12 @@ public class CreateOrderDialogControllerV2 {
             }
         }
         dateOutPicker.setValue(task.getDateOut());
-        dateOutNoteTF.setText(task.getDeadlineNote());
+        if (task.getDeadlineNote() != null) {
+            switch (task.getDeadlineNote()) {
+                case "오전직납" -> amRB.setSelected(true);
+                case "택배발송" -> deliveryRB.setSelected(true);
+            }
+        }
         if (task.getPrintPosition() != null) {
             switch (task.getPrintPosition()) {
                 case "지정위치" -> positionCustomRB.setSelected(true);
@@ -411,7 +417,8 @@ public class CreateOrderDialogControllerV2 {
         dateInPicker.setDisable(!bool);
         dateOutPicker.setEditable(bool);
         dateOutPicker.setDisable(!bool);
-        dateOutNoteTF.setEditable(bool);
+        amRB.setDisable(!bool);
+        deliveryRB.setDisable(!bool);
         methodPesongRB.setDisable(!bool);
         methodPedalRB.setDisable(!bool);
         positionCenterRB.setDisable(!bool);
@@ -481,7 +488,7 @@ public class CreateOrderDialogControllerV2 {
      * Saves the current client info in the "data/clients.txt" file, unless such entry already exists.
      */
     public void saveClientInfo() {
-        String clientInfo = String.format("%n%s :: %s", clientTF.getText(), personTF.getText());
+        String clientInfo = String.format("%s :: %s", clientTF.getText(), personTF.getText());
         if (!clientList.contains(clientInfo)) {
             Utilities.appendToFile("data/clients.txt", clientInfo);
         }
@@ -621,6 +628,16 @@ public class CreateOrderDialogControllerV2 {
         return "null";
     }
 
+    private String getDeadlineNote() {
+        if (amRB.isSelected()) {
+            return "오전직납";
+        }
+        if (deliveryRB.isSelected()) {
+            return "택배발송";
+        }
+        return "null";
+    }
+
     private void initTableView() {
         orderCol.setCellValueFactory(order -> new ReadOnlyObjectWrapper<>(Integer.toString(subtaskObservableList.indexOf(order.getValue()) + 1)));
         printCol.setCellValueFactory(new PropertyValueFactory<>("print"));
@@ -657,6 +674,11 @@ public class CreateOrderDialogControllerV2 {
         ToggleGroup method = new ToggleGroup();
         methodPesongRB  .setToggleGroup(method);
         methodPedalRB   .setToggleGroup(method);
+
+        //deadline note
+        ToggleGroup deadlineNote = new ToggleGroup();
+        amRB            .setToggleGroup(deadlineNote);
+        deliveryRB      .setToggleGroup(deadlineNote);
 
         //printPosition
         ToggleGroup position = new ToggleGroup();

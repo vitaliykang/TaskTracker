@@ -88,8 +88,8 @@ public class LoginScreenController {
         passwordTF.setText(SimpleConfig.getPassword());
         testButton.setVisible(false);
 
-        Image image = new Image(Main.class.getResource("logo-lightgray.gif").toURI().toString());
-        imageView.setImage(image);
+//        Image image = new Image(Main.class.getResource("logo-lightgray.gif").toURI().toString());
+//        imageView.setImage(image);
     }
 
     @SneakyThrows

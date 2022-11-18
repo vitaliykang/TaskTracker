@@ -1,6 +1,8 @@
 package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +12,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import lombok.SneakyThrows;
 
 public class MainV2Controller {
@@ -25,8 +29,7 @@ public class MainV2Controller {
     @FXML
     @SneakyThrows
     void openArchive(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("archive.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = createScene("archive.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Archive");
@@ -37,8 +40,7 @@ public class MainV2Controller {
     @FXML
     @SneakyThrows
     void openTVTaskBoard(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("TVTaskBoard.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = createScene("TVTaskBoard.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Task Board");
@@ -49,8 +51,7 @@ public class MainV2Controller {
     @FXML
     @SneakyThrows
     void openTaskBoard(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("TaskBoard.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = createScene("TaskBoard.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Task Board");
@@ -60,13 +61,18 @@ public class MainV2Controller {
 
     @SneakyThrows
     public static void showMainScreen(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainV2.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
+        Scene scene = createScene("mainV2.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Task Tracker");
         centerStage(stage);
         stage.show();
+    }
+
+    @SneakyThrows
+    private static Scene createScene(String fxml) {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
+        return new Scene(fxmlLoader.load());
     }
 
     private static void centerStage(Stage stage) {

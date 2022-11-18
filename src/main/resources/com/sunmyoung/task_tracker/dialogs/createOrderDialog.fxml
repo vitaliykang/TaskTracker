@@ -23,6 +23,8 @@
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
          <children>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#56b9da2e" height="46.0" layoutX="559.0" layoutY="102.0" stroke="TRANSPARENT" strokeType="INSIDE" width="379.0" />
+            <Rectangle fx:id="dateOutHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="555.0" layoutY="104.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="197.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cfe7ff77" height="53.0" layoutX="442.0" layoutY="288.0" stroke="TRANSPARENT" strokeType="INSIDE" width="111.0" />
             <TextField fx:id="serialNumberTF" layoutX="57.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="460.0" promptText="Order Serial Number" />
             <RadioButton fx:id="shipmentSamegiRB" layoutX="62.0" layoutY="111.0" mnemonicParsing="false" text="사메기" />
@@ -54,10 +56,11 @@
             <RadioButton fx:id="typeDirectRB" layoutX="458.0" layoutY="350.0" mnemonicParsing="false" text="직견장" />
             <RadioButton fx:id="typeCombiRB" layoutX="458.0" layoutY="372.0" mnemonicParsing="false" text="COMBI" />
             <DatePicker fx:id="dateInPicker" layoutX="650.0" layoutY="39.0" promptText="작성일" />
-            <RadioButton fx:id="methodPesongRB" layoutX="759.0" layoutY="84.0" mnemonicParsing="false" text="배송" />
-            <RadioButton fx:id="methodPedalRB" layoutX="810.0" layoutY="84.0" mnemonicParsing="false" text="배달" />
+            <RadioButton fx:id="methodPesongRB" layoutX="727.0" layoutY="83.0" mnemonicParsing="false" text="배송" />
+            <RadioButton fx:id="methodPedalRB" layoutX="778.0" layoutY="83.0" mnemonicParsing="false" text="배달" />
             <DatePicker fx:id="dateOutPicker" layoutX="563.0" layoutY="113.0" promptText="출하예정일" />
-            <TextField fx:id="dateOutNoteTF" layoutX="769.0" layoutY="113.0" promptText="출하예정일 Note" />
+            <RadioButton fx:id="amRB" layoutX="762.0" layoutY="117.0" mnemonicParsing="false" text="오전직납" />
+            <RadioButton fx:id="deliveryRB" layoutX="840.0" layoutY="117.0" mnemonicParsing="false" text="택배발송" />
             <RadioButton fx:id="positionCustomRB" layoutX="639.0" layoutY="193.0" mnemonicParsing="false" text="지정위치" />
             <RadioButton fx:id="positionCenterRB" layoutX="747.0" layoutY="193.0" mnemonicParsing="false" text="프레임중심" />
             <TextArea fx:id="orderNoteTA" layoutX="563.0" layoutY="218.0" prefHeight="131.0" prefWidth="378.0" promptText="Order Note" />
@@ -94,7 +97,6 @@
             <Rectangle fx:id="personHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="265.0" layoutY="147.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
             <Rectangle fx:id="frameSizeHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="53.0" layoutY="328.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
             <Rectangle fx:id="meshHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="221.0" layoutY="328.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="217.0" />
-            <Rectangle fx:id="dateOutHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="555.0" layoutY="104.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="197.0" />
             <Rectangle fx:id="serialNumberHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="39.0" layoutY="30.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="495.0">
                <cursor>
                   <Cursor fx:constant="TEXT" />
@@ -111,7 +113,7 @@
                <font>
                   <Font size="18.0" />
                </font></Label>
-            <Label layoutX="683.0" layoutY="84.0" text="납품 방법">
+            <Label layoutX="651.0" layoutY="83.0" text="납품 방법">
                <font>
                   <Font size="14.0" />
                </font></Label>

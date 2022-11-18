@@ -62,7 +62,7 @@ public class Utilities {
                 String result = file.createNewFile() ? "File successfully created" : "Failed to create a file";
                 System.out.println(result);
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }

@@ -91,13 +91,9 @@ public class CodeSearchDialogController {
 
     @SneakyThrows
     private void createNewCodeDialog() {
-        FXMLLoader mainWindowLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog.fxml"));
-        mainWindowLoader.load();
-        CreateOrderDialogControllerV2 taskController = mainWindowLoader.getController();
-
-        FXMLLoader dialogLoader = new FXMLLoader(Main.class.getResource("dialogs/createNewCodeDialog.fxml"));
-        DialogPane dialogPane = dialogLoader.load();
-        CreateNewCodeDialogController codeController = dialogLoader.getController();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createNewCodeDialog.fxml"));
+        DialogPane dialogPane = fxmlLoader.load();
+        CreateNewCodeDialogController controller = fxmlLoader.getController();
 
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -105,13 +101,13 @@ public class CodeSearchDialogController {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Code code = new Code();
-            code.setCode(codeController.getCodeTF().getText());
-            code.setClient(codeController.getClientTF().getText());
-            code.setFrameSize(codeController.getFrameSizeTF().getText());
-            code.setMesh(codeController.getMeshTF().getText());
-            code.setBias(codeController.getBiasTF().getText());
-            code.setTension(codeController.getTensionTF().getText());
-            code.setCombi(codeController.getCombiCB().isSelected() ? "COMBI" : "직견장");
+            code.setCode(controller.getCodeTF().getText());
+            code.setClient(controller.getClientTF().getText());
+            code.setFrameSize(controller.getFrameSizeTF().getText());
+            code.setMesh(controller.getMeshTF().getText());
+            code.setBias(controller.getBiasTF().getText());
+            code.setTension(controller.getTensionTF().getText());
+            code.setCombi(controller.getCombiCB().isSelected() ? "COMBI" : "직견장");
 
             CodeRepository.save(code);
 
