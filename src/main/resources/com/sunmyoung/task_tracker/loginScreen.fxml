@@ -24,7 +24,7 @@
             <FontIcon fx:id="gearsIcon" iconLiteral="bi-shield-lock" iconSize="60" layoutX="214.0" layoutY="106.0" visible="false" />
             <FontIcon iconLiteral="bi-person-circle" iconSize="16" layoutX="18.0" layoutY="83.0" text="" />
             <Button fx:id="testButton" layoutX="55.0" layoutY="137.0" mnemonicParsing="false" onAction="#test" text="Button" visible="false" />
-            <ImageView fx:id="imageView" fitHeight="82.0" fitWidth="80.0" layoutX="205.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="animatedImageView" fitHeight="82.0" fitWidth="80.0" layoutX="205.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>
    </children>

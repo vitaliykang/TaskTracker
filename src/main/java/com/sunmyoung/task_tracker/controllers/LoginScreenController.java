@@ -20,6 +20,7 @@ import lombok.Getter;
 import lombok.SneakyThrows;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.util.Objects;
 import java.util.Optional;
 
 public class LoginScreenController {
@@ -39,10 +40,12 @@ public class LoginScreenController {
     private Button testButton;
 
     @FXML
-    @Getter
-    private ImageView imageView;
+    private ImageView animatedImageView;
+
+    private Image animatedLogo;
 
     @FXML
+    @SneakyThrows
     void connect(ActionEvent event) {
         //saving credentials taken from fields into cfg file
         SimpleConfig.saveInfo(addressTF.getText(), loginTF.getText(), passwordTF.getText());
@@ -56,40 +59,24 @@ public class LoginScreenController {
     @FXML
     @SneakyThrows
     void test(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("TestDialog.fxml"));
-        DialogPane dialogPane = fxmlLoader.load();
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setDialogPane(dialogPane);
-        ButtonType cancelButtonType = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        ButtonType applyButtonType = new ButtonType("Apply", ButtonBar.ButtonData.APPLY);
-        //working
-//        dialogPane.getButtonTypes().add(cancelButtonType);
-//        dialogPane.getButtonTypes().add(applyButtonType);
-//        Button applyButton = (Button) dialogPane.lookupButton(applyButtonType);
-        Button applyButton = (Button) dialogPane.lookupButton(ButtonType.OK);
 
-        TestDialogController controller = fxmlLoader.getController();
-        applyButton.addEventFilter(ActionEvent.ACTION, actionEvent -> {
-            if (!controller.getCheckBox().isSelected()) {
-                actionEvent.consume();
-            }
-        });
-
-        Optional<ButtonType> result = dialog.showAndWait();
-        if (result.isPresent() && result.get() == ButtonType.APPLY) {
-
-        }
     }
 
     @SneakyThrows
     public void initialize() {
+        testButton.setVisible(true);
+
         addressTF.setText(SimpleConfig.getURL());
         loginTF.setText(SimpleConfig.getUsername());
         passwordTF.setText(SimpleConfig.getPassword());
-        testButton.setVisible(false);
 
-//        Image image = new Image(Main.class.getResource("logo-lightgray.gif").toURI().toString());
-//        imageView.setImage(image);
+        String animatedFileName = "animated.gif";
+        try {
+            animatedLogo = new Image(Objects.requireNonNull(Main.class.getResource(animatedFileName)).toURI().toString());
+            animatedImageView.setImage(animatedLogo);
+        } catch (NullPointerException e) {
+            System.out.println("No logo file found. Name: " + animatedFileName);
+        }
     }
 
     @SneakyThrows
@@ -109,7 +96,8 @@ public class LoginScreenController {
             return true;
         } else {
             errorIcon.setVisible(true);
-            gearsIcon.setVisible(false);
+            animatedImageView.setVisible(false);
+//            gearsIcon.setVisible(false);
             return false;
         }
     }
