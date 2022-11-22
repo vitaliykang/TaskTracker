@@ -72,6 +72,9 @@ public class CompletedTask implements TaskInterface{
     @Column(name = "new_frame")
     private Boolean isNewFrame;
 
+    @Column(name = "frame_condition", length = 60)
+    private String frameCondition;
+
     @Column(name = "mesh", length = 45)
     private String mesh;
 
@@ -121,6 +124,7 @@ public class CompletedTask implements TaskInterface{
         mesh = task.getMesh();
         combi = task.getCombi();
         isNewFrame = task.getIsNewFrame();
+        frameCondition = task.getFrameCondition();
         bias = task.getBias();
         tension = task.getTension();
         emulsion = task.getEmulsion();
@@ -281,6 +285,14 @@ public class CompletedTask implements TaskInterface{
 
     public void setIsNewFrame(Boolean newFrame) {
         this.isNewFrame = newFrame;
+    }
+
+    public String getFrameCondition() {
+        return frameCondition;
+    }
+
+    public void setFrameCondition(String frameCondition) {
+        this.frameCondition = frameCondition;
     }
 
     public String getMesh() {

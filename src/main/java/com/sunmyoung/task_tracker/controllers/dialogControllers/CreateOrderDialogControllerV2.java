@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
@@ -79,6 +80,9 @@ public class CreateOrderDialogControllerV2 {
     private RadioButton
             frameExistingRB,
             frameNewRB;
+
+    @FXML
+    private TextField frameDirectInputTF;
 
 
     @FXML
@@ -292,6 +296,7 @@ public class CreateOrderDialogControllerV2 {
         task.setMesh(meshTF.getText());
         task.setCombi(getCombi());
         task.setIsNewFrame(frameNewRB.isSelected());
+        task.setFrameCondition(getFrameCondition());
         task.setBias(biasTF.getText());
         task.setTension(tensionTF.getText());
         task.setEmulsion(emulsionTF.getText());
@@ -364,10 +369,17 @@ public class CreateOrderDialogControllerV2 {
             }
         }
 
-        if (task.getIsNewFrame()) {
-            frameNewRB.setSelected(true);
-        } else {
-            frameExistingRB.setSelected(true);
+//        if (task.getIsNewFrame()) {
+//            frameNewRB.setSelected(true);
+//        } else {
+//            frameExistingRB.setSelected(true);
+//        }
+        if (task.getFrameCondition() != null) {
+            switch (task.getFrameCondition()) {
+                case "신규프레임" -> frameNewRB.setSelected(true);
+                case "지급프레임" -> frameExistingRB.setSelected(true);
+                default -> frameDirectInputTF.setText(task.getFrameCondition());
+            }
         }
 
         biasTF.setText(task.getBias());
@@ -440,6 +452,7 @@ public class CreateOrderDialogControllerV2 {
         typeDirectRB.setDisable(!bool);
         frameExistingRB.setDisable(!bool);
         frameNewRB.setDisable(!bool);
+        frameDirectInputTF.setEditable(bool);
         searchClientButton.setDisable(!bool);
         searchByCodeButton.setDisable(!bool);
         editSubtaskButton.setDisable(!bool);
@@ -618,6 +631,19 @@ public class CreateOrderDialogControllerV2 {
         return "null";
     }
 
+    private String getFrameCondition() {
+        if (frameNewRB.isSelected()) {
+            return "신규프레임";
+        }
+        if (frameExistingRB.isSelected()) {
+            return "지급프레임";
+        }
+        if (!frameDirectInputTF.getText().equals("") || frameDirectInputTF.getText() != null) {
+            return frameDirectInputTF.getText();
+        }
+        return "null";
+    }
+
     private String getPrintPosition() {
         if (positionCenterRB.isSelected()) {
             return "프레임중심";
@@ -711,6 +737,11 @@ public class CreateOrderDialogControllerV2 {
     private void initClientListDialog() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/listDialog.fxml"));
         DialogPane dialogPane = fxmlLoader.load();
+        dialogPane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                e.consume();
+            }
+        });
         clientListDialog = new Dialog<>();
         clientListDialog.setDialogPane(dialogPane);
 

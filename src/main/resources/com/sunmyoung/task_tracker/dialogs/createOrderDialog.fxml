@@ -25,7 +25,7 @@
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#56b9da2e" height="46.0" layoutX="559.0" layoutY="102.0" stroke="TRANSPARENT" strokeType="INSIDE" width="379.0" />
             <Rectangle fx:id="dateOutHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="555.0" layoutY="104.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="197.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cfe7ff77" height="53.0" layoutX="442.0" layoutY="288.0" stroke="TRANSPARENT" strokeType="INSIDE" width="111.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cfe7ff77" height="82.0" layoutX="440.0" layoutY="288.0" stroke="TRANSPARENT" strokeType="INSIDE" width="119.0" />
             <TextField fx:id="serialNumberTF" layoutX="57.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="460.0" promptText="Order Serial Number" />
             <RadioButton fx:id="shipmentSamegiRB" layoutX="62.0" layoutY="111.0" mnemonicParsing="false" text="사메기" />
             <RadioButton fx:id="shipmentPSRB" layoutX="166.0" layoutY="111.0" mnemonicParsing="false" text="PS 판" />
@@ -46,14 +46,14 @@
                </graphic>
             </Button>
             <TextField fx:id="codeTF" layoutX="97.0" layoutY="302.0" prefHeight="25.0" prefWidth="330.0" promptText="Code" />
-            <RadioButton fx:id="frameNewRB" layoutX="458.0" layoutY="294.0" mnemonicParsing="false" text="신규프레임" />
-            <RadioButton fx:id="frameExistingRB" layoutX="458.0" layoutY="318.0" mnemonicParsing="false" text="지급프레임" />
+            <RadioButton fx:id="frameNewRB" layoutX="460.0" layoutY="294.0" mnemonicParsing="false" text="신규프레임" />
+            <RadioButton fx:id="frameExistingRB" layoutX="460.0" layoutY="318.0" mnemonicParsing="false" text="지급프레임" />
             <TextField fx:id="frameSizeTF" layoutX="62.0" layoutY="338.0" promptText="Frame Size" />
             <TextField fx:id="meshTF" layoutX="230.0" layoutY="338.0" prefHeight="25.0" prefWidth="198.0" promptText="망사" />
             <TextField fx:id="biasTF" layoutX="62.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="각도" text="22.5" />
             <TextField fx:id="tensionTF" layoutX="192.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="텐션" />
             <TextField fx:id="emulsionTF" layoutX="323.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="유제" />
-            <RadioButton fx:id="typeDirectRB" layoutX="458.0" layoutY="350.0" mnemonicParsing="false" text="직견장" />
+            <RadioButton fx:id="typeDirectRB" layoutX="535.0" layoutY="372.0" mnemonicParsing="false" text="직견장" />
             <RadioButton fx:id="typeCombiRB" layoutX="458.0" layoutY="372.0" mnemonicParsing="false" text="COMBI" />
             <DatePicker fx:id="dateInPicker" layoutX="650.0" layoutY="39.0" promptText="작성일" />
             <RadioButton fx:id="methodPesongRB" layoutX="727.0" layoutY="83.0" mnemonicParsing="false" text="배송" />
@@ -64,8 +64,8 @@
             <RadioButton fx:id="positionCustomRB" layoutX="639.0" layoutY="193.0" mnemonicParsing="false" text="지정위치" />
             <RadioButton fx:id="positionCenterRB" layoutX="747.0" layoutY="193.0" mnemonicParsing="false" text="프레임중심" />
             <TextArea fx:id="orderNoteTA" layoutX="563.0" layoutY="218.0" prefHeight="131.0" prefWidth="378.0" promptText="Order Note" />
-            <ToggleButton fx:id="frameOnlyToggle" layoutX="567.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="프레임만" />
-            <TextField fx:id="countTF" layoutX="639.0" layoutY="369.0" promptText="수량" />
+            <ToggleButton fx:id="frameOnlyToggle" layoutX="721.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="프레임만" />
+            <TextField fx:id="countTF" layoutX="793.0" layoutY="369.0" promptText="수량" />
             <Button fx:id="addSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="436.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSubtask" prefHeight="40.0" prefWidth="40.0">
                <font>
                   <Font name="System Bold" size="18.0" />
@@ -136,6 +136,7 @@
             <Label layoutX="563.0" layoutY="93.0" text="출하예정일" textFill="#c3c2c2" />
             <Label layoutX="649.0" layoutY="22.0" text="작성일" textFill="#c3c2c2" />
             <FontIcon iconColor="WHITE" iconLiteral="bi-pencil" iconSize="20" layoutX="949.0" layoutY="32.0" />
+            <TextField fx:id="frameDirectInputTF" layoutX="446.0" layoutY="338.0" prefHeight="25.0" prefWidth="108.0" promptText="직접 입력" />
          </children>
       </AnchorPane>
    </content>

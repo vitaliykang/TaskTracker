@@ -4,14 +4,19 @@ import com.sunmyoung.task_tracker.Utilities;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 
@@ -31,12 +36,7 @@ public class ListDialogController {
 
     @FXML
     void filterList(KeyEvent event) {
-        String input = textField.getText();
-        if (input == null || input.length() == 0) {
-            filteredContent.setPredicate(predicate -> true);
-        } else {
-            filteredContent.setPredicate(predicate -> predicate.contains(input));
-        }
+        filter();
     }
 
     @FXML
@@ -47,11 +47,27 @@ public class ListDialogController {
         }
     }
 
+    @FXML
+    void filter(ActionEvent event) {
+        filter();
+    }
+
+    @SneakyThrows
     public void init() {
         System.out.println(fileName);
-        List<String> itemList = Utilities.readFromFile(fileName);
+//        List<String> itemList = Utilities.readFromFile(fileName);
+        List<String> itemList = Files.readAllLines(Paths.get("out/artifacts/TaskTracker_jar/data/clients.txt"));
         Collections.sort(itemList);
         content.addAll(itemList);
         listView.setItems(filteredContent);
+    }
+
+    private void filter() {
+        String input = textField.getText();
+        if (input == null || input.length() == 0) {
+            filteredContent.setPredicate(predicate -> true);
+        } else {
+            filteredContent.setPredicate(predicate -> predicate.contains(input));
+        }
     }
 }

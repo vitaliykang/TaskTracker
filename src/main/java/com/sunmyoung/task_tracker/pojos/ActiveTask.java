@@ -52,6 +52,9 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
     @Column(name = "new_frame")
     private Boolean isNewFrame;
 
+    @Column(name = "frame_condition", length = 60)
+    private String frameCondition;
+
     @Column(name = "bias")
     private String bias;
 
@@ -241,6 +244,14 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
 
     public void setIsNewFrame(Boolean newFrame) {
         isNewFrame = newFrame;
+    }
+
+    public String getFrameCondition() {
+        return frameCondition;
+    }
+
+    public void setFrameCondition(String frameCondition) {
+        this.frameCondition = frameCondition;
     }
 
     @Override

@@ -24,6 +24,8 @@ public interface TaskInterface {
 
     Boolean getIsNewFrame();
 
+    String getFrameCondition();
+
     String getBias();
 
     String getTension();

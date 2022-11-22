@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.ClientListDialogController">
+   <content>
+      <AnchorPane prefHeight="400.0" prefWidth="500.0">
+         <children>
+            <TextField fx:id="codeSearchTF" layoutX="25.0" layoutY="25.0" onKeyTyped="#search" prefHeight="25.0" prefWidth="215.0" promptText="코드로 검색" />
+            <TableView fx:id="clientsTableView" layoutX="25.0" layoutY="69.0" prefHeight="312.0" prefWidth="450.0">
+              <columns>
+                <TableColumn fx:id="codeCol" prefWidth="92.0" resizable="false" text="CODE" />
+                <TableColumn fx:id="clientCol" prefWidth="181.0" resizable="false" text="고객명" />
+                  <TableColumn fx:id="typeCol" minWidth="0.0" prefWidth="74.0" resizable="false" text="형" />
+                  <TableColumn fx:id="managerCol" prefWidth="102.0" resizable="false" text="매니저" />
+              </columns>
+            </TableView>
+            <Button layoutX="250.0" layoutY="25.0" mnemonicParsing="false" onAction="#search">
+               <graphic>
+                  <FontIcon iconLiteral="bi-search" />
+               </graphic>
+            </Button>
+            <Button layoutX="373.0" layoutY="25.0" mnemonicParsing="false" onAction="#addClient" prefHeight="30.0" prefWidth="30.0">
+               <graphic>
+                  <FontIcon iconColor="#3c36d6" iconLiteral="bi-plus-square" iconSize="12" />
+               </graphic>
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
+            <Button layoutX="419.0" layoutY="25.0" mnemonicParsing="false" onAction="#deleteClient" prefHeight="30.0" prefWidth="30.0">
+               <graphic>
+                  <FontIcon iconColor="RED" iconLiteral="bi-dash-square" iconSize="14" />
+               </graphic>
+            </Button>
+         </children>
+      </AnchorPane>
+   </content>
+   <buttonTypes>
+      <ButtonType fx:constant="OK" />
+      <ButtonType fx:constant="CANCEL" />
+   </buttonTypes>
+</DialogPane>
