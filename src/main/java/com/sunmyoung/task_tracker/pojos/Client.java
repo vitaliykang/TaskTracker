@@ -66,4 +66,8 @@ public class Client implements Comparable<Client>{
     public int compareTo(Client o) {
         return this.code.compareTo(o.code);
     }
+
+    public String toString() {
+        return String.format("%d :: %s :: %s :: %s :: %s", id, code, client, type, manager);
+    }
 }

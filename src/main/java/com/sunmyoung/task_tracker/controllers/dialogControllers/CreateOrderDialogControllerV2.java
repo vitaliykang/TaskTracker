@@ -153,10 +153,6 @@ public class CreateOrderDialogControllerV2 {
 
     private final Map<TextField, Rectangle> textFieldHighlightMap = new HashMap<>();
 
-    private Dialog<ButtonType> clientListDialog;
-    private ListDialogController listDialogController;
-    private List<String> clientList;
-
     @FXML
     void enableEdit() {
         enableElements(editCB.isSelected());
@@ -277,7 +273,6 @@ public class CreateOrderDialogControllerV2 {
         initHighlight();
         countTF.setDisable(true);
         enableEditCheckBox(false);
-        initClientListDialog();
         serialNumberTF.setText(DEFAULT_SN);
     }
 
@@ -497,16 +492,6 @@ public class CreateOrderDialogControllerV2 {
         return flag;
     }
 
-    /**
-     * Saves the current client info in the "data/clients.txt" file, unless such entry already exists.
-     */
-    public void saveClientInfo() {
-        String clientInfo = String.format("%s :: %s", clientTF.getText(), personTF.getText());
-        if (!clientList.contains(clientInfo)) {
-            Utilities.appendToFile("data/clients.txt", clientInfo);
-        }
-    }
-
     @SneakyThrows
     private void createSubtaskDialogWindow() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createSubtaskDialog.fxml"));
@@ -723,7 +708,19 @@ public class CreateOrderDialogControllerV2 {
 
     @SneakyThrows
     private void openClientListDialog() {
-        Optional<ButtonType> clickedButton = clientListDialog.showAndWait();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/clientListDialog.fxml"));
+        Dialog<ButtonType> dialog = new Dialog<>();
+        DialogPane dialogPane = fxmlLoader.load();
+        dialogPane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
+            if (e.getCode().equals(KeyCode.ENTER)) {
+                e.consume();
+            }
+        });
+        dialog.setDialogPane(dialogPane);
+
+        ListDialogController listDialogController = fxmlLoader.getController();
+
+        Optional<ButtonType> clickedButton = dialog.showAndWait();
 
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK
                 && listDialogController.getTextField().getText() != null && !listDialogController.getTextField().getText().equals("")) {
@@ -731,24 +728,6 @@ public class CreateOrderDialogControllerV2 {
             clientTF.setText(clientInfo[0]);
             personTF.setText(clientInfo[1]);
         }
-    }
-
-    @SneakyThrows
-    private void initClientListDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/listDialog.fxml"));
-        DialogPane dialogPane = fxmlLoader.load();
-        dialogPane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
-            if (e.getCode().equals(KeyCode.ENTER)) {
-                e.consume();
-            }
-        });
-        clientListDialog = new Dialog<>();
-        clientListDialog.setDialogPane(dialogPane);
-
-        listDialogController = fxmlLoader.getController();
-        listDialogController.setFileName("data/clients.txt");
-        listDialogController.init();
-        clientList = new ArrayList<>(listDialogController.getContent());
     }
 
     private void initHighlight() {

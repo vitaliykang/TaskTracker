@@ -351,7 +351,6 @@ public class TaskBoardController {
             ActiveTask task = new ActiveTask();
             controller.readFields(task);
             TaskRepository.save(task);
-            controller.saveClientInfo();
             Utilities.printStatus(String.format("New task [%s] is created.", task));
             loadData();
         }
