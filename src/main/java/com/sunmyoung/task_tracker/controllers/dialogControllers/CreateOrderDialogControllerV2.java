@@ -3,10 +3,7 @@ package com.sunmyoung.task_tracker.controllers.dialogControllers;
 import com.sunmyoung.task_tracker.DialogUtilities;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
-import com.sunmyoung.task_tracker.pojos.Code;
-import com.sunmyoung.task_tracker.pojos.Model;
-import com.sunmyoung.task_tracker.pojos.ActiveTask;
-import com.sunmyoung.task_tracker.pojos.TaskInterface;
+import com.sunmyoung.task_tracker.pojos.*;
 import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -52,6 +49,7 @@ public class CreateOrderDialogControllerV2 {
     @Getter
     private TextField
             clientTF,
+            typeTF,
             personTF;
 
     @FXML
@@ -285,6 +283,7 @@ public class CreateOrderDialogControllerV2 {
         task.setSerialNumber(serialNumberTF.getText());
         task.setShipmentFrom(getShipmentFrom());
         task.setClient(clientTF.getText());
+        task.setType(typeTF.getText());
         task.setPersonInCharge(personTF.getText());
         task.setFilm(getFilm());
         task.setFrameSize(frameSizeTF.getText());
@@ -347,6 +346,7 @@ public class CreateOrderDialogControllerV2 {
             }
         }
         clientTF.setText(task.getClient());
+        typeTF.setText(task.getType() != null ? task.getType() : "");
         personTF.setText(task.getPersonInCharge());
         if (task.getFilm() != null) {
             switch (task.getFilm()) {
@@ -363,12 +363,6 @@ public class CreateOrderDialogControllerV2 {
                 case "직견장" -> typeDirectRB.setSelected(true);
             }
         }
-
-//        if (task.getIsNewFrame()) {
-//            frameNewRB.setSelected(true);
-//        } else {
-//            frameExistingRB.setSelected(true);
-//        }
         if (task.getFrameCondition() != null) {
             switch (task.getFrameCondition()) {
                 case "신규프레임" -> frameNewRB.setSelected(true);
@@ -434,6 +428,7 @@ public class CreateOrderDialogControllerV2 {
         frameOnlyToggle.setDisable(!bool);
         countTF.setEditable(bool);
         clientTF.setEditable(bool);
+        typeTF.setEditable(bool);
         personTF.setEditable(bool);
         filmExistingRB.setDisable(!bool);
         filmNewRB.setDisable(!bool);
@@ -718,15 +713,16 @@ public class CreateOrderDialogControllerV2 {
         });
         dialog.setDialogPane(dialogPane);
 
-        ListDialogController listDialogController = fxmlLoader.getController();
+        ClientListDialogController controller = fxmlLoader.getController();
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
 
-        if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK
-                && listDialogController.getTextField().getText() != null && !listDialogController.getTextField().getText().equals("")) {
-            String[] clientInfo = listDialogController.getTextField().getText().split(" :: ");
-            clientTF.setText(clientInfo[0]);
-            personTF.setText(clientInfo[1]);
+        if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
+            Client selectedClient = controller.getSelectedClient();
+            if (selectedClient != null) {
+                clientTF.setText(selectedClient.getClient());
+                personTF.setText(selectedClient.getManager());
+            }
         }
     }
 

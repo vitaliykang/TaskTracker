@@ -191,6 +191,14 @@ public class CompletedTask implements TaskInterface{
         this.client = clientCompany;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getCoating() {
         return coating;
     }
@@ -381,14 +389,6 @@ public class CompletedTask implements TaskInterface{
 
     public void setTensioning(String tensioning) {
         this.tensioning = tensioning;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
 }

@@ -12,6 +12,8 @@ public interface TaskInterface {
 
     String getClient();
 
+    String getType();
+
     String getPersonInCharge();
 
     String getFilm();

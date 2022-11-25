@@ -34,6 +34,9 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
     @Column(name = "client_company", length = 200)
     private String client;
 
+    @Column(name = "type", length = 45)
+    private String type;
+
     @Column(name = "person_in_charge", length = 45)
     private String personInCharge;
 
@@ -84,9 +87,6 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
 
     @Column(name = "count")
     private Integer count;
-
-    @Column(name = "type", length = 45)
-    private String type;
 
     @Column(name = "is_aluminum")
     private Boolean isAluminum;
@@ -191,6 +191,15 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
 
     public void setClient(String client) {
         this.client = client;
+    }
+
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override
@@ -342,14 +351,6 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
 
     public void setCount(Integer count) {
         this.count = count;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public Boolean getIsAluminum() {
