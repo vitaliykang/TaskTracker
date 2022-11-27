@@ -19,7 +19,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
+<DialogPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2">
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1000.0">
          <children>
@@ -93,7 +93,7 @@
                </graphic>
             </Button>
             <Separator layoutX="57.0" layoutY="69.0" prefHeight="7.0" prefWidth="886.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#00000026" height="28.0" layoutX="894.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="86.0" />
+            <Rectangle fx:id="editRectangle" arcHeight="5.0" arcWidth="5.0" fill="#00000026" height="28.0" layoutX="894.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="86.0" />
             <Rectangle fx:id="modelHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff00" height="372.0" layoutX="46.0" layoutY="398.0" stroke="RED" strokeType="INSIDE" strokeWidth="3.0" width="913.0" />
             <Rectangle fx:id="clientHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="97.0" layoutY="147.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
             <Rectangle fx:id="personHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="354.0" layoutY="147.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="168.0" />
@@ -137,7 +137,7 @@
             <CheckBox fx:id="editCB" layoutX="901.0" layoutY="14.0" mnemonicParsing="false" onAction="#enableEdit" text="편집" textFill="#fcfcfc" />
             <Label layoutX="563.0" layoutY="93.0" text="출하예정일" textFill="#c3c2c2" />
             <Label layoutX="649.0" layoutY="22.0" text="작성일" textFill="#c3c2c2" />
-            <FontIcon iconColor="WHITE" iconLiteral="bi-pencil" iconSize="20" layoutX="949.0" layoutY="32.0" />
+            <FontIcon fx:id="editIcon" iconColor="WHITE" iconLiteral="bi-pencil" iconSize="20" layoutX="949.0" layoutY="32.0" />
          </children>
       </AnchorPane>
    </content>

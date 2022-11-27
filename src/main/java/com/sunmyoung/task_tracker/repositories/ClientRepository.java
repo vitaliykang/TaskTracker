@@ -23,7 +23,7 @@ public class ClientRepository {
         return result;
     }
 
-    public static void save(Client client) {
+    public static Client save(Client client) {
         EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
         try {
             entityManager.getTransaction().begin();
@@ -35,6 +35,7 @@ public class ClientRepository {
         } finally {
             entityManager.close();
         }
+        return client;
     }
 
     public static void update(Client client) {

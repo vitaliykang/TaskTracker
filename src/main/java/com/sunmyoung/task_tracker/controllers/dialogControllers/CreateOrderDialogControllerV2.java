@@ -3,6 +3,8 @@ package com.sunmyoung.task_tracker.controllers.dialogControllers;
 import com.sunmyoung.task_tracker.DialogUtilities;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.client.ClientListDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController;
 import com.sunmyoung.task_tracker.pojos.*;
 import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -21,6 +23,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -141,6 +144,14 @@ public class CreateOrderDialogControllerV2 {
             modelHighlight,
             dateOutHighlight;
 
+    @FXML
+    @Getter
+    private Rectangle editRectangle;
+
+    @FXML
+    @Getter
+    private FontIcon editIcon;
+
     private final String DEFAULT_SN = " / 제조지도서 ()";
 
     @Getter
@@ -237,7 +248,7 @@ public class CreateOrderDialogControllerV2 {
 
     @SneakyThrows
     private void openCodeSearchDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/codeSearchDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/code/codeSearchDialog.fxml"));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -703,7 +714,7 @@ public class CreateOrderDialogControllerV2 {
 
     @SneakyThrows
     private void openClientListDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/clientListDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/client/clientListDialog.fxml"));
         Dialog<ButtonType> dialog = new Dialog<>();
         DialogPane dialogPane = fxmlLoader.load();
         dialogPane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
@@ -723,6 +734,14 @@ public class CreateOrderDialogControllerV2 {
                 clientTF.setText(selectedClient.getClient());
                 personTF.setText(selectedClient.getManager());
             }
+        }
+
+        if (controller.listChanged()) {
+            List<String> clientsData = new ArrayList<>();
+            controller.getContent().forEach(client -> {
+                clientsData.add(client.convertToString());
+            });
+            Utilities.writeToFile("data/clients.txt", clientsData);
         }
     }
 

@@ -38,7 +38,7 @@ public class Utilities {
 
     /**
      * Reads the content of the file and returns it as a List.
-     * @param fileName - name of the file with extension.
+     * @param fileName - path to the file from the root folder.
      * @return - List<String> that contains all the lines from the file.
      */
     public static List<String> readFromFile(String fileName) {
@@ -69,11 +69,15 @@ public class Utilities {
 
     /**
      * Writes provided list of string to the file.
-     * @param fileName - file in the same folder as TaskTracker.jar.
+     * @param fileName - path to the file from the root folder.
      * @param content - List<String> that needs to be written to the file.
      */
     public static void writeToFile(String fileName, List<String> content) {
         Path path = Paths.get(pathStr.concat(fileName));
+        if (!path.toFile().exists()) {
+            createFile(path);
+        }
+
         try (FileWriter fileWriter = new FileWriter(path.toFile())){
             StringBuilder stringBuilder = new StringBuilder();
             for (String line : content) {
@@ -83,13 +87,13 @@ public class Utilities {
             stringBuilder.deleteCharAt(stringBuilder.length() - 1);
             fileWriter.write(stringBuilder.toString());
         } catch (IOException e) {
-            System.out.printf("File \"%s\" not found. %n", path);
+            System.out.printf("Failed to write to the file \"%s\". %n", path);
         }
     }
 
     /**
      * Appends a single String to the given file.
-     * @param fileName - file in the same folder as TaskTracker.jar.
+     * @param fileName - path to the file from the root folder.
      * @param newLine - single string that needs to be written to the file.
      */
     public static void appendToFile(String fileName, String newLine) {
@@ -98,7 +102,7 @@ public class Utilities {
             fileWriter.write(newLine);
             fileWriter.write("\n");
         } catch (IOException e) {
-            System.out.printf("File \"%s\" not found. %n", fileName);
+            System.out.printf("Failed to write to the file \"%s\". %n", path);
         }
     }
 }

@@ -22,6 +22,17 @@ public class Client implements Comparable<Client>{
     @Column(length = 45)
     private String manager;
 
+    public Client() {
+    }
+
+    public Client(String[] clientArr) {
+        id = Long.parseLong(clientArr[0]);
+        code = clientArr[1];
+        client = clientArr[2];
+        type = clientArr[3];
+        manager = clientArr[4];
+    }
+
     public Long getId() {
         return id;
     }
@@ -67,7 +78,12 @@ public class Client implements Comparable<Client>{
         return this.code.compareTo(o.code);
     }
 
-    public String toString() {
+    public String convertToString() {
         return String.format("%d :: %s :: %s :: %s :: %s", id, code, client, type, manager);
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s: %s (%s) %s", code, client, type, manager);
     }
 }

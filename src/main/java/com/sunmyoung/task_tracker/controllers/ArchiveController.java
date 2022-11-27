@@ -2,7 +2,7 @@ package com.sunmyoung.task_tracker.controllers;
 
 
 import com.sunmyoung.task_tracker.Main;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.CodeSearchDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;

@@ -2,7 +2,8 @@ package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.ConfirmDeleteDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
@@ -19,11 +20,19 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.print.*;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.transform.Scale;
 import lombok.Getter;
 import lombok.SneakyThrows;
+
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -89,6 +98,36 @@ public class TaskBoardController {
     @SneakyThrows
     void returnToMainMenu(ActionEvent event) {
         MainV2Controller.showMainScreen(event);
+    }
+
+    @FXML
+    @SneakyThrows
+    void print(ActionEvent event) {
+        print();
+    }
+
+    private void print() throws IOException {
+        ActiveTask activeTask = tableView.getSelectionModel().getSelectedItem();
+        if (activeTask != null) {
+            System.out.println(activeTask);
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/printOrderDialog - downscaled.fxml"));
+            Dialog<ButtonType> dialog = new Dialog<>();
+            DialogPane dialogPane = fxmlLoader.load();
+            dialog.setDialogPane(dialogPane);
+
+            Button printButton = (Button) dialogPane.lookupButton(ButtonType.APPLY);
+            printButton.setText("Print");
+
+            PrintOrderDialog controller = fxmlLoader.getController();
+            controller.setTask(activeTask);
+            controller.populateWindow();
+            controller.populateTableView();
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get().equals(ButtonType.APPLY)) {
+                controller.print();
+            }
+        }
     }
 
     public void initialize() {
@@ -338,6 +377,9 @@ public class TaskBoardController {
         dialog.setDialogPane(dialogPane);
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
 
+        controller.getEditIcon().setVisible(false);
+        controller.getEditRectangle().setVisible(false);
+
         Button okButton = (Button) dialogPane.lookupButton(ButtonType.OK);
         okButton.addEventFilter(ActionEvent.ACTION, event -> {
             if (!controller.fieldsOK()) {
@@ -361,13 +403,14 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/confirmDeleteDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/utility/confirmationDialog.fxml"));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setResizable(false);
         dialog.setDialogPane(fxmlLoader.load());
 
-        ConfirmDeleteDialogController controller = fxmlLoader.getController();
-        controller.getTaskInfoLabel().setText(selectedTask.toString());
+        ConfirmationDialogController controller = fxmlLoader.getController();
+        controller.getMessageLabel().setText("작업을 삭제하시겠습니까?");
+        controller.getInfoLabel().setText(selectedTask.toString());
 
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {

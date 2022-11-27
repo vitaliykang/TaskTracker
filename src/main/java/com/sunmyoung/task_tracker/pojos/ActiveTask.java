@@ -120,9 +120,13 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
 
     @Override
     public String toString() {
-        return String.format("Client - %s, " +
-                "Size - [%s], " +
-                "Count - %d %n", client, frameSize, count);
+        return "ActiveTask{" +
+                "id=" + id +
+                ", client='" + client + '\'' +
+                ", frameSize='" + frameSize + '\'' +
+                ", mesh='" + mesh + '\'' +
+                ", count=" + count +
+                '}';
     }
 
     @Override

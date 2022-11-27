@@ -2,13 +2,15 @@ package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.TestDialogController;
 import com.sunmyoung.task_tracker.controllers.settings.SimpleConfig;
+import com.sunmyoung.task_tracker.pojos.Client;
+import com.sunmyoung.task_tracker.repositories.ClientRepository;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
+import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -16,12 +18,12 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
-import lombok.Getter;
 import lombok.SneakyThrows;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class LoginScreenController {
 
@@ -51,6 +53,7 @@ public class LoginScreenController {
         SimpleConfig.saveInfo(addressTF.getText(), loginTF.getText(), passwordTF.getText());
         if (connectToDatabase(event)) {
             Utilities.printStatus("Connected.");
+            loadClientList();
         } else {
             Utilities.printStatus("Failed to connect.");
         }
@@ -59,7 +62,12 @@ public class LoginScreenController {
     @FXML
     @SneakyThrows
     void test(ActionEvent event) {
-
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if (job != null) {
+            if (job.printPage(animatedImageView)){
+                job.endJob();
+            }
+        }
     }
 
     @SneakyThrows
@@ -97,8 +105,16 @@ public class LoginScreenController {
         } else {
             errorIcon.setVisible(true);
             animatedImageView.setVisible(false);
-//            gearsIcon.setVisible(false);
             return false;
         }
+    }
+
+    private void loadClientList() {
+        List<Client> clientList = ClientRepository.findAll();
+        List<String> clientStrings = new ArrayList<>();
+        clientList.forEach(client -> {
+            clientStrings.add(client.convertToString());
+        });
+        Utilities.writeToFile("data/clients.txt", clientStrings);
     }
 }

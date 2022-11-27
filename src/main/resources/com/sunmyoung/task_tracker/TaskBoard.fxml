@@ -35,6 +35,11 @@
                      <graphic>
                         <FontIcon iconLiteral="bi-box-arrow-right" iconSize="16" />
                      </graphic></Button>
+                  <Button layoutX="907.0" layoutY="5.0" mnemonicParsing="false" onAction="#print" text="Print">
+                     <graphic>
+                        <FontIcon iconLiteral="bi-printer" />
+                     </graphic>
+                  </Button>
                </children>
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">

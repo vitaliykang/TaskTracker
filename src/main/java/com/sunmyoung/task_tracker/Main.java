@@ -8,6 +8,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import lombok.SneakyThrows;
 
@@ -18,13 +19,11 @@ public class Main extends Application {
     @Override
     @SneakyThrows
     public void start(Stage stage) throws IOException {
-//        DatabaseConnection.connect();
-
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("loginScreen.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
-//        scene.getStylesheets().add(getClass().getResource("TVstyle.css").toExternalForm());
         stage.setScene(scene);
         stage.setResizable(false);
+        stage.initStyle(StageStyle.DECORATED);
         stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("icon.png"))));
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
