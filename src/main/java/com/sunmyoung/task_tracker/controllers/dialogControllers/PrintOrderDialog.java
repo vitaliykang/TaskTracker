@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.print.*;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -76,16 +77,19 @@ public class PrintOrderDialog {
 
         PrinterJob printerJob = PrinterJob.createPrinterJob();
         Paper paper = printerJob.getJobSettings().getPageLayout().getPaper();
-        PageLayout pageLayout = printerJob.getPrinter().createPageLayout(paper, PageOrientation.LANDSCAPE, Printer.MarginType.DEFAULT);
+        PageLayout pageLayout = printerJob.getPrinter().createPageLayout(paper, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);
         double scaleX = pageLayout.getPrintableWidth() / screenshot.getWidth();
         double scaleY = pageLayout.getPrintableHeight() / screenshot.getHeight();
         double scale = Math.min(scaleX, scaleY);
         ImageView printNode = new ImageView(screenshot);
+        Scene scene = pane.getScene();
         printNode.getTransforms().add(new Scale(scale, scale));
-
         printerJob.getJobSettings().setPageLayout(pageLayout);
+
+        printerJob.showPrintDialog(scene.getWindow());
+
         if (printerJob != null) {
-            if (printerJob.printPage(printNode)) {
+            if (printerJob.printPage(pane)) {
                 printerJob.endJob();
             }
         }

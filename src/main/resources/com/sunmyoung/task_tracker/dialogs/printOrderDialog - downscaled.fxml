@@ -10,9 +10,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog">
+<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog">
    <content>
-      <AnchorPane prefHeight="595.0" prefWidth="842.0">
+      <AnchorPane fx:id="pane" prefHeight="595.0" prefWidth="842.0">
          <children>
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="595.0" layoutX="-2.0" layoutY="-11.0" stroke="TRANSPARENT" strokeType="INSIDE" width="842.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="45.0" layoutX="195.0" layoutY="164.0" stroke="BLACK" strokeType="INSIDE" width="398.0" />
@@ -98,14 +98,14 @@
                </font>
             </Label>
             <Label fx:id="frameConditionLabel" layoutX="394.0" layoutY="140.0" text="신교프레임" />
-            <Label layoutX="615.0" layoutY="179.0" text="각도" />
-            <Label fx:id="biasLabel" layoutX="645.0" layoutY="175.0" text="22.5">
+            <Label layoutX="606.0" layoutY="179.0" text="각도" />
+            <Label fx:id="biasLabel" layoutX="636.0" layoutY="175.0" text="22.5">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="705.0" layoutY="177.0" text="텐션" />
-            <Label fx:id="tensionLabel" layoutX="737.0" layoutY="175.0" text="1.00 ~ 1.20">
+            <Label layoutX="685.0" layoutY="177.0" text="텐션" />
+            <Label fx:id="tensionLabel" layoutX="717.0" layoutY="175.0" text="1.00 ~ 1.20">
                <font>
                   <Font size="14.0" />
                </font>
@@ -139,7 +139,7 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <TableView fx:id="printingTableView" layoutX="26.0" layoutY="247.0" prefHeight="319.0" prefWidth="786.0" stylesheets="@../../../../printStyle.css">
+            <TableView fx:id="printingTableView" layoutX="26.0" layoutY="247.0" prefHeight="319.0" prefWidth="762.0" stylesheets="@../../../../printStyle.css">
               <columns>
                 <TableColumn fx:id="modelCol" prefWidth="272.0" text="MODEL" />
                   <TableColumn fx:id="thicknessCol" prefWidth="32.0" text="두께" />

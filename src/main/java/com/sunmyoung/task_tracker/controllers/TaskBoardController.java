@@ -115,13 +115,18 @@ public class TaskBoardController {
             DialogPane dialogPane = fxmlLoader.load();
             dialog.setDialogPane(dialogPane);
 
-            Button printButton = (Button) dialogPane.lookupButton(ButtonType.APPLY);
-            printButton.setText("Print");
-
             PrintOrderDialog controller = fxmlLoader.getController();
             controller.setTask(activeTask);
             controller.populateWindow();
             controller.populateTableView();
+
+            Button printButton = (Button) dialogPane.lookupButton(ButtonType.APPLY);
+            printButton.setText("Print");
+            printButton.addEventFilter(ActionEvent.ACTION, event -> {
+                event.consume();
+                controller.print();
+                dialog.close();
+            });
 
             Optional<ButtonType> result = dialog.showAndWait();
             if (result.isPresent() && result.get().equals(ButtonType.APPLY)) {
