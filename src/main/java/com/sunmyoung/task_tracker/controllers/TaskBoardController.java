@@ -1,5 +1,6 @@
 package com.sunmyoung.task_tracker.controllers;
 
+import com.sunmyoung.task_tracker.ErrorMessage;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog;
@@ -101,16 +102,20 @@ public class TaskBoardController {
     }
 
     @FXML
-    @SneakyThrows
     void print(ActionEvent event) {
-        print();
+        try {
+            print();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorMessage.show(e.getStackTrace());
+        }
     }
 
     private void print() throws IOException {
         ActiveTask activeTask = tableView.getSelectionModel().getSelectedItem();
         if (activeTask != null) {
             System.out.println(activeTask);
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/printOrderDialog - downscaled.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("!dialogs/printOrderDialog - downscaled.fxml"));
             Dialog<ButtonType> dialog = new Dialog<>();
             DialogPane dialogPane = fxmlLoader.load();
             dialog.setDialogPane(dialogPane);
