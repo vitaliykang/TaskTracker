@@ -27,9 +27,18 @@
             <Rectangle fx:id="dateOutHighlight" arcHeight="5.0" arcWidth="5.0" fill="#2b90e300" height="43.0" layoutX="555.0" layoutY="104.0" stroke="#e40404" strokeType="INSIDE" strokeWidth="3.0" width="197.0" />
             <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#cfe7ff77" height="82.0" layoutX="440.0" layoutY="288.0" stroke="TRANSPARENT" strokeType="INSIDE" width="119.0" />
             <TextField fx:id="serialNumberTF" layoutX="57.0" layoutY="39.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="25.0" prefWidth="460.0" promptText="Order Serial Number" />
-            <RadioButton fx:id="shipmentSamegiRB" layoutX="62.0" layoutY="111.0" mnemonicParsing="false" text="사메기" />
-            <RadioButton fx:id="shipmentPSRB" layoutX="166.0" layoutY="111.0" mnemonicParsing="false" text="PS 판" />
-            <RadioButton fx:id="shipmentChepanRB" layoutX="264.0" layoutY="111.0" mnemonicParsing="false" text="제판" />
+            <RadioButton fx:id="shipmentSamegiRB" layoutX="62.0" layoutY="111.0" mnemonicParsing="false" text="사메기">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="shipmentPSRB" layoutX="166.0" layoutY="111.0" mnemonicParsing="false" text="PS 판">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="shipmentChepanRB" layoutX="264.0" layoutY="111.0" mnemonicParsing="false" text="제판">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
             <Button fx:id="searchClientButton" layoutX="57.0" layoutY="153.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#searchClient" prefHeight="30.0" prefWidth="30.0">
                <graphic>
                   <FontIcon iconLiteral="bi-search" iconSize="16" />
@@ -38,35 +47,77 @@
             <TextField fx:id="clientTF" layoutX="106.0" layoutY="156.0" promptText="고객명" />
             <TextField fx:id="typeTF" layoutX="267.0" layoutY="156.0" prefHeight="25.0" prefWidth="84.0" />
             <TextField fx:id="personTF" layoutX="363.0" layoutY="156.0" promptText="매니저" />
-            <RadioButton fx:id="filmExistingRB" layoutX="62.0" layoutY="226.0" mnemonicParsing="false" text="기존필름" />
-            <RadioButton fx:id="filmProvidedRB" layoutX="166.0" layoutY="226.0" mnemonicParsing="false" text="제공필름" />
-            <RadioButton fx:id="filmNewRB" layoutX="264.0" layoutY="226.0" mnemonicParsing="false" text="신규필름" />
+            <RadioButton fx:id="filmExistingRB" layoutX="62.0" layoutY="226.0" mnemonicParsing="false" text="기존필름">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="filmProvidedRB" layoutX="166.0" layoutY="226.0" mnemonicParsing="false" text="제공필름">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="filmNewRB" layoutX="264.0" layoutY="226.0" mnemonicParsing="false" text="신규필름">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></RadioButton>
             <Button fx:id="searchByCodeButton" layoutX="57.0" layoutY="299.0" mnemonicParsing="false" onAction="#searchByCode" prefHeight="30.0" prefWidth="30.0">
                <graphic>
                   <FontIcon iconLiteral="bi-search" iconSize="16" />
                </graphic>
             </Button>
             <TextField fx:id="codeTF" layoutX="97.0" layoutY="302.0" prefHeight="25.0" prefWidth="330.0" promptText="Code" />
-            <RadioButton fx:id="frameNewRB" layoutX="460.0" layoutY="294.0" mnemonicParsing="false" text="신규프레임" />
-            <RadioButton fx:id="frameExistingRB" layoutX="460.0" layoutY="318.0" mnemonicParsing="false" text="지급프레임" />
+            <RadioButton fx:id="frameNewRB" layoutX="460.0" layoutY="294.0" mnemonicParsing="false" text="신규프레임">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="frameExistingRB" layoutX="460.0" layoutY="318.0" mnemonicParsing="false" text="지급프레임">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
             <TextField fx:id="frameDirectInputTF" layoutX="446.0" layoutY="338.0" prefHeight="25.0" prefWidth="108.0" promptText="직접 입력" />
             <TextField fx:id="frameSizeTF" layoutX="62.0" layoutY="338.0" promptText="Frame Size" />
             <TextField fx:id="meshTF" layoutX="230.0" layoutY="338.0" prefHeight="25.0" prefWidth="198.0" promptText="망사" />
             <TextField fx:id="biasTF" layoutX="62.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="각도" text="22.5" />
             <TextField fx:id="tensionTF" layoutX="192.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="텐션" />
             <TextField fx:id="emulsionTF" layoutX="323.0" layoutY="369.0" prefHeight="25.0" prefWidth="105.0" promptText="유제" />
-            <RadioButton fx:id="typeDirectRB" layoutX="535.0" layoutY="372.0" mnemonicParsing="false" text="직견장" />
-            <RadioButton fx:id="typeCombiRB" layoutX="458.0" layoutY="372.0" mnemonicParsing="false" text="COMBI" />
+            <RadioButton fx:id="typeDirectRB" layoutX="535.0" layoutY="372.0" mnemonicParsing="false" text="직견장">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="typeCombiRB" layoutX="458.0" layoutY="372.0" mnemonicParsing="false" text="COMBI">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
             <DatePicker fx:id="dateInPicker" layoutX="650.0" layoutY="39.0" promptText="작성일" />
-            <RadioButton fx:id="methodPesongRB" layoutX="727.0" layoutY="83.0" mnemonicParsing="false" text="배송" />
-            <RadioButton fx:id="methodPedalRB" layoutX="778.0" layoutY="83.0" mnemonicParsing="false" text="배달" />
+            <RadioButton fx:id="methodPesongRB" layoutX="727.0" layoutY="83.0" mnemonicParsing="false" text="배송">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="methodPedalRB" layoutX="788.0" layoutY="84.0" mnemonicParsing="false" text="배달">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
             <DatePicker fx:id="dateOutPicker" layoutX="563.0" layoutY="113.0" promptText="출하예정일" />
-            <RadioButton fx:id="amRB" layoutX="762.0" layoutY="117.0" mnemonicParsing="false" text="오전직납" />
-            <RadioButton fx:id="deliveryRB" layoutX="840.0" layoutY="117.0" mnemonicParsing="false" text="택배발송" />
-            <RadioButton fx:id="positionCustomRB" layoutX="639.0" layoutY="193.0" mnemonicParsing="false" text="지정위치" />
-            <RadioButton fx:id="positionCenterRB" layoutX="747.0" layoutY="193.0" mnemonicParsing="false" text="프레임중심" />
+            <RadioButton fx:id="amRB" layoutX="753.0" layoutY="116.0" mnemonicParsing="false" text="오전직납">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="deliveryRB" layoutX="854.0" layoutY="116.0" mnemonicParsing="false" text="택배발송">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="positionCustomRB" layoutX="639.0" layoutY="193.0" mnemonicParsing="false" text="지정위치">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
+            <RadioButton fx:id="positionCenterRB" layoutX="747.0" layoutY="193.0" mnemonicParsing="false" text="프레임중심">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></RadioButton>
             <TextArea fx:id="orderNoteTA" layoutX="563.0" layoutY="218.0" prefHeight="131.0" prefWidth="378.0" promptText="Order Note" />
-            <ToggleButton fx:id="frameOnlyToggle" layoutX="721.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="프레임만" />
+            <ToggleButton fx:id="frameOnlyToggle" layoutX="721.0" layoutY="369.0" mnemonicParsing="false" onAction="#frameOnlyToggleAction" text="프레임만">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></ToggleButton>
             <TextField fx:id="countTF" layoutX="793.0" layoutY="369.0" promptText="수량" />
             <Button fx:id="addSubtaskButton" alignment="CENTER" layoutX="7.0" layoutY="436.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addSubtask" prefHeight="40.0" prefWidth="40.0">
                <font>
@@ -105,26 +156,29 @@
                </cursor></Rectangle>
             <Label layoutX="57.0" layoutY="84.0" text="출하형태">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Arial" size="12.0" />
                </font></Label>
             <Label layoutX="57.0" layoutY="199.0" text="포지필림">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Arial" size="14.0" />
                </font></Label>
             <Label layoutX="143.0" layoutY="266.0" text="사메기 (TENSIONING)">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font></Label>
             <Label layoutX="651.0" layoutY="83.0" text="납품 방법">
                <font>
-                  <Font size="14.0" />
+                  <Font name="Arial" size="14.0" />
                </font></Label>
             <Label layoutX="662.0" layoutY="151.0" text="제판 (PRINTING)">
                <font>
-                  <Font size="18.0" />
+                  <Font name="Arial" size="18.0" />
                </font></Label>
-            <Label layoutX="572.0" layoutY="193.0" text="제판위치" />
-            <TableView fx:id="subtasksTableView" layoutX="55.0" layoutY="407.0" prefHeight="352.0" prefWidth="890.0">
+            <Label layoutX="572.0" layoutY="193.0" text="제판위치">
+               <font>
+                  <Font name="Arial" size="14.0" />
+               </font></Label>
+            <TableView fx:id="subtasksTableView" layoutX="55.0" layoutY="407.0" prefHeight="352.0" prefWidth="890.0" stylesheets="@../../../../TaskBoardStyle.css">
               <columns>
                 <TableColumn fx:id="orderCol" prefWidth="40.0" resizable="false" text="№" />
                 <TableColumn fx:id="printCol" prefWidth="722.0" resizable="false" text="MODEL" />
@@ -134,7 +188,10 @@
             </TableView>
             <Separator layoutX="55.0" layoutY="261.0" prefHeight="0.0" prefWidth="482.0" />
             <Separator layoutX="567.0" layoutY="177.0" prefHeight="2.0" prefWidth="370.0" />
-            <CheckBox fx:id="editCB" layoutX="901.0" layoutY="14.0" mnemonicParsing="false" onAction="#enableEdit" text="편집" textFill="#fcfcfc" />
+            <CheckBox fx:id="editCB" layoutX="901.0" layoutY="14.0" mnemonicParsing="false" onAction="#enableEdit" text="편집" textFill="#fcfcfc">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></CheckBox>
             <Label layoutX="563.0" layoutY="93.0" text="출하예정일" textFill="#c3c2c2" />
             <Label layoutX="649.0" layoutY="22.0" text="작성일" textFill="#c3c2c2" />
             <FontIcon fx:id="editIcon" iconColor="WHITE" iconLiteral="bi-pencil" iconSize="20" layoutX="949.0" layoutY="32.0" />

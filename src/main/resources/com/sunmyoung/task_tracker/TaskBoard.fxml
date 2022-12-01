@@ -7,6 +7,7 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.TaskBoardController">
@@ -22,7 +23,10 @@
                   <Button fx:id="refreshBtn" layoutX="1043.0" layoutY="5.0" mnemonicParsing="false" onAction="#refresh" text="Refresh">
                      <graphic>
                         <FontIcon iconLiteral="bi-arrow-repeat" iconSize="16" />
-                     </graphic></Button>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Button>
                   <Button layoutX="275.0" layoutY="5.0" mnemonicParsing="false" onAction="#markAsCompleted" text="작업 완료">
                      <graphic>
                         <FontIcon iconColor="#0b9025" iconLiteral="bi-check2-square" iconSize="16" />
@@ -34,11 +38,17 @@
                   <Button layoutX="1291.0" layoutY="5.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu">
                      <graphic>
                         <FontIcon iconLiteral="bi-box-arrow-right" iconSize="16" />
-                     </graphic></Button>
+                     </graphic>
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font></Button>
                   <Button layoutX="907.0" layoutY="5.0" mnemonicParsing="false" onAction="#print" text="Print">
                      <graphic>
                         <FontIcon iconLiteral="bi-printer" />
                      </graphic>
+                     <font>
+                        <Font name="Arial" size="12.0" />
+                     </font>
                   </Button>
                </children>
             </AnchorPane>

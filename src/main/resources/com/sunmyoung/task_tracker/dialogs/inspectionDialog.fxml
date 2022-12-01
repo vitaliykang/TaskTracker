@@ -7,12 +7,13 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController">
+<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController">
    <content>
       <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0">
          <children>
-            <TableView fx:id="inspectionTableView" layoutX="13.0" layoutY="47.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="960.0">
+            <TableView fx:id="inspectionTableView" layoutX="13.0" layoutY="47.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="541.0" prefWidth="960.0" stylesheets="@../../../../printStyle.css">
               <columns>
                   <TableColumn fx:id="orderCol" prefWidth="48.0" resizable="false" sortable="false" text="№" />
                 <TableColumn fx:id="lotCol" prefWidth="152.0" resizable="false" sortable="false" text="LOT" />
@@ -38,11 +39,17 @@
                   </TableColumn>
               </columns>
             </TableView>
-            <Button fx:id="addButton" layoutX="32.0" layoutY="9.0" mnemonicParsing="false" onAction="#addInspectionReport" prefHeight="30.0" prefWidth="30.0" text="+" />
-            <Button fx:id="removeButton" layoutX="82.0" layoutY="9.0" mnemonicParsing="false" onAction="#removeInspectionReport" prefHeight="30.0" prefWidth="30.0" text="-">
+            <Button fx:id="addButton" layoutX="32.0" layoutY="9.0" mnemonicParsing="false" onAction="#addInspectionReport" prefHeight="30.0" prefWidth="30.0">
+               <graphic>
+                  <FontIcon iconColor="#5500ff" iconLiteral="bi-plus-square" iconSize="14" />
+               </graphic></Button>
+            <Button fx:id="removeButton" layoutX="82.0" layoutY="9.0" mnemonicParsing="false" onAction="#removeInspectionReport" prefHeight="30.0" prefWidth="30.0">
                <font>
                   <Font size="14.0" />
                </font>
+               <graphic>
+                  <FontIcon iconColor="RED" iconLiteral="bi-dash-square" />
+               </graphic>
             </Button>
          </children>
       </AnchorPane>

@@ -125,7 +125,7 @@ public class TaskBoardController {
             controller.populateWindow();
             controller.populateTableView();
 
-            Button printButton = (Button) dialogPane.lookupButton(ButtonType.APPLY);
+            Button printButton = (Button) dialogPane.lookupButton(ButtonType.OK);
             printButton.setText("Print");
             printButton.addEventFilter(ActionEvent.ACTION, event -> {
                 event.consume();
@@ -134,7 +134,7 @@ public class TaskBoardController {
             });
 
             Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get().equals(ButtonType.APPLY)) {
+            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
                 controller.print();
             }
         }

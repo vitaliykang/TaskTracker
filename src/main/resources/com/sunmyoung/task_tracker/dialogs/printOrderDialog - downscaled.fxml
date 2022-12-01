@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog">
+<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog">
    <content>
       <AnchorPane fx:id="pane" prefHeight="595.0" prefWidth="842.0">
          <children>
@@ -200,7 +200,7 @@
       </AnchorPane>
    </content>
    <buttonTypes>
-      <ButtonType fx:constant="APPLY" />
-      <ButtonType fx:constant="CLOSE" />
+      <ButtonType fx:constant="OK" />
+      <ButtonType fx:constant="CANCEL" />
    </buttonTypes>
 </DialogPane>
