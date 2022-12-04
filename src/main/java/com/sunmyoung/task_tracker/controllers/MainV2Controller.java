@@ -17,14 +17,6 @@ import javafx.stage.WindowEvent;
 import lombok.SneakyThrows;
 
 public class MainV2Controller {
-    @FXML
-    private Button archiveButton;
-
-    @FXML
-    private Button taskBoardButton;
-
-    @FXML
-    private Button tvTaskBoardButton;
 
     @FXML
     @SneakyThrows
@@ -55,6 +47,17 @@ public class MainV2Controller {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Task Board");
+        centerStage(stage);
+        stage.show();
+    }
+
+    @FXML
+    @SneakyThrows
+    void openStock(ActionEvent event) {
+        Scene scene = createScene("stock.fxml");
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
+        stage.setScene(scene);
+        stage.setTitle("Stock");
         centerStage(stage);
         stage.show();
     }

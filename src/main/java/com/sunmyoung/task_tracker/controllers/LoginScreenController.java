@@ -95,7 +95,6 @@ public class LoginScreenController {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainV2.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            ;
             stage.setScene(scene);
             Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
             stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);

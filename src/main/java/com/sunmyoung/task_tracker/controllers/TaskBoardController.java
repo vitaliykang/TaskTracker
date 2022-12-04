@@ -1,12 +1,13 @@
 package com.sunmyoung.task_tracker.controllers;
 
+import com.sunmyoung.task_tracker.Dialogs;
 import com.sunmyoung.task_tracker.ErrorMessage;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.order.PrintOrderDialog;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.order.CreateOrderDialogControllerV2;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.order.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
 import com.sunmyoung.task_tracker.pojos.InspectionReport;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
@@ -21,15 +22,9 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.print.*;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.transform.Scale;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -107,7 +102,7 @@ public class TaskBoardController {
             print();
         } catch (Exception e) {
             e.printStackTrace();
-            ErrorMessage.show(e.getStackTrace());
+            ErrorMessage.show(e);
         }
     }
 
@@ -115,7 +110,7 @@ public class TaskBoardController {
         ActiveTask activeTask = tableView.getSelectionModel().getSelectedItem();
         if (activeTask != null) {
             System.out.println(activeTask);
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("!dialogs/printOrderDialog - downscaled.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PRINT_ORDER));
             Dialog<ButtonType> dialog = new Dialog<>();
             DialogPane dialogPane = fxmlLoader.load();
             dialog.setDialogPane(dialogPane);
@@ -304,7 +299,7 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/inspectionDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.INSPECTION));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(fxmlLoader.load());
 
@@ -344,7 +339,7 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_ORDER));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -381,7 +376,7 @@ public class TaskBoardController {
 
     @SneakyThrows
     private void createOrderDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_ORDER));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -413,7 +408,7 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/utility/confirmationDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setResizable(false);
         dialog.setDialogPane(fxmlLoader.load());

@@ -9,7 +9,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<AnchorPane prefHeight="794.0" prefWidth="1123.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog">
+<AnchorPane prefHeight="794.0" prefWidth="1123.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.order.PrintOrderDialog">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="WHITE" height="810.0" layoutX="-9.0" layoutY="-6.0" stroke="TRANSPARENT" strokeType="INSIDE" width="1151.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="45.0" layoutX="293.0" layoutY="208.0" stroke="BLACK" strokeType="INSIDE" width="467.0" />

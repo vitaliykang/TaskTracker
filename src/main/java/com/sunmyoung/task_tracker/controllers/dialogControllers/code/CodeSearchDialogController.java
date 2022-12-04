@@ -1,9 +1,13 @@
 package com.sunmyoung.task_tracker.controllers.dialogControllers.code;
 
+import com.sunmyoung.task_tracker.Dialogs;
+import com.sunmyoung.task_tracker.ErrorMessage;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
 import com.sunmyoung.task_tracker.pojos.Code;
 import com.sunmyoung.task_tracker.repositories.CodeRepository;
+import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
+import jakarta.persistence.EntityManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -20,7 +24,6 @@ import lombok.SneakyThrows;
 import java.util.*;
 
 public class CodeSearchDialogController {
-
     @FXML
     private Rectangle chickenHighlight;
 
@@ -29,6 +32,7 @@ public class CodeSearchDialogController {
     private Label
             clientLabel,
             frameSizeLabel,
+            meshSizeLabel,
             meshLabel,
             tensionLabel,
             biasLabel;
@@ -52,6 +56,8 @@ public class CodeSearchDialogController {
     private final ObservableList<String> content = FXCollections.observableArrayList();
     private final FilteredList<String> filteredContent = new FilteredList<>(content, predicate -> true);
 
+    private String selectedEntry;
+
     @FXML
     void filterList(KeyEvent event) {
         String input = textField.getText();
@@ -64,13 +70,14 @@ public class CodeSearchDialogController {
 
     @FXML
     void selectEntry(MouseEvent event) {
-        String selectedEntry = listView.getSelectionModel().getSelectedItem();
+        selectedEntry = listView.getSelectionModel().getSelectedItem();
         if (selectedEntry != null) {
             Code code = codeMap.get(selectedEntry);
             textField.setText(selectedEntry);
 
             clientLabel.setText(code.getClient());
             frameSizeLabel.setText(code.getFrameSize());
+            meshSizeLabel.setText(code.getMeshSize());
             meshLabel.setText(code.getMesh());
             tensionLabel.setText(code.getTension());
             biasLabel.setText(code.getBias());
@@ -90,9 +97,50 @@ public class CodeSearchDialogController {
         createNewCodeDialog();
     }
 
+    @FXML
+    void edit(ActionEvent event) {
+        if (selectedEntry != null) {
+            editCode();
+        }
+    }
+
+    private void editCode() {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CODE));
+        Dialog<ButtonType> dialog = new Dialog<>();
+        try {
+            dialog.setDialogPane(fxmlLoader.load());
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorMessage.show(e);
+        }
+        CreateNewCodeDialogController controller = fxmlLoader.getController();
+
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+            Code selectedCode = entityManager.createQuery("from Code c where c.code = :selectedEntry", Code.class).setParameter("selectedEntry", selectedEntry)
+                            .getSingleResult();
+
+            controller.populateWindow(selectedCode);
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                controller.readFields(selectedCode);
+                entityManager.getTransaction().commit();
+                loadInfo();
+            }
+        } catch (Exception e) {
+            entityManager.getTransaction().rollback();
+            e.printStackTrace();
+            ErrorMessage.show(e);
+        } finally {
+            entityManager.close();
+        }
+    }
+
     @SneakyThrows
     private void createNewCodeDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/code/createNewCodeDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CODE));
         DialogPane dialogPane = fxmlLoader.load();
         CreateNewCodeDialogController controller = fxmlLoader.getController();
 
@@ -102,13 +150,7 @@ public class CodeSearchDialogController {
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
             Code code = new Code();
-            code.setCode(controller.getCodeTF().getText());
-            code.setClient(controller.getClientTF().getText());
-            code.setFrameSize(controller.getFrameSizeTF().getText());
-            code.setMesh(controller.getMeshTF().getText());
-            code.setBias(controller.getBiasTF().getText());
-            code.setTension(controller.getTensionTF().getText());
-            code.setCombi(controller.getCombiCB().isSelected() ? "COMBI" : "직견장");
+            controller.readFields(code);
 
             CodeRepository.save(code);
 
@@ -122,7 +164,7 @@ public class CodeSearchDialogController {
         String selectedEntry = listView.getSelectionModel().getSelectedItem();
         if (selectedEntry != null) {
             Code code = codeMap.get(selectedEntry);
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/utility/confirmationDialog.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
             DialogPane dialogPane = fxmlLoader.load();
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(dialogPane);

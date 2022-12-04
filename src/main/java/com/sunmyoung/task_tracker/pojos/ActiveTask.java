@@ -1,6 +1,6 @@
 package com.sunmyoung.task_tracker.pojos;
 
-import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.order.CreateOrderDialogControllerV2;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;

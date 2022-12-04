@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane prefHeight="768.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.StockController">
+   <children>
+      <TableView fx:id="stockTableView" layoutX="33.0" layoutY="110.0" prefHeight="622.0" prefWidth="912.0">
+        <columns>
+          <TableColumn fx:id="orderCol" prefWidth="50.0" resizable="false" text="№" />
+          <TableColumn fx:id="codeCol" prefWidth="100.0" resizable="false" text="Code" />
+            <TableColumn fx:id="clientCol" prefWidth="250.0" resizable="false" text="Client" />
+            <TableColumn fx:id="frameSizeCol" prefWidth="120.0" resizable="false" text="Frame Size" />
+            <TableColumn fx:id="meshCol" prefWidth="120.0" resizable="false" text="Mesh" />
+            <TableColumn fx:id="combiCol" prefWidth="75.0" resizable="false" text="COMBI" />
+            <TableColumn fx:id="meshSizeCol" prefWidth="120.0" resizable="false" text="Mesh Size" />
+            <TableColumn fx:id="countCol" prefWidth="75.0" resizable="false" text="Count" />
+        </columns>
+      </TableView>
+      <TextField fx:id="codeTF" layoutX="33.0" layoutY="28.0" onKeyTyped="#codeFilter" promptText="Code" />
+      <TextField fx:id="clientTF" layoutX="33.0" layoutY="65.0" onKeyTyped="#clientFilter" promptText="고객명" />
+      <TextField fx:id="frameSizeTF" layoutX="199.0" layoutY="28.0" onKeyTyped="#frameSizeFilter" promptText="Frame Size" />
+      <TextField fx:id="meshTF" layoutX="199.0" layoutY="65.0" onKeyTyped="#meshFilter" promptText="망사" />
+      <Button layoutX="376.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#search" prefHeight="60.0" prefWidth="60.0">
+         <graphic>
+            <FontIcon iconColor="#1a00ff" iconLiteral="bi-search" iconSize="50" />
+         </graphic>
+      </Button>
+      <Button layoutX="692.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#add" prefHeight="60.0" prefWidth="60.0">
+         <graphic>
+            <FontIcon iconColor="#0f6807" iconLiteral="bi-plus-square" iconSize="50" />
+         </graphic>
+      </Button>
+      <Button layoutX="813.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefHeight="60.0" prefWidth="60.0">
+         <graphic>
+            <FontIcon iconColor="RED" iconLiteral="bi-dash-square" iconSize="50" />
+         </graphic>
+      </Button>
+   </children>
+</AnchorPane>

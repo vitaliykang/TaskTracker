@@ -16,8 +16,11 @@ public class Code {
     @Column(name = "client", length = 200)
     private String client;
 
-    @Column(name = "frameSize", length = 45)
+    @Column(name = "frame_size", length = 45)
     private String frameSize;
+
+    @Column(name = "mesh_size", length = 45)
+    private String meshSize;
 
     @Column(name = "tension", length = 45)
     private String tension;
@@ -30,6 +33,9 @@ public class Code {
 
     @Column(name = "combi", length = 45)
     private String combi;
+
+    @Column(name = "count")
+    private String count = "0";
 
     @Override
     public String toString() {
@@ -76,6 +82,14 @@ public class Code {
         this.frameSize = frameSize;
     }
 
+    public String getMeshSize() {
+        return meshSize;
+    }
+
+    public void setMeshSize(String meshSize) {
+        this.meshSize = meshSize;
+    }
+
     public String getTension() {
         return tension;
     }
@@ -108,4 +122,11 @@ public class Code {
         this.combi = combi;
     }
 
+    public String getCount() {
+        return count;
+    }
+
+    public void setCount(String count) {
+        this.count = count;
+    }
 }

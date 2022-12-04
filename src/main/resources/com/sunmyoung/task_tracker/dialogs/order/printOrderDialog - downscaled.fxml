@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.PrintOrderDialog">
+<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.order.PrintOrderDialog">
    <content>
       <AnchorPane fx:id="pane" prefHeight="595.0" prefWidth="842.0">
          <children>
@@ -169,7 +169,7 @@
                   <Font name="Arial" size="14.0" />
                </font>
             </Label>
-            <TableView fx:id="printingTableView" layoutX="26.0" layoutY="247.0" prefHeight="319.0" prefWidth="762.0" stylesheets="@../../../../printStyle.css">
+            <TableView fx:id="printingTableView" layoutX="26.0" layoutY="247.0" prefHeight="319.0" prefWidth="762.0" stylesheets="@../../../../../printStyle.css">
               <columns>
                 <TableColumn fx:id="modelCol" prefWidth="324.0" text="MODEL" />
                   <TableColumn fx:id="thicknessCol" prefWidth="29.0" text="두께" />

@@ -15,30 +15,30 @@
    <content>
       <AnchorPane prefHeight="323.0" prefWidth="400.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e9ff211f" height="192.0" layoutX="196.0" layoutY="65.0" stroke="BLACK" strokeType="INSIDE" width="210.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e9ff211f" height="209.0" layoutX="196.0" layoutY="48.0" stroke="BLACK" strokeType="INSIDE" width="234.0" />
             <Rectangle fx:id="combiHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff38" height="32.0" layoutX="214.0" layoutY="207.0" stroke="#6f0a68" strokeType="INSIDE" width="81.0" />
             <TextField fx:id="textField" layoutX="25.0" layoutY="24.0" onKeyTyped="#filterList" promptText="Code" />
-            <Label layoutX="232.0" layoutY="73.0" text="고객명: ">
+            <Label layoutX="246.0" layoutY="62.0" text="고객명: ">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="clientLabel" layoutX="300.0" layoutY="73.0" text="TEST">
+            <Label fx:id="clientLabel" layoutX="310.0" layoutY="62.0" text="TEST">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="202.0" layoutY="95.0" text="Frame Size :">
+            <Label layoutX="213.0" layoutY="84.0" text="Frame Size :">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="247.0" layoutY="118.0" text="망사:">
+            <Label layoutX="264.0" layoutY="131.0" text="망사:">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="247.0" layoutY="141.0" text="텐션:">
+            <Label layoutX="264.0" layoutY="154.0" text="텐션:">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -48,33 +48,33 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="frameSizeLabel" layoutX="300.0" layoutY="95.0" text="TEST">
+            <Label fx:id="frameSizeLabel" layoutX="310.0" layoutY="84.0" text="TEST">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="meshLabel" layoutX="300.0" layoutY="118.0" text="TEST">
+            <Label fx:id="meshLabel" layoutX="310.0" layoutY="131.0" text="TEST">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="tensionLabel" layoutX="300.0" layoutY="141.0" text="TEST">
+            <Label fx:id="tensionLabel" layoutX="310.0" layoutY="154.0" text="TEST">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
             <Rectangle fx:id="chickenHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff38" height="32.0" layoutX="306.0" layoutY="207.0" stroke="#6f0a68" strokeType="INSIDE" width="81.0" />
-            <Button fx:id="addBtn" layoutX="212.0" layoutY="293.0" mnemonicParsing="false" onAction="#add" text="더하다">
+            <Button fx:id="addBtn" layoutX="220.0" layoutY="279.0" mnemonicParsing="false" onAction="#add">
                <graphic>
-                  <FontIcon iconColor="#2410b9" iconLiteral="bi-plus-square" />
+                  <FontIcon iconColor="#1ab811" iconLiteral="bi-plus-square" iconSize="20" />
                </graphic>
                <font>
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="removeBtn" layoutX="320.0" layoutY="293.0" mnemonicParsing="false" onAction="#remove" text="지우다">
+            <Button fx:id="removeBtn" layoutX="333.0" layoutY="279.0" mnemonicParsing="false" onAction="#remove">
                <graphic>
-                  <FontIcon iconColor="#e10e0e" iconLiteral="bi-dash-square" />
+                  <FontIcon iconColor="#e10e0e" iconLiteral="bi-dash-square" iconSize="20" />
                </graphic>
                <font>
                   <Font name="Arial" size="12.0" />
@@ -86,16 +86,34 @@
                </font>
             </Label>
             <ListView fx:id="listView" layoutX="25.0" layoutY="62.0" onMouseClicked="#selectEntry" prefHeight="264.0" prefWidth="149.0" />
-            <Label layoutX="247.0" layoutY="164.0" text="Bias :">
+            <Label layoutX="262.0" layoutY="177.0" text="Bias :">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="biasLabel" layoutX="300.0" layoutY="164.0" text="TEST">
+            <Label fx:id="biasLabel" layoutX="310.0" layoutY="177.0" text="TEST">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
+            <Label alignment="CENTER_RIGHT" layoutX="213.0" layoutY="107.0" prefHeight="17.0" prefWidth="85.0" text="망사 Size :">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <Label fx:id="meshSizeLabel" layoutX="310.0" layoutY="107.0" text="TEST">
+               <font>
+                  <Font name="Arial" size="15.0" />
+               </font>
+            </Label>
+            <Button fx:id="editBtn" layoutX="277.0" layoutY="279.0" mnemonicParsing="false" onAction="#edit">
+               <graphic>
+                  <FontIcon iconColor="#2410b9" iconLiteral="bi-pencil-square" iconSize="20" />
+               </graphic>
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </content>

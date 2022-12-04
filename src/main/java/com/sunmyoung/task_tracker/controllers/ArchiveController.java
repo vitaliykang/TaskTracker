@@ -3,8 +3,8 @@ package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.CreateOrderDialogControllerV2;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.InspectionDialogController;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.order.CreateOrderDialogControllerV2;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.order.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import jakarta.persistence.EntityManager;

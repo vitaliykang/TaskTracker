@@ -1,5 +1,6 @@
 package com.sunmyoung.task_tracker.controllers.dialogControllers.client;
 
+import com.sunmyoung.task_tracker.Dialogs;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
@@ -58,7 +59,7 @@ public class ClientListDialogController {
     @FXML
     @SneakyThrows
     void addClient(ActionEvent event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/client/createClientDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CLIENT));
         Dialog<ButtonType> dialog = new Dialog<>();
         DialogPane dialogPane = fxmlLoader.load();
         dialog.setDialogPane(dialogPane);
@@ -81,7 +82,7 @@ public class ClientListDialogController {
     @SneakyThrows
     void editClient(ActionEvent event) {
         if (selectedClient != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/client/createClientDialog.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CLIENT));
             Dialog<ButtonType> dialog = new Dialog<>();
             DialogPane dialogPane = fxmlLoader.load();
             dialog.setDialogPane(dialogPane);
@@ -122,7 +123,7 @@ public class ClientListDialogController {
     @SneakyThrows
     void deleteClient(ActionEvent event) {
         if (selectedClient != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/utility/confirmationDialog.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
             Dialog<ButtonType> dialog = new Dialog<>();
             dialog.setDialogPane(fxmlLoader.load());
 

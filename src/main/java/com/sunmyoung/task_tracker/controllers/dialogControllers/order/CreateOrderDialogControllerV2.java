@@ -1,6 +1,7 @@
-package com.sunmyoung.task_tracker.controllers.dialogControllers;
+package com.sunmyoung.task_tracker.controllers.dialogControllers.order;
 
 import com.sunmyoung.task_tracker.DialogUtilities;
+import com.sunmyoung.task_tracker.Dialogs;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.client.ClientListDialogController;
@@ -179,7 +180,7 @@ public class CreateOrderDialogControllerV2 {
     @SneakyThrows
     void editSubtask(ActionEvent event) {
         Model subtask = subtasksTableView.getSelectionModel().getSelectedItem();
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createSubtaskDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_SUBTASK));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -248,7 +249,7 @@ public class CreateOrderDialogControllerV2 {
 
     @SneakyThrows
     private void openCodeSearchDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/code/codeSearchDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CODE_LIST));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -500,7 +501,7 @@ public class CreateOrderDialogControllerV2 {
 
     @SneakyThrows
     private void createSubtaskDialogWindow() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createSubtaskDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_SUBTASK));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -714,7 +715,7 @@ public class CreateOrderDialogControllerV2 {
 
     @SneakyThrows
     private void openClientListDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/client/clientListDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CLIENT_LIST));
         Dialog<ButtonType> dialog = new Dialog<>();
         DialogPane dialogPane = fxmlLoader.load();
         dialogPane.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
