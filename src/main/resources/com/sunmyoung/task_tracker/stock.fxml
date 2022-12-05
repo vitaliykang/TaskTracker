@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="768.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.StockController">
+<AnchorPane prefHeight="768.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.StockController">
    <children>
       <TableView fx:id="stockTableView" layoutX="33.0" layoutY="110.0" prefHeight="622.0" prefWidth="912.0">
         <columns>
@@ -21,23 +21,28 @@
             <TableColumn fx:id="countCol" prefWidth="75.0" resizable="false" text="Count" />
         </columns>
       </TableView>
-      <TextField fx:id="codeTF" layoutX="33.0" layoutY="28.0" onKeyTyped="#codeFilter" promptText="Code" />
-      <TextField fx:id="clientTF" layoutX="33.0" layoutY="65.0" onKeyTyped="#clientFilter" promptText="고객명" />
-      <TextField fx:id="frameSizeTF" layoutX="199.0" layoutY="28.0" onKeyTyped="#frameSizeFilter" promptText="Frame Size" />
-      <TextField fx:id="meshTF" layoutX="199.0" layoutY="65.0" onKeyTyped="#meshFilter" promptText="망사" />
-      <Button layoutX="376.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#search" prefHeight="60.0" prefWidth="60.0">
-         <graphic>
-            <FontIcon iconColor="#1a00ff" iconLiteral="bi-search" iconSize="50" />
-         </graphic>
-      </Button>
-      <Button layoutX="692.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#add" prefHeight="60.0" prefWidth="60.0">
+      <TextField fx:id="codeTF" layoutX="33.0" layoutY="28.0" onKeyTyped="#filter" promptText="Code" />
+      <TextField fx:id="clientTF" layoutX="33.0" layoutY="65.0" onKeyTyped="#filter" promptText="고객명" />
+      <TextField fx:id="frameSizeTF" layoutX="199.0" layoutY="28.0" onKeyTyped="#filter" promptText="Frame Size" />
+      <TextField fx:id="meshTF" layoutX="199.0" layoutY="65.0" onKeyTyped="#filter" promptText="망사" />
+      <Button layoutX="432.0" layoutY="23.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#add" prefHeight="60.0" prefWidth="60.0">
          <graphic>
             <FontIcon iconColor="#0f6807" iconLiteral="bi-plus-square" iconSize="50" />
          </graphic>
       </Button>
-      <Button layoutX="813.0" layoutY="24.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefHeight="60.0" prefWidth="60.0">
+      <Button layoutX="620.0" layoutY="23.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#delete" prefHeight="60.0" prefWidth="60.0">
          <graphic>
             <FontIcon iconColor="RED" iconLiteral="bi-dash-square" iconSize="50" />
+         </graphic>
+      </Button>
+      <Button layoutX="526.0" layoutY="23.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#edit" prefHeight="60.0" prefWidth="60.0">
+         <graphic>
+            <FontIcon iconColor="#3700ff" iconLiteral="bi-pencil-square" iconSize="50" />
+         </graphic>
+      </Button>
+      <Button layoutX="868.0" layoutY="23.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#mainMenu" prefHeight="60.0" prefWidth="60.0">
+         <graphic>
+            <FontIcon iconLiteral="bi-box-arrow-left" iconSize="50" />
          </graphic>
       </Button>
    </children>

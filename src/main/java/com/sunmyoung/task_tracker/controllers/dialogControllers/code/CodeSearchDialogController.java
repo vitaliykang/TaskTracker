@@ -20,6 +20,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.*;
 
@@ -64,7 +65,7 @@ public class CodeSearchDialogController {
         if (input == null || input.length() == 0) {
             filteredContent.setPredicate(predicate -> true);
         } else {
-            filteredContent.setPredicate(predicate -> predicate.contains(input));
+            filteredContent.setPredicate(predicate -> StringUtils.containsIgnoreCase(predicate, input));
         }
     }
 
@@ -95,6 +96,7 @@ public class CodeSearchDialogController {
     @FXML
     void add(ActionEvent event) {
         createNewCodeDialog();
+        loadInfo();
     }
 
     @FXML
@@ -104,7 +106,7 @@ public class CodeSearchDialogController {
         }
     }
 
-    private void editCode() {
+    public void editCode() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CODE));
         Dialog<ButtonType> dialog = new Dialog<>();
         try {
@@ -139,7 +141,7 @@ public class CodeSearchDialogController {
     }
 
     @SneakyThrows
-    private void createNewCodeDialog() {
+    public static void createNewCodeDialog() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CODE));
         DialogPane dialogPane = fxmlLoader.load();
         CreateNewCodeDialogController controller = fxmlLoader.getController();
@@ -153,8 +155,6 @@ public class CodeSearchDialogController {
             controller.readFields(code);
 
             CodeRepository.save(code);
-
-            loadInfo();
         }
     }
 

@@ -11,7 +11,7 @@ module com.sunmyoung.tasktracker {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.ikonli.bootstrapicons;
     requires javafx.fxml;
-
+    requires org.apache.commons.lang3;
 
 
     opens com.sunmyoung.task_tracker to javafx.fxml;

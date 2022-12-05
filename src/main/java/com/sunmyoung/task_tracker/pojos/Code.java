@@ -4,35 +4,35 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "codes")
-public class Code {
+public class Code implements Comparable<Code> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
     @Column(name = "code", length = 45)
-    private String code;
+    private String code = "";
 
     @Column(name = "client", length = 200)
-    private String client;
+    private String client = "";
 
     @Column(name = "frame_size", length = 45)
-    private String frameSize;
+    private String frameSize = "";
 
     @Column(name = "mesh_size", length = 45)
-    private String meshSize;
+    private String meshSize = "";
 
     @Column(name = "tension", length = 45)
-    private String tension;
+    private String tension = "";
 
     @Column(name = "mesh", length = 100)
-    private String mesh;
+    private String mesh = "";
 
     @Column(length = 10)
-    private String bias;
+    private String bias = "";
 
     @Column(name = "combi", length = 45)
-    private String combi;
+    private String combi = "";
 
     @Column(name = "count")
     private String count = "0";
@@ -128,5 +128,10 @@ public class Code {
 
     public void setCount(String count) {
         this.count = count;
+    }
+
+    @Override
+    public int compareTo(Code o) {
+        return this.code.equals("") ? this.client.compareTo(o.client) : this.code.compareTo(o.code);
     }
 }
