@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<AnchorPane prefHeight="768.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.StockController">
+<AnchorPane prefHeight="768.0" prefWidth="957.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.StockController">
    <children>
-      <TableView fx:id="stockTableView" layoutX="33.0" layoutY="110.0" prefHeight="622.0" prefWidth="912.0">
+      <TableView fx:id="stockTableView" layoutX="33.0" layoutY="110.0" onMouseClicked="#selectEntry" prefHeight="622.0" prefWidth="912.0">
         <columns>
           <TableColumn fx:id="orderCol" prefWidth="50.0" resizable="false" text="№" />
           <TableColumn fx:id="codeCol" prefWidth="100.0" resizable="false" text="Code" />

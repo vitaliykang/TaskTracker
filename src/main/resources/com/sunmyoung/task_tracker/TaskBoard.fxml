@@ -37,7 +37,7 @@
                      </graphic></Button>
                   <Button layoutX="1291.0" layoutY="5.0" mnemonicParsing="false" onAction="#returnToMainMenu" text="Main Menu">
                      <graphic>
-                        <FontIcon iconLiteral="bi-box-arrow-right" iconSize="16" />
+                        <FontIcon iconLiteral="bi-box-arrow-left" iconSize="16" />
                      </graphic>
                      <font>
                         <Font name="Arial" size="12.0" />
