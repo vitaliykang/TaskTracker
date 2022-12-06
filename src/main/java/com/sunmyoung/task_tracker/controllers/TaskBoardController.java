@@ -492,10 +492,44 @@ public class TaskBoardController {
     }
 
     private void checkStock(ActiveTask task) {
-        if (!task.getCode().equals("")) {
-            Code stock = CodeRepository.findByCode(task.getCode());
-            int availability = Integer.parseInt(stock.getCount()) - task.getCount();
-            task.setTensioning(availability >= 0 ? "OK" : Integer.toString(availability));
+        String code = task.getCode();
+        if (!code.equals("")) {
+            int totalFramesNeeded = task.getCount();
+            List<ActiveTask> commonTasks = new ArrayList<>();
+
+            for (ActiveTask activeTask : tasksObservableList) {
+                if (activeTask.getCode().equals(code)) {
+                    totalFramesNeeded += activeTask.getCount();
+                    commonTasks.add(activeTask);
+                }
+            }
+
+            Code stock = CodeRepository.findByCode(code);
+            int availability = Integer.parseInt(stock.getCount()) - totalFramesNeeded;
+
+            if (availability >= 0) {
+                task.setTensioning("OK");
+            } else {
+                commonTasks.forEach(activeTask -> {
+                   EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+                   try {
+                       entityManager.getTransaction().begin();
+                       System.out.println(activeTask.getId());
+                       ActiveTask repoTask = entityManager.createQuery("From ActiveTask t where t.id = :id", ActiveTask.class)
+                               .setParameter("id", activeTask.getId()).getSingleResult();
+                       repoTask.setTensioning(Integer.toString(availability));
+                       entityManager.getTransaction().commit();
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                       ErrorMessage.show(e);
+                       entityManager.getTransaction().rollback();
+                   } finally {
+                       entityManager.close();
+                   }
+                });
+
+                task.setTensioning(Integer.toString(availability));
+            }
         }
     }
 }
