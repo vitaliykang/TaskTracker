@@ -23,7 +23,7 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
     private Set<InspectionReport> inspectionReports = new HashSet<>();
 
     @Column(length = 40)
-    private String code;
+    private String code = "";
 
     @Column(name = "serial_number")
     private String serialNumber;

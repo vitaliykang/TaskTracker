@@ -47,6 +47,7 @@ public class StockController {
             combiCol,
             meshSizeCol,
             countCol;
+
     @FXML
     private TableView<Code> stockTableView;
 

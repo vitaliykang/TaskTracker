@@ -8,7 +8,7 @@ public class Dialogs {
     public static final String CREATE_CLIENT = "dialogs/client/createClientDialog.fxml";
 
     //code
-    public static final String CODE_LIST = "dialogs/code/createClientDialog.fxml";
+    public static final String CODE_LIST = "dialogs/code/codeSearchDialog.fxml";
     public static final String CREATE_CODE = "dialogs/code/createNewCodeDialog.fxml";
 
     //utility

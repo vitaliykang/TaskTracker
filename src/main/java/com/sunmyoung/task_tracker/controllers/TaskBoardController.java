@@ -1,16 +1,15 @@
 package com.sunmyoung.task_tracker.controllers;
 
-import com.sunmyoung.task_tracker.Dialogs;
-import com.sunmyoung.task_tracker.ErrorMessage;
-import com.sunmyoung.task_tracker.Main;
-import com.sunmyoung.task_tracker.Utilities;
+import com.sunmyoung.task_tracker.*;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.PrintOrderDialog;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.CreateOrderDialogControllerV2;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.InspectionDialogController;
+import com.sunmyoung.task_tracker.pojos.Code;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
 import com.sunmyoung.task_tracker.pojos.InspectionReport;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
+import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import com.sunmyoung.task_tracker.repositories.TaskRepository;
 import jakarta.persistence.EntityManager;
@@ -25,6 +24,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.Callback;
+import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -106,35 +107,6 @@ public class TaskBoardController {
         }
     }
 
-    private void print() throws IOException {
-        ActiveTask activeTask = tableView.getSelectionModel().getSelectedItem();
-        if (activeTask != null) {
-            System.out.println(activeTask);
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PRINT_ORDER));
-            Dialog<ButtonType> dialog = new Dialog<>();
-            DialogPane dialogPane = fxmlLoader.load();
-            dialog.setDialogPane(dialogPane);
-
-            PrintOrderDialog controller = fxmlLoader.getController();
-            controller.setTask(activeTask);
-            controller.populateWindow();
-            controller.populateTableView();
-
-            Button printButton = (Button) dialogPane.lookupButton(ButtonType.OK);
-            printButton.setText("Print");
-            printButton.addEventFilter(ActionEvent.ACTION, event -> {
-                event.consume();
-                controller.print();
-                dialog.close();
-            });
-
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
-                controller.print();
-            }
-        }
-    }
-
     public void initialize() {
         initTableView();
         loadData();
@@ -188,7 +160,7 @@ public class TaskBoardController {
 
     private void activateTensioningCol() {
         tensioningCol.setEditable(true);
-        tensioningCol.setCellFactory(TextFieldTableCell.forTableColumn());
+        tensioningCol.setCellFactory(cell -> new TensioningCell<>());
         tensioningCol.setOnEditCommit(event -> {
             ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
@@ -210,6 +182,7 @@ public class TaskBoardController {
                     entityManager.close();
                 }
             }
+            loadData();
         });
     }
 
@@ -397,6 +370,9 @@ public class TaskBoardController {
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             ActiveTask task = new ActiveTask();
             controller.readFields(task);
+
+            checkStock(task);
+
             TaskRepository.save(task);
             Utilities.printStatus(String.format("New task [%s] is created.", task));
             loadData();
@@ -486,5 +462,42 @@ public class TaskBoardController {
             }
         });
         thread.start();
+    }
+
+    private void print() throws IOException {
+        ActiveTask activeTask = tableView.getSelectionModel().getSelectedItem();
+        if (activeTask != null) {
+            System.out.println(activeTask);
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PRINT_ORDER));
+            Dialog<ButtonType> dialog = new Dialog<>();
+            DialogPane dialogPane = fxmlLoader.load();
+            dialog.setDialogPane(dialogPane);
+
+            PrintOrderDialog controller = fxmlLoader.getController();
+            controller.setTask(activeTask);
+            controller.populateWindow();
+            controller.populateTableView();
+
+            Button printButton = (Button) dialogPane.lookupButton(ButtonType.OK);
+            printButton.setText("Print");
+            printButton.addEventFilter(ActionEvent.ACTION, event -> {
+                event.consume();
+                controller.print();
+                dialog.close();
+            });
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
+                controller.print();
+            }
+        }
+    }
+
+    private void checkStock(ActiveTask task) {
+        if (!task.getCode().equals("")) {
+            Code stock = CodeRepository.findByCode(task.getCode());
+            int availability = Integer.parseInt(stock.getCount()) - task.getCount();
+            task.setTensioning(availability >= 0 ? "OK" : Integer.toString(availability));
+        }
     }
 }
