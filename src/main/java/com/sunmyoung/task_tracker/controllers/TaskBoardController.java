@@ -24,8 +24,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.Callback;
-import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -160,7 +158,7 @@ public class TaskBoardController {
 
     private void activateTensioningCol() {
         tensioningCol.setEditable(true);
-        tensioningCol.setCellFactory(cell -> new TensioningCell<>());
+        tensioningCol.setCellFactory(cell -> new ConditionalFormattingCell<>("OK"));
         tensioningCol.setOnEditCommit(event -> {
             ActiveTask selectedTask = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
