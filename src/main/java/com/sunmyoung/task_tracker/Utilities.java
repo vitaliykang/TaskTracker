@@ -59,10 +59,12 @@ public class Utilities {
         File file = new File(path.toString());
         if (!file.exists()) {
             try {
-                String result = file.createNewFile() ? "File successfully created" : "Failed to create a file";
-                System.out.println(result);
+                file.createNewFile();
+                System.out.println("File successfully created.");
             } catch (IOException e) {
                 System.out.println(e.getMessage());
+                System.out.println("Failed to create a new file.");
+                ErrorMessage.show(e);
             }
         }
     }
@@ -88,6 +90,7 @@ public class Utilities {
             fileWriter.write(stringBuilder.toString());
         } catch (IOException e) {
             System.out.printf("Failed to write to the file \"%s\". %n", path);
+            ErrorMessage.show(e);
         }
     }
 
@@ -103,6 +106,7 @@ public class Utilities {
             fileWriter.write("\n");
         } catch (IOException e) {
             System.out.printf("Failed to write to the file \"%s\". %n", path);
+            ErrorMessage.show(e);
         }
     }
 }

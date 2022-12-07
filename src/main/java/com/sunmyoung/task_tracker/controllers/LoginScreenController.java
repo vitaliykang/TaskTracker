@@ -72,7 +72,7 @@ public class LoginScreenController {
 
     @SneakyThrows
     public void initialize() {
-        testButton.setVisible(true);
+        testButton.setVisible(false);
 
         addressTF.setText(SimpleConfig.getURL());
         loginTF.setText(SimpleConfig.getUsername());
@@ -115,5 +115,6 @@ public class LoginScreenController {
             clientStrings.add(client.convertToString());
         });
         Utilities.writeToFile("data/clients.txt", clientStrings);
+        System.out.println("Clients loaded");
     }
 }

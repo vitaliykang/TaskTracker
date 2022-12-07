@@ -7,12 +7,10 @@ import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CreateNewCodeDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
-import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import com.sunmyoung.task_tracker.pojos.Code;
 import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityTransaction;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -147,7 +145,7 @@ public class StockController {
         stockTableView.setItems(filteredList);
 
         //making tableView editable and activating single cell selection
-        stockTableView.getSelectionModel().cellSelectionEnabledProperty().set(true);
+        stockTableView.getSelectionModel().setCellSelectionEnabled(true);
         stockTableView.setEditable(true);
     }
 
