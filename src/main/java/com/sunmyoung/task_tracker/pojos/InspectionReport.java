@@ -13,31 +13,31 @@ public class InspectionReport {
     private Long id;
 
     @Column(name = "coatings")
-    private String coatings;
+    private String coatings = "";
 
     @Column(name = "date")
-    private String date;
+    private String date = "";
 
     @Column(name = "exposure_inspection")
-    private String exposureInspection;
+    private String exposureInspection = "";
 
     @Column(name = "final_inspection")
-    private String finalInspection;
+    private String finalInspection = "";
 
     @Column(name = "lot")
-    private String lot;
+    private String lot = "";
 
     @Column(name = "mesh_thickness")
-    private String meshThickness;
+    private String meshThickness = "";
 
     @Column(name = "one_day_aging")
-    private String oneDayAging;
+    private String oneDayAging = "";
 
     @Column(name = "serial_number")
-    private String serialNumber;
+    private String serialNumber = "";
 
     @Column(name = "total_thickness")
-    private String totalThickness;
+    private String totalThickness = "";
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "task_id")

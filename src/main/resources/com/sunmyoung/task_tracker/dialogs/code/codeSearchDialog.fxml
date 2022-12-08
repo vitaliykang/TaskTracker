@@ -11,19 +11,22 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 
-<DialogPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController">
+<DialogPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController">
    <content>
-      <AnchorPane prefHeight="323.0" prefWidth="400.0">
+      <AnchorPane prefHeight="323.0" prefWidth="550.0">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e9ff211f" height="209.0" layoutX="196.0" layoutY="48.0" stroke="BLACK" strokeType="INSIDE" width="234.0" />
-            <Rectangle fx:id="combiHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff38" height="32.0" layoutX="214.0" layoutY="207.0" stroke="#6f0a68" strokeType="INSIDE" width="81.0" />
-            <TextField fx:id="textField" layoutX="25.0" layoutY="24.0" onKeyTyped="#filterList" promptText="Code" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#e9ff211f" height="209.0" layoutX="196.0" layoutY="48.0" stroke="BLACK" strokeType="INSIDE" width="330.0" />
+            <Rectangle fx:id="combiHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff38" height="32.0" layoutX="322.0" layoutY="208.0" stroke="#6f0a68" strokeType="INSIDE" width="81.0" />
+            <TextField fx:id="textField" layoutX="25.0" layoutY="24.0" onKeyTyped="#filterList" promptText="Code / 고객명">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font></TextField>
             <Label layoutX="246.0" layoutY="62.0" text="고객명: ">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="clientLabel" layoutX="310.0" layoutY="62.0" text="TEST">
+            <Label fx:id="clientLabel" layoutX="310.0" layoutY="62.0" prefHeight="17.0" prefWidth="201.0">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -43,28 +46,28 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label layoutX="231.0" layoutY="213.0" text="COMBI">
+            <Label layoutX="339.0" layoutY="214.0" text="COMBI">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="frameSizeLabel" layoutX="310.0" layoutY="84.0" text="TEST">
+            <Label fx:id="frameSizeLabel" layoutX="310.0" layoutY="84.0" prefHeight="17.0" prefWidth="199.0">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="meshLabel" layoutX="310.0" layoutY="131.0" text="TEST">
+            <Label fx:id="meshLabel" layoutX="310.0" layoutY="131.0" prefHeight="17.0" prefWidth="199.0">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="tensionLabel" layoutX="310.0" layoutY="154.0" text="TEST">
+            <Label fx:id="tensionLabel" layoutX="310.0" layoutY="154.0" prefHeight="17.0" prefWidth="199.0">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Rectangle fx:id="chickenHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff38" height="32.0" layoutX="306.0" layoutY="207.0" stroke="#6f0a68" strokeType="INSIDE" width="81.0" />
-            <Button fx:id="addBtn" layoutX="220.0" layoutY="279.0" mnemonicParsing="false" onAction="#add">
+            <Rectangle fx:id="chickenHighlight" arcHeight="5.0" arcWidth="5.0" fill="#1f93ff38" height="32.0" layoutX="414.0" layoutY="208.0" stroke="#6f0a68" strokeType="INSIDE" width="81.0" />
+            <Button fx:id="addBtn" layoutX="358.0" layoutY="278.0" mnemonicParsing="false" onAction="#add">
                <graphic>
                   <FontIcon iconColor="#1ab811" iconLiteral="bi-plus-square" iconSize="20" />
                </graphic>
@@ -72,7 +75,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Button fx:id="removeBtn" layoutX="333.0" layoutY="279.0" mnemonicParsing="false" onAction="#remove">
+            <Button fx:id="removeBtn" layoutX="471.0" layoutY="278.0" mnemonicParsing="false" onAction="#remove">
                <graphic>
                   <FontIcon iconColor="#e10e0e" iconLiteral="bi-dash-square" iconSize="20" />
                </graphic>
@@ -80,7 +83,7 @@
                   <Font name="Arial" size="12.0" />
                </font>
             </Button>
-            <Label layoutX="324.0" layoutY="212.0" text="직견장">
+            <Label layoutX="432.0" layoutY="213.0" text="직견장">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -91,7 +94,7 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="biasLabel" layoutX="310.0" layoutY="177.0" text="TEST">
+            <Label fx:id="biasLabel" layoutX="310.0" layoutY="177.0" prefHeight="17.0" prefWidth="197.0">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
@@ -101,12 +104,12 @@
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="meshSizeLabel" layoutX="310.0" layoutY="107.0" text="TEST">
+            <Label fx:id="meshSizeLabel" layoutX="310.0" layoutY="107.0" prefHeight="17.0" prefWidth="196.0">
                <font>
                   <Font name="Arial" size="15.0" />
                </font>
             </Label>
-            <Button fx:id="editBtn" layoutX="277.0" layoutY="279.0" mnemonicParsing="false" onAction="#edit">
+            <Button fx:id="editBtn" layoutX="415.0" layoutY="278.0" mnemonicParsing="false" onAction="#edit">
                <graphic>
                   <FontIcon iconColor="#2410b9" iconLiteral="bi-pencil-square" iconSize="20" />
                </graphic>

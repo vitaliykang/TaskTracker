@@ -21,6 +21,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -283,7 +284,10 @@ public class CreateOrderDialogControllerV2 {
         initHighlight();
         countTF.setDisable(true);
         enableEditCheckBox(false);
-        serialNumberTF.setText(DEFAULT_SN);
+
+        FontIcon fontIcon = new FontIcon("bi-alarm");
+        Stage stage = (Stage) codeTF.getScene().getWindow();
+        stage.getIcons().add();
     }
 
     /**
@@ -587,7 +591,7 @@ public class CreateOrderDialogControllerV2 {
         if (shipmentChepanRB.isSelected()) {
             return "제판";
         }
-        return "null";
+        return "";
     }
 
     private String getFilm() {
@@ -600,7 +604,7 @@ public class CreateOrderDialogControllerV2 {
         if (filmProvidedRB.isSelected()) {
             return "제공필름";
         }
-        return "null";
+        return "";
     }
 
     private String getCombi() {
@@ -610,7 +614,7 @@ public class CreateOrderDialogControllerV2 {
         if (typeDirectRB.isSelected()) {
             return "직견장";
         }
-        return "null";
+        return "";
     }
 
     private String getShippingMethod() {
@@ -620,7 +624,7 @@ public class CreateOrderDialogControllerV2 {
         if (methodPedalRB.isSelected()) {
             return "배달";
         }
-        return "null";
+        return "";
     }
 
     private String getFrameCondition() {
@@ -633,7 +637,7 @@ public class CreateOrderDialogControllerV2 {
         if (!frameDirectInputTF.getText().equals("") || frameDirectInputTF.getText() != null) {
             return frameDirectInputTF.getText();
         }
-        return "null";
+        return "";
     }
 
     private String getPrintPosition() {
@@ -643,7 +647,7 @@ public class CreateOrderDialogControllerV2 {
         if (positionCustomRB.isSelected()) {
             return "지정위치";
         }
-        return "null";
+        return "";
     }
 
     private String getDeadlineNote() {
@@ -653,7 +657,7 @@ public class CreateOrderDialogControllerV2 {
         if (deliveryRB.isSelected()) {
             return "택배발송";
         }
-        return "null";
+        return "";
     }
 
     private void initTableView() {
@@ -733,6 +737,7 @@ public class CreateOrderDialogControllerV2 {
             Client selectedClient = controller.getSelectedClient();
             if (selectedClient != null) {
                 clientTF.setText(selectedClient.getClient());
+                typeTF.setText(selectedClient.getType());
                 personTF.setText(selectedClient.getManager());
             }
         }

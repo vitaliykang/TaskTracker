@@ -29,61 +29,61 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
     private String serialNumber;
 
     @Column(name = "shipment_from")
-    private String shipmentFrom;
+    private String shipmentFrom = "";
 
     @Column(name = "client_company", length = 200)
-    private String client;
+    private String client = "";
 
     @Column(name = "type", length = 45)
-    private String type;
+    private String type = "";
 
     @Column(name = "person_in_charge", length = 45)
-    private String personInCharge;
+    private String personInCharge = "";
 
     @Column(length = 45)
-    private String film;
+    private String film = "";
 
     @Column(name = "frame_size", length = 45)
-    private String frameSize;
+    private String frameSize = "";
 
     @Column(length = 45)
-    private String mesh;
+    private String mesh = "";
 
     @Column(length = 45)
-    private String combi;
+    private String combi = "";
 
     @Column(name = "new_frame")
     private Boolean isNewFrame;
 
     @Column(name = "frame_condition", length = 60)
-    private String frameCondition;
+    private String frameCondition = "";
 
     @Column(name = "bias")
-    private String bias;
+    private String bias = "22.5";
 
     @Column(length = 40)
-    private String tension;
+    private String tension = "";
 
     @Column(length = 40)
-    private String emulsion;
+    private String emulsion = "";
 
     @Column(name = "date_in")
     private LocalDate dateIn;
 
     @Column(name = "shipping_method", length = 40)
-    private String shippingMethod;
+    private String shippingMethod = "";
 
     @Column(name = "date_out", length = 40)
     private LocalDate dateOut;
 
     @Column(name = "deadline_note", length = 40)
-    private String deadlineNote;
+    private String deadlineNote = "";
 
     @Column(name = "print_position", length = 40)
-    private String printPosition;
+    private String printPosition = "";
 
     @Column(name = "order_note", length = 250)
-    private String orderNote;
+    private String orderNote = "";
 
     @Column(name = "count")
     private Integer count;
@@ -92,16 +92,16 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
     private Boolean isAluminum;
 
     @Column(name = "tensioning", length = 45)
-    private String tensioning;
+    private String tensioning = "";
 
     @Column(name = "coating", length = 45)
-    private String coating;
+    private String coating = "";
 
     @Column(name = "exposure", length = 45)
-    private String exposure;
+    private String exposure = "";
 
     @Column(name = "packaging", length = 45)
-    private String packaging;
+    private String packaging = "";
 
     public ActiveTask() {
     }

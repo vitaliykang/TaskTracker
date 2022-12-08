@@ -23,13 +23,13 @@ public class Model implements Comparable<Model> {
     private ActiveTask task;
 
     @Column(name = "count")
-    private String count;
+    private String count = "";
 
     @Column(name = "print", length = 254)
-    private String print;
+    private String print = "";
 
     @Column(name = "thickness")
-    private String thickness;
+    private String thickness = "";
 
     public Long getId() {
         return id;

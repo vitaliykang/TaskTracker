@@ -11,16 +11,16 @@ public class Client implements Comparable<Client>{
     private Long id;
 
     @Column(length = 45)
-    private String code;
+    private String code = "";
 
     @Column(length = 100)
-    private String client;
+    private String client = "";
 
     @Column(length = 45)
-    private String type;
+    private String type = "";
 
     @Column(length = 45)
-    private String manager;
+    private String manager = "";
 
     public Client() {
     }

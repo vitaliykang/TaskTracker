@@ -26,6 +26,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -110,6 +111,8 @@ public class TaskBoardController {
         loadData();
         activateStatusCells();
         startAutoRefresh(600000);
+
+        FontIcon fontIcon = new FontIcon("bi-alarm");
     }
 
     /**
