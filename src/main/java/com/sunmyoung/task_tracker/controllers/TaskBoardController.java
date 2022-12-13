@@ -401,6 +401,7 @@ public class TaskBoardController {
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             TaskRepository.delete(taskId);
+            tableView.refresh();
             Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask));
             loadData();
         }
