@@ -10,12 +10,16 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import lombok.Getter;
 import lombok.SneakyThrows;
 
 import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
+    @Getter
+    private static final Image logo = new Image(Objects.requireNonNull(Main.class.getResourceAsStream("icon.png")));
+
     @Override
     @SneakyThrows
     public void start(Stage stage) throws IOException {
@@ -24,7 +28,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.initStyle(StageStyle.DECORATED);
-        stage.getIcons().add(new Image(Objects.requireNonNull(Main.class.getResourceAsStream("icon.png"))));
+        stage.getIcons().add(logo);
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent windowEvent) {

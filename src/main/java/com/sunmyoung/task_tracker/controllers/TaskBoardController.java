@@ -24,9 +24,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -111,8 +111,6 @@ public class TaskBoardController {
         loadData();
         activateStatusCells();
         startAutoRefresh(600000);
-
-        FontIcon fontIcon = new FontIcon("bi-alarm");
     }
 
     /**
@@ -276,6 +274,8 @@ public class TaskBoardController {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.INSPECTION));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(fxmlLoader.load());
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
 
         InspectionDialogController controller = fxmlLoader.getController();
 
@@ -317,6 +317,8 @@ public class TaskBoardController {
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
 
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
         controller.enableEditCheckBox(true);
@@ -354,6 +356,8 @@ public class TaskBoardController {
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
         CreateOrderDialogControllerV2 controller = fxmlLoader.getController();
 
         controller.getEditIcon().setVisible(false);
@@ -473,6 +477,8 @@ public class TaskBoardController {
             Dialog<ButtonType> dialog = new Dialog<>();
             DialogPane dialogPane = fxmlLoader.load();
             dialog.setDialogPane(dialogPane);
+            Stage stage = (Stage) dialogPane.getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
 
             PrintOrderDialog controller = fxmlLoader.getController();
             controller.setTask(activeTask);

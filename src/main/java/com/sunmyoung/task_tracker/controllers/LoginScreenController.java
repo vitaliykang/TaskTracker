@@ -34,9 +34,7 @@ public class LoginScreenController {
             passwordTF;
 
     @FXML
-    private FontIcon
-            errorIcon,
-            gearsIcon;
+    private FontIcon errorIcon;
 
     @FXML
     private Button testButton;

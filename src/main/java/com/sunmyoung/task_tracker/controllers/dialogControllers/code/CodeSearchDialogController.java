@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.StringUtils;
@@ -111,6 +112,8 @@ public class CodeSearchDialogController {
         Dialog<ButtonType> dialog = new Dialog<>();
         try {
             dialog.setDialogPane(fxmlLoader.load());
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
         } catch (Exception e) {
             e.printStackTrace();
             ErrorMessage.show(e);
@@ -148,6 +151,8 @@ public class CodeSearchDialogController {
 
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
 
         Optional<ButtonType> result = dialog.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {

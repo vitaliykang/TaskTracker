@@ -21,6 +21,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Collections;
@@ -82,7 +83,9 @@ public class StockController {
 
     @FXML
     void edit(ActionEvent event) {
-        edit();
+        if (selectedEntry != null) {
+            edit();
+        }
     }
 
     @FXML
@@ -204,6 +207,8 @@ public class StockController {
             e.printStackTrace();
             ErrorMessage.show(e);
         }
+        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
         CreateNewCodeDialogController controller = fxmlLoader.getController();
 
         EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();

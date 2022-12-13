@@ -25,6 +25,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.kordamp.ikonli.bootstrapicons.BootstrapIconsIkonProvider;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.time.Instant;
@@ -185,6 +186,8 @@ public class CreateOrderDialogControllerV2 {
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
         CreateSubtaskDialogController controller = fxmlLoader.getController();
 
         controller.getPrintTF().setText(subtask.getPrint());
@@ -254,6 +257,8 @@ public class CreateOrderDialogControllerV2 {
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
 
         CodeSearchDialogController controller = fxmlLoader.getController();
 
@@ -282,12 +287,9 @@ public class CreateOrderDialogControllerV2 {
         initDatePickers();
         initTableView();
         initHighlight();
+        serialNumberTF.setText(DEFAULT_SN);
         countTF.setDisable(true);
         enableEditCheckBox(false);
-
-        FontIcon fontIcon = new FontIcon("bi-alarm");
-        Stage stage = (Stage) codeTF.getScene().getWindow();
-        stage.getIcons().add();
     }
 
     /**
@@ -509,6 +511,8 @@ public class CreateOrderDialogControllerV2 {
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
 
         CreateSubtaskDialogController controller = fxmlLoader.getController();
 
@@ -728,6 +732,8 @@ public class CreateOrderDialogControllerV2 {
             }
         });
         dialog.setDialogPane(dialogPane);
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
 
         ClientListDialogController controller = fxmlLoader.getController();
 
