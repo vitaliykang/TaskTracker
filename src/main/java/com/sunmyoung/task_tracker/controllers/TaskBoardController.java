@@ -126,6 +126,7 @@ public class TaskBoardController {
 
         tasksObservableList.clear();
         tasksObservableList.addAll(taskList);
+        tableView.refresh();
     }
 
     private void initTableView() {
@@ -288,9 +289,7 @@ public class TaskBoardController {
             //get the task from db and load info into the form
             ActiveTask task = entityManager.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class).setParameter("taskId", taskId).getSingleResult();
             Set<InspectionReport> reportList = task.getInspectionReports();
-            System.out.println(reportList);
             controller.getInspectionReportObservableList().addAll(reportList);
-            System.out.println(controller.getInspectionReportObservableList());
 
             Optional<ButtonType> clickedButton = dialog.showAndWait();
             if(clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
@@ -376,7 +375,7 @@ public class TaskBoardController {
             ActiveTask task = new ActiveTask();
             controller.readFields(task);
 
-            checkStock(task);
+            checkStock(task, true);
 
             TaskRepository.save(task);
             Utilities.printStatus(String.format("New task [%s] is created.", task));
@@ -401,9 +400,9 @@ public class TaskBoardController {
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             TaskRepository.delete(taskId);
-            tableView.refresh();
             Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask));
             loadData();
+            checkStock(selectedTask, false);
         }
     }
 
@@ -473,7 +472,7 @@ public class TaskBoardController {
     private void print() throws IOException {
         ActiveTask activeTask = tableView.getSelectionModel().getSelectedItem();
         if (activeTask != null) {
-            System.out.println(activeTask);
+            Utilities.printStatus(activeTask.toString());
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PRINT_ORDER));
             Dialog<ButtonType> dialog = new Dialog<>();
             DialogPane dialogPane = fxmlLoader.load();
@@ -501,10 +500,10 @@ public class TaskBoardController {
         }
     }
 
-    private void checkStock(ActiveTask task) {
-        String code = task.getCode();
+    private void checkStock(ActiveTask selectedTask, boolean isAdding) {
+        String code = selectedTask.getCode();
         if (!code.equals("")) {
-            int totalFramesNeeded = task.getCount();
+            int totalFramesNeeded = isAdding ? selectedTask.getCount() : 0;
             List<ActiveTask> commonTasks = new ArrayList<>();
 
             for (ActiveTask activeTask : tasksObservableList) {
@@ -518,13 +517,15 @@ public class TaskBoardController {
             int availability = Integer.parseInt(stock.getCount()) - totalFramesNeeded;
 
             if (availability >= 0) {
-                task.setTensioning("OK");
+                if (isAdding) {
+                    selectedTask.setTensioning("OK");
+                }
+                commonTasks.forEach(activeTask -> activeTask.setTensioning("OK"));
             } else {
                 commonTasks.forEach(activeTask -> {
                    EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
                    try {
                        entityManager.getTransaction().begin();
-                       System.out.println(activeTask.getId());
                        ActiveTask repoTask = entityManager.createQuery("From ActiveTask t where t.id = :id", ActiveTask.class)
                                .setParameter("id", activeTask.getId()).getSingleResult();
                        repoTask.setTensioning(Integer.toString(availability));
@@ -538,7 +539,7 @@ public class TaskBoardController {
                    }
                 });
 
-                task.setTensioning(Integer.toString(availability));
+                selectedTask.setTensioning(Integer.toString(availability));
             }
         }
     }
