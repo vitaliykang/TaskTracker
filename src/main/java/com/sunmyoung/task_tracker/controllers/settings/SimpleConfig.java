@@ -18,11 +18,7 @@ public class SimpleConfig {
     private static List<String> lines = new ArrayList<>();
 
     static {
-        try {
-            lines = Utilities.readFromFile(CFG);
-        } catch (Exception e) {
-            Utilities.printStatus("No cfg file found");
-        }
+        lines = Utilities.readFromFile(CFG);
 
         if (lines.size() == 0) {
             lines.add("localhost:3306");
@@ -44,6 +40,10 @@ public class SimpleConfig {
     }
 
     public static void saveInfo(String url, String username, String password) {
+        lines.clear();
+        lines.add(url);
+        lines.add(username);
+        lines.add(password);
         List<String> info = List.of(url, username, password);
         Utilities.writeToFile(CFG, info);
     }

@@ -2,6 +2,8 @@ package com.sunmyoung.task_tracker;
 
 public class Dialogs {
 
+    //settings
+    public static final String SETTINGS = "dialogs/settingsDialog.fxml";
 
     //client
     public static final String CLIENT_LIST = "dialogs/client/clientListDialog.fxml";

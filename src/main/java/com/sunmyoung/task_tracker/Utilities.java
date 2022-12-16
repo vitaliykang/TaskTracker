@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Utilities {
     /**
@@ -18,12 +19,12 @@ public class Utilities {
     private static String pathStr = "";
 
     static {
-        String str = Main.class.getResource("mainV2.fxml").toString();
+        String str = Objects.requireNonNull(Main.class.getResource("mainV2.fxml"), "mainV2.fxml not found").toString();
         try {
             pathStr = str.substring(str.indexOf('/') + 1, str.indexOf("TaskTracker.jar!"));
             pathStr = pathStr.replaceAll("%20", " ");
         } catch (Exception e) {
-            System.out.println("No cfg file detected. Loading default parameters.");
+            Utilities.printStatus("Could not generate a path to the root folder.", Utilities.class);
         }
     }
 
@@ -31,9 +32,9 @@ public class Utilities {
      * Prints the status with a timestamp in the console.
      * @param status - message to print in the console.
      */
-    public static void printStatus(String status) {
+    public static void printStatus(String status, Class className) {
         LocalDateTime time = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
-        System.out.printf("%s: %s %n", time, status);
+        System.out.printf("%s: %s (%s)%n", time, status, className.getSimpleName());
     }
 
     /**

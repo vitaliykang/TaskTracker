@@ -50,10 +50,10 @@ public class LoginScreenController {
         //saving credentials taken from fields into cfg file
         SimpleConfig.saveInfo(addressTF.getText(), loginTF.getText(), passwordTF.getText());
         if (connectToDatabase(event)) {
-            Utilities.printStatus("Connected.");
+            Utilities.printStatus("Connected.", this.getClass());
             loadClientList();
         } else {
-            Utilities.printStatus("Failed to connect.");
+            Utilities.printStatus("Failed to connect.", this.getClass());
         }
     }
 

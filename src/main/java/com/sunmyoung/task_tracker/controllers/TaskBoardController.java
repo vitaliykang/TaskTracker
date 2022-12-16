@@ -122,7 +122,7 @@ public class TaskBoardController {
         if (taskList == null) {
             taskList = new ArrayList<>();
         }
-        Utilities.printStatus(String.format("Number of active tasks: %d", taskList.size()));
+        Utilities.printStatus(String.format("Number of active tasks: %d", taskList.size()), this.getClass());
 
         tasksObservableList.clear();
         tasksObservableList.addAll(taskList);
@@ -378,7 +378,7 @@ public class TaskBoardController {
             checkStock(task, true);
 
             TaskRepository.save(task);
-            Utilities.printStatus(String.format("New task [%s] is created.", task));
+            Utilities.printStatus(String.format("New task [%s] is created.", task), this.getClass());
             loadData();
         }
     }
@@ -400,7 +400,7 @@ public class TaskBoardController {
         Optional<ButtonType> clickedButton = dialog.showAndWait();
         if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
             TaskRepository.delete(taskId);
-            Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask));
+            Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask), this.getClass());
             loadData();
             checkStock(selectedTask, false);
         }
@@ -432,7 +432,7 @@ public class TaskBoardController {
             entityManager.persist(completedTask);
             entityManager.remove(selectedTask);
 
-            Utilities.printStatus(String.format("Task [%s] was marked as completed", completedTask));
+            Utilities.printStatus(String.format("Task [%s] was marked as completed", completedTask), this.getClass());
 
             transaction.commit();
         } catch (Exception e) {
@@ -452,7 +452,7 @@ public class TaskBoardController {
      * @param delay - pause time between table updates in milliseconds.
      */
     private void startAutoRefresh(int delay) {
-        Utilities.printStatus(String.format("Refresh rate is set to: 1 in %d minutes", delay/60000));
+        Utilities.printStatus(String.format("Refresh rate is set to: 1 in %d minutes", delay/60000), this.getClass());
         Thread thread = new Thread(new Runnable() {
             @Override
             @SneakyThrows
@@ -461,7 +461,7 @@ public class TaskBoardController {
                     Thread.sleep(delay);
                     Platform.runLater(() -> {
                         loadData();
-                        Utilities.printStatus("Table Refreshed");
+                        Utilities.printStatus("Table Refreshed", this.getClass());
                     });
                 }
             }
@@ -472,7 +472,7 @@ public class TaskBoardController {
     private void print() throws IOException {
         ActiveTask activeTask = tableView.getSelectionModel().getSelectedItem();
         if (activeTask != null) {
-            Utilities.printStatus(activeTask.toString());
+            Utilities.printStatus(activeTask.toString(), this.getClass());
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PRINT_ORDER));
             Dialog<ButtonType> dialog = new Dialog<>();
             DialogPane dialogPane = fxmlLoader.load();

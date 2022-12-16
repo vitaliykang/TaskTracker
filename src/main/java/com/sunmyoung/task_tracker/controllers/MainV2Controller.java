@@ -1,20 +1,17 @@
 package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.Main;
-import javafx.beans.InvalidationListener;
-import javafx.beans.Observable;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.stage.Screen;
+
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
+
 import lombok.SneakyThrows;
+
+import static com.sunmyoung.task_tracker.DialogUtilities.centerStage;
 
 public class MainV2Controller {
 
@@ -76,11 +73,5 @@ public class MainV2Controller {
     private static Scene createScene(String fxml) {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(fxml));
         return new Scene(fxmlLoader.load());
-    }
-
-    private static void centerStage(Stage stage) {
-        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
-        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
     }
 }

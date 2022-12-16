@@ -1,7 +1,10 @@
 package com.sunmyoung.task_tracker;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.TextField;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Screen;
+import javafx.stage.Stage;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +26,12 @@ public class DialogUtilities {
             }
         }
         return flag;
+    }
+
+    public static void centerStage(Stage stage) {
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
     }
 
     private static boolean hasData(TextField field) {

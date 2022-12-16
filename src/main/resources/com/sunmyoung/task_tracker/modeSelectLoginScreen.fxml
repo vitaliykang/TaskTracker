@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="274.0" prefWidth="250.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.sunmyoung.task_tracker.controllers.ModeSelectLoginScreenController">
+   <children>
+      <Button layoutX="25.0" layoutY="129.0" mnemonicParsing="false" onAction="#managementMode" prefHeight="50.0" prefWidth="200.0" text="MANAGEMENT" textFill="#2600ff">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
+         <graphic>
+            <FontIcon iconColor="#2600ff" iconLiteral="bi-clipboard-data" iconSize="30" />
+         </graphic>
+      </Button>
+      <Button fx:id="productionBtn" layoutX="25.0" layoutY="193.0" mnemonicParsing="false" onAction="#productionMode" prefHeight="50.0" prefWidth="200.0" text="PRODUCTION" textFill="#2a801b">
+         <font>
+            <Font name="Arial" size="18.0" />
+         </font>
+         <graphic>
+            <FontIcon iconColor="#29781c" iconLiteral="bi-hammer" iconSize="30" />
+         </graphic>
+      </Button>
+      <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" layoutX="81.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
+      <FontIcon iconLiteral="bi-gear-fill" iconSize="30" layoutX="14.0" layoutY="44.0" onMouseClicked="#openSettings" />
+      <FontIcon fx:id="errorIcon" iconColor="RED" iconLiteral="bi-shield-exclamation" iconSize="100" layoutX="81.0" layoutY="114.0" visible="false" />
+      <PasswordField fx:id="passwordField" layoutX="25.0" layoutY="193.0" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <Button fx:id="okBtn" layoutX="81.0" layoutY="224.0" mnemonicParsing="false" onAction="#okPressed" prefWidth="70.0" text="OK" visible="false" />
+      <Button fx:id="cancelBtn" layoutX="155.0" layoutY="224.0" mnemonicParsing="false" onAction="#cancelPressed" prefWidth="70.0" text="Cancel" visible="false" />
+   </children>
+</AnchorPane>

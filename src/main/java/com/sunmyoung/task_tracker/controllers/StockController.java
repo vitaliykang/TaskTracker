@@ -107,7 +107,7 @@ public class StockController {
                         entityManager.getTransaction().begin();
                         entityManager.createQuery("delete Code c where c.id = :id").setParameter("id", selectedEntry.getId()).executeUpdate();
                         entityManager.getTransaction().commit();
-                        Utilities.printStatus("Code deleted");
+                        Utilities.printStatus("Code deleted", this.getClass());
                         loadInfo();
                     } catch (Exception e) {
                         ErrorMessage.show(e);

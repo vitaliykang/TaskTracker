@@ -14,13 +14,16 @@ module com.sunmyoung.tasktracker {
     requires org.apache.commons.lang3;
 
 
-    opens com.sunmyoung.task_tracker to javafx.fxml;
-    opens com.sunmyoung.task_tracker.controllers to javafx.fxml;
+
     opens com.sunmyoung.task_tracker.pojos;
 
     exports com.sunmyoung.task_tracker;
     exports com.sunmyoung.task_tracker.pojos;
     exports com.sunmyoung.task_tracker.controllers;
+
+    opens com.sunmyoung.task_tracker to javafx.fxml;
+    opens com.sunmyoung.task_tracker.controllers to javafx.fxml;
+    opens com.sunmyoung.task_tracker.controllers.dialogControllers to javafx.fxml;
     opens com.sunmyoung.task_tracker.controllers.dialogControllers.client to javafx.fxml;
     opens com.sunmyoung.task_tracker.controllers.dialogControllers.code to javafx.fxml;
     opens com.sunmyoung.task_tracker.controllers.dialogControllers.utility to javafx.fxml;
