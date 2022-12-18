@@ -3,8 +3,12 @@ package com.sunmyoung.task_tracker.controllers;
 import com.sunmyoung.task_tracker.*;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.SettingsDialogController;
 import com.sunmyoung.task_tracker.controllers.settings.SimpleConfig;
+import com.sunmyoung.task_tracker.pojos.Password;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
+import com.sunmyoung.task_tracker.repositories.PasswordRepository;
+import jakarta.persistence.EntityManager;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
@@ -13,17 +17,23 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
 public class ModeSelectLoginScreenController {
-
     @FXML
     private ImageView imageView;
 
@@ -34,27 +44,35 @@ public class ModeSelectLoginScreenController {
     private Button productionBtn;
 
     @FXML
+    private Label noConnectionLabel, wrongPasswordLabel;
+
+    @FXML
     private Button okBtn, cancelBtn;
 
     @FXML
     private PasswordField passwordField;
 
-    private Image logo;
     private final String IMAGE_PATH = "animated.gif";
 
     @FXML
-    void okPressed() {
-
+    void okPressed(ActionEvent event) {
+        if (checkPassword()) {
+            Mode.setCurrentMode(Mode.MANAGEMENT);
+            loadMainScreen(event);
+        } else {
+            showWrongPasswordWarning(true);
+        }
     }
 
     @FXML
     void cancelPressed() {
         showPasswordField(false);
+        showWrongPasswordWarning(false);
     }
 
     @FXML
     void managementMode(ActionEvent event) {
-        showPasswordField(true);
+        showPasswordField(! passwordField.isVisible());
     }
 
     @FXML
@@ -65,7 +83,21 @@ public class ModeSelectLoginScreenController {
     @FXML
     void productionMode(ActionEvent event) {
         Mode.setCurrentMode(Mode.PRODUCTION);
-        connectToDatabase(event);
+        if (connectToDatabase()) {
+            loadMainScreen(event);
+        }
+    }
+
+    @FXML
+    void checkPassword(KeyEvent event) {
+        if (event.getCode().equals(KeyCode.ENTER)) {
+            if (checkPassword()) {
+                Mode.setCurrentMode(Mode.MANAGEMENT);
+                loadMainScreen(event);
+            } else {
+                showWrongPasswordWarning(true);
+            }
+        }
     }
 
     public void initialize() {
@@ -74,7 +106,7 @@ public class ModeSelectLoginScreenController {
 
     private void initLogo() {
         try {
-            logo = new Image(Objects.requireNonNull(Main.class.getResource(IMAGE_PATH)).toURI().toString());
+            Image logo = new Image(Objects.requireNonNull(Main.class.getResource(IMAGE_PATH)).toURI().toString());
             imageView.setImage(logo);
         } catch (Exception e) {
             Utilities.printStatus("Logo not found.", this.getClass());
@@ -84,6 +116,7 @@ public class ModeSelectLoginScreenController {
 
     private void openSettings() {
         errorIcon.setVisible(false);
+        noConnectionLabel.setVisible(false);
         imageView.setVisible(true);
 
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.SETTINGS));
@@ -111,31 +144,35 @@ public class ModeSelectLoginScreenController {
         }
     }
 
-    private boolean connectToDatabase(ActionEvent event) {
+    private boolean connectToDatabase() {
         String url = SimpleConfig.getURL();
         url = String.format("jdbc:mysql://%s/sunmyoung?useSSL=false", url);
         if (DatabaseConnection.connect(url, SimpleConfig.getUsername(), SimpleConfig.getPassword())) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainV2.fxml"));
-            Pane pane = null;
-            try {
-                pane = fxmlLoader.load();
-            } catch (Exception e) {
-                ErrorMessage.show(e);
-                e.printStackTrace();
-            }
-            Scene scene = new Scene(pane);
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
-            stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
-            stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
-            stage.show();
             return true;
         } else {
             errorIcon.setVisible(true);
+            noConnectionLabel.setVisible(true);
             imageView.setVisible(false);
             return false;
         }
+    }
+    
+    private void loadMainScreen(Event event) {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainV2.fxml"));
+        Pane pane = null;
+        try {
+            pane = fxmlLoader.load();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorMessage.show(e);
+        }
+        Scene scene = new Scene(pane);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        Rectangle2D screenBounds = Screen.getPrimary().getVisualBounds();
+        stage.setX((screenBounds.getWidth() - stage.getWidth()) / 2);
+        stage.setY((screenBounds.getHeight() - stage.getHeight()) / 2);
+        stage.show();
     }
 
     private void showPasswordField(boolean bool) {
@@ -144,5 +181,22 @@ public class ModeSelectLoginScreenController {
         passwordField.setVisible(bool);
 
         productionBtn.setVisible(!bool);
+    }
+
+    private void showWrongPasswordWarning(boolean bool) {
+        wrongPasswordLabel.setVisible(bool);
+        errorIcon.setVisible(bool);
+        imageView.setVisible(! bool);
+    }
+
+    private boolean checkPassword() {
+        if (connectToDatabase()) {
+            String password = PasswordRepository.getPassword();
+            String typedPassword = passwordField.getText();
+
+            return password.equals(Utilities.encodePassword(typedPassword));
+        }
+
+        return false;
     }
 }

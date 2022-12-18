@@ -4,6 +4,7 @@ public class Dialogs {
 
     //settings
     public static final String SETTINGS = "dialogs/settingsDialog.fxml";
+    public static final String PASSWORD_CHANGE = "dialogs/passwordChange.fxml";
 
     //client
     public static final String CLIENT_LIST = "dialogs/client/clientListDialog.fxml";

@@ -1,19 +1,74 @@
 package com.sunmyoung.task_tracker.controllers;
 
+import com.sunmyoung.task_tracker.Dialogs;
+import com.sunmyoung.task_tracker.ErrorMessage;
 import com.sunmyoung.task_tracker.Main;
+import com.sunmyoung.task_tracker.Utilities;
+import com.sunmyoung.task_tracker.controllers.dialogControllers.PasswordChangeDialogController;
+import com.sunmyoung.task_tracker.repositories.PasswordRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 
 import lombok.SneakyThrows;
+import org.kordamp.ikonli.javafx.FontIcon;
+
+import java.util.Optional;
 
 import static com.sunmyoung.task_tracker.DialogUtilities.centerStage;
 
 public class MainV2Controller {
+    @FXML
+    private FontIcon settingsBtn;
+
+    @FXML
+    void openSettings() {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PASSWORD_CHANGE));
+        try {
+            Dialog<ButtonType> dialog = new Dialog<>();
+            DialogPane dialogPane = fxmlLoader.load();
+            dialog.setDialogPane(dialogPane);
+            Stage stage = (Stage) dialogPane.getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
+
+            Button buttonOK = (Button) dialogPane.lookupButton(ButtonType.OK);
+            buttonOK.addEventFilter(ActionEvent.ACTION, event -> event.consume());
+
+            PasswordChangeDialogController controller = fxmlLoader.getController();
+
+            Optional<ButtonType> result = dialog.showAndWait();
+            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
+                controller.showNewPasswordError(false);
+                controller.showCurrentPasswordError(false);
+
+                String currentPassword = Utilities.encodePassword(controller.getCurrentPasswordPF().getText());
+                String oldPassword = PasswordRepository.getPassword();
+
+                if (currentPassword.equals(oldPassword) && controller.checkNewPassword()) {
+                    PasswordRepository.updatePassword(controller.getNewPassword());
+                    dialog.close();
+                } else {
+                    if (! currentPassword.equals(oldPassword)) {
+                        controller.showCurrentPasswordError(true);
+                    }
+                    if (! controller.checkNewPassword()) {
+                        controller.showNewPasswordError(true);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorMessage.show(e);
+        }
+    }
 
     @FXML
     @SneakyThrows

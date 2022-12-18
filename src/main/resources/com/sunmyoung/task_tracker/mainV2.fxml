@@ -31,5 +31,6 @@
       </Button>
       <FontIcon iconLiteral="bi-search" iconSize="50" layoutX="144.0" layoutY="474.0" />
       <FontIcon iconLiteral="bi-columns-gap" iconSize="50" layoutX="144.0" layoutY="350.0" />
+      <FontIcon fx:id="settingsBtn" iconLiteral="bi-gear" iconSize="20" layoutX="14.0" layoutY="34.0" onMouseClicked="#openSettings" />
    </children>
 </AnchorPane>

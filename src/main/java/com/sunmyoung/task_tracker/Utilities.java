@@ -3,9 +3,13 @@ package com.sunmyoung.task_tracker;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -13,10 +17,11 @@ import java.util.List;
 import java.util.Objects;
 
 public class Utilities {
-    /**
+    /*
      * Path to the folder with the TaskTracker.jar
      */
     private static String pathStr = "";
+    private static final byte[] SALT = {43, -92, -79, 81, 49, -26, 21, 53, -84, 109, 127, 120, -108, -20, 15, 120};
 
     static {
         String str = Objects.requireNonNull(Main.class.getResource("mainV2.fxml"), "mainV2.fxml not found").toString();
@@ -109,5 +114,29 @@ public class Utilities {
             System.out.printf("Failed to write to the file \"%s\". %n", path);
             ErrorMessage.show(e);
         }
+    }
+
+    public static String encodePassword(String password) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(SALT);
+            byte[] hash = messageDigest.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < hash.length; i++) {
+                sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorMessage.show(e);
+        }
+        return null;
+    }
+
+    private static byte[] generateSalt() {
+        SecureRandom secureRandom = new SecureRandom();
+        byte[] salt = new byte[16];
+        secureRandom.nextBytes(salt);
+        return salt;
     }
 }

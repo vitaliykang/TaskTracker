@@ -9,6 +9,7 @@
         <class>com.sunmyoung.task_tracker.pojos.InspectionReport</class>
         <class>com.sunmyoung.task_tracker.pojos.Code</class>
         <class>com.sunmyoung.task_tracker.pojos.Client</class>
+        <class>com.sunmyoung.task_tracker.pojos.Password</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
