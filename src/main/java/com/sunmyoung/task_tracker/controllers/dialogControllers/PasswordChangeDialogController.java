@@ -15,7 +15,7 @@ public class PasswordChangeDialogController {
     Rectangle currentPasswordRectangle, newPasswordRectangle;
 
     public String getNewPassword() {
-        return Utilities.encodePassword(newPasswordPF1.getText());
+        return Utilities.hashPassword(newPasswordPF1.getText());
     }
 
     public boolean checkNewPassword() {

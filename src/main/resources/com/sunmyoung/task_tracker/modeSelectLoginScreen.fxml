@@ -29,7 +29,7 @@
       <ImageView fx:id="imageView" fitHeight="100.0" fitWidth="100.0" layoutX="81.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" />
       <FontIcon iconLiteral="bi-gear" iconSize="20" layoutX="4.0" layoutY="24.0" onMouseClicked="#openSettings" />
       <FontIcon fx:id="errorIcon" iconColor="RED" iconLiteral="bi-shield-exclamation" iconSize="100" layoutX="81.0" layoutY="114.0" visible="false" />
-      <PasswordField fx:id="passwordField" layoutX="25.0" layoutY="193.0" onKeyPressed="#checkPassword" prefHeight="25.0" prefWidth="200.0" visible="false" />
+      <PasswordField fx:id="passwordField" layoutX="25.0" layoutY="193.0" onKeyPressed="#readKeyboard" prefHeight="25.0" prefWidth="200.0" visible="false" />
       <Button fx:id="okBtn" layoutX="81.0" layoutY="224.0" mnemonicParsing="false" onAction="#okPressed" prefWidth="70.0" text="OK" visible="false" />
       <Button fx:id="cancelBtn" layoutX="155.0" layoutY="224.0" mnemonicParsing="false" onAction="#cancelPressed" prefWidth="70.0" text="Cancel" visible="false" />
       <Label fx:id="noConnectionLabel" layoutX="58.0" layoutY="106.0" nodeOrientation="RIGHT_TO_LEFT" text="No Connection" textFill="RED" visible="false">

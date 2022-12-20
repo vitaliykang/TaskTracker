@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -116,7 +115,7 @@ public class Utilities {
         }
     }
 
-    public static String encodePassword(String password) {
+    public static String hashPassword(String password) {
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(SALT);

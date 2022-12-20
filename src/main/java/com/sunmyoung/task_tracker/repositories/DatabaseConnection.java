@@ -1,5 +1,6 @@
 package com.sunmyoung.task_tracker.repositories;
 
+import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
@@ -18,32 +19,8 @@ import java.net.ConnectException;
 import java.util.Properties;
 
 public class DatabaseConnection {
-//    @Getter
-//    private static SessionFactory sessionFactory;
-
     @Getter
     private static EntityManagerFactory entityManagerFactory;
-
-//    public static Boolean connect(String url, String username, String password) {
-//        try {
-//            StandardServiceRegistry registry = configureBuilder(url, username, password).build();
-//            Metadata metadata = new MetadataSources(registry).getMetadataBuilder().build();
-//            sessionFactory = metadata.getSessionFactoryBuilder().build();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return false;
-//        }
-//        return true;
-//    }
-
-//    private static StandardServiceRegistryBuilder configureBuilder(String url, String username, String password) {
-//        StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder();
-//        builder.configure("hibernate.cfg.xml");
-//        builder.applySetting(AvailableSettings.URL, url);
-//        builder.applySetting(AvailableSettings.USER, username);
-//        builder.applySetting(AvailableSettings.PASS, password);
-//        return builder;
-//    }
 
     public static Boolean connect(String url, String username, String password) {
         try {
@@ -52,6 +29,7 @@ public class DatabaseConnection {
             properties.put("jakarta.persistence.jdbc.user", username);
             properties.put("jakarta.persistence.jdbc.password", password);
             entityManagerFactory = Persistence.createEntityManagerFactory("com.sunmyoung.task_tracker", properties);
+            Utilities.printStatus("Database Connection Established Successfully.", DatabaseConnection.class);
         } catch (Exception e) {
             e.printStackTrace();
             return false;

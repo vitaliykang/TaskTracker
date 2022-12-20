@@ -5,6 +5,7 @@ import com.sunmyoung.task_tracker.ErrorMessage;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.PasswordChangeDialogController;
+import com.sunmyoung.task_tracker.pojos.Password;
 import com.sunmyoung.task_tracker.repositories.PasswordRepository;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +30,8 @@ public class MainV2Controller {
     @FXML
     private FontIcon settingsBtn;
 
+    private boolean hasError;
+
     @FXML
     void openSettings() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PASSWORD_CHANGE));
@@ -39,21 +42,20 @@ public class MainV2Controller {
             Stage stage = (Stage) dialogPane.getScene().getWindow();
             stage.getIcons().add(Main.getLogo());
 
-            Button buttonOK = (Button) dialogPane.lookupButton(ButtonType.OK);
-            buttonOK.addEventFilter(ActionEvent.ACTION, event -> event.consume());
-
             PasswordChangeDialogController controller = fxmlLoader.getController();
 
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get().equals(ButtonType.OK)) {
+            Button buttonOK = (Button) dialogPane.lookupButton(ButtonType.OK);
+            buttonOK.addEventFilter(ActionEvent.ACTION, event -> {
+                String currentPassword = Utilities.hashPassword(controller.getCurrentPasswordPF().getText());
+                String oldPassword = Password.getBufferedPassword() == null ? PasswordRepository.getPassword() : Password.getBufferedPassword();
+
                 controller.showNewPasswordError(false);
                 controller.showCurrentPasswordError(false);
 
-                String currentPassword = Utilities.encodePassword(controller.getCurrentPasswordPF().getText());
-                String oldPassword = PasswordRepository.getPassword();
-
                 if (currentPassword.equals(oldPassword) && controller.checkNewPassword()) {
                     PasswordRepository.updatePassword(controller.getNewPassword());
+                    Password.setBufferedPassword(controller.getNewPassword());
+
                     dialog.close();
                 } else {
                     if (! currentPassword.equals(oldPassword)) {
@@ -62,8 +64,11 @@ public class MainV2Controller {
                     if (! controller.checkNewPassword()) {
                         controller.showNewPasswordError(true);
                     }
+                    event.consume();
                 }
-            }
+            });
+
+            Optional<ButtonType> result = dialog.showAndWait();
         } catch (Exception e) {
             e.printStackTrace();
             ErrorMessage.show(e);

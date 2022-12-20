@@ -1,10 +1,15 @@
 package com.sunmyoung.task_tracker.pojos;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "password")
 public class Password {
+    @Getter @Setter
+    private static String bufferedPassword;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false)

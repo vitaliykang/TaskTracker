@@ -6,7 +6,6 @@ import com.sunmyoung.task_tracker.controllers.settings.SimpleConfig;
 import com.sunmyoung.task_tracker.pojos.Password;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import com.sunmyoung.task_tracker.repositories.PasswordRepository;
-import jakarta.persistence.EntityManager;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -25,11 +24,6 @@ import javafx.stage.Screen;
 import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -89,13 +83,24 @@ public class ModeSelectLoginScreenController {
     }
 
     @FXML
-    void checkPassword(KeyEvent event) {
+    void readKeyboard(KeyEvent event) {
         if (event.getCode().equals(KeyCode.ENTER)) {
             if (checkPassword()) {
                 Mode.setCurrentMode(Mode.MANAGEMENT);
                 loadMainScreen(event);
             } else {
                 showWrongPasswordWarning(true);
+            }
+        } else if (event.getCode() == KeyCode.P && event.isAltDown() && event.isControlDown()) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to reset the password?", ButtonType.OK, ButtonType.CANCEL);
+            alert.showAndWait();
+
+            if (alert.getResult() == ButtonType.OK) {
+                if (DatabaseConnection.getEntityManagerFactory() == null) {
+                    connectToDatabase();
+                }
+                PasswordRepository.resetPassword();
+                Utilities.printStatus("Password has been reset.", this.getClass());
             }
         }
     }
@@ -190,11 +195,15 @@ public class ModeSelectLoginScreenController {
     }
 
     private boolean checkPassword() {
+        String typedPassword = Utilities.hashPassword(passwordField.getText());
+
+        if (Password.getBufferedPassword() != null) {
+            return typedPassword.equals(Password.getBufferedPassword());
+        }
         if (connectToDatabase()) {
             String password = PasswordRepository.getPassword();
-            String typedPassword = passwordField.getText();
-
-            return password.equals(Utilities.encodePassword(typedPassword));
+            Password.setBufferedPassword(password);
+            return password.equals(typedPassword);
         }
 
         return false;
