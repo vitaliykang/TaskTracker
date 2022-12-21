@@ -92,7 +92,7 @@ public class MainV2Controller {
     @FXML
     @SneakyThrows
     void openTaskBoard(ActionEvent event) {
-        String taskBoard = Mode.getCurrentMode().getTaskBoard();
+        String taskBoard = "TaskBoard.fxml";
         Scene scene = createScene(taskBoard);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
