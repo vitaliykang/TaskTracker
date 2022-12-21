@@ -23,7 +23,7 @@ public class Utilities {
     private static final byte[] SALT = {43, -92, -79, 81, 49, -26, 21, 53, -84, 109, 127, 120, -108, -20, 15, 120};
 
     static {
-        String str = Objects.requireNonNull(Main.class.getResource("mainV2.fxml"), "mainV2.fxml not found").toString();
+        String str = Objects.requireNonNull(Main.class.getResource("mainScreen - management.fxml"), "mainScreen - management.fxml not found").toString();
         try {
             pathStr = str.substring(str.indexOf('/') + 1, str.indexOf("TaskTracker.jar!"));
             pathStr = pathStr.replaceAll("%20", " ");

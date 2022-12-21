@@ -92,7 +92,8 @@ public class ModeSelectLoginScreenController {
                 showWrongPasswordWarning(true);
             }
         } else if (event.getCode() == KeyCode.P && event.isAltDown() && event.isControlDown()) {
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Do you want to reset the password?", ButtonType.OK, ButtonType.CANCEL);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setHeaderText("Do you want to reset the password?");
             alert.showAndWait();
 
             if (alert.getResult() == ButtonType.OK) {
@@ -163,7 +164,8 @@ public class ModeSelectLoginScreenController {
     }
     
     private void loadMainScreen(Event event) {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainV2.fxml"));
+        String mainScreen = Mode.getCurrentMode() == Mode.MANAGEMENT ? Mode.MANAGEMENT.getMainScreen() : Mode.PRODUCTION.getMainScreen();
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(mainScreen));
         Pane pane = null;
         try {
             pane = fxmlLoader.load();

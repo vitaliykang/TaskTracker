@@ -107,11 +107,16 @@
                   <Font name="Arial" size="12.0" />
                </font></RadioButton>
             <DatePicker fx:id="dateOutPicker" layoutX="563.0" layoutY="113.0" promptText="출하예정일" />
-            <RadioButton fx:id="amRB" layoutX="753.0" layoutY="116.0" mnemonicParsing="false" text="오전직납">
+            <RadioButton fx:id="amRB" layoutX="759.0" layoutY="106.0" mnemonicParsing="false" text="오전직납">
                <font>
                   <Font name="Arial" size="12.0" />
                </font></RadioButton>
-            <RadioButton fx:id="deliveryRB" layoutX="854.0" layoutY="116.0" mnemonicParsing="false" text="택배발송">
+            <RadioButton fx:id="pmRB" layoutX="759.0" layoutY="127.0" mnemonicParsing="false" text="오후직납">
+               <font>
+                  <Font name="Arial" size="12.0" />
+               </font>
+            </RadioButton>
+            <RadioButton fx:id="deliveryRB" layoutX="844.0" layoutY="118.0" mnemonicParsing="false" text="택배발송">
                <font>
                   <Font name="Arial" size="12.0" />
                </font></RadioButton>

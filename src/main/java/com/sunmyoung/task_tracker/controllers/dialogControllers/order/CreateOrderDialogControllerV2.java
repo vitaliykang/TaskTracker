@@ -102,6 +102,7 @@ public class CreateOrderDialogControllerV2 {
     @FXML
     private RadioButton
             amRB,
+            pmRB,
             deliveryRB;
 
     @FXML
@@ -403,6 +404,7 @@ public class CreateOrderDialogControllerV2 {
         if (task.getDeadlineNote() != null) {
             switch (task.getDeadlineNote()) {
                 case "오전직납" -> amRB.setSelected(true);
+                case "오후직납" -> pmRB.setSelected(true);
                 case "택배발송" -> deliveryRB.setSelected(true);
             }
         }
@@ -437,6 +439,7 @@ public class CreateOrderDialogControllerV2 {
         dateOutPicker.setEditable(bool);
         dateOutPicker.setDisable(!bool);
         amRB.setDisable(!bool);
+        pmRB.setDisable(!bool);
         deliveryRB.setDisable(!bool);
         methodPesongRB.setDisable(!bool);
         methodPedalRB.setDisable(!bool);
@@ -658,7 +661,10 @@ public class CreateOrderDialogControllerV2 {
         if (amRB.isSelected()) {
             return "오전직납";
         }
-        if (deliveryRB.isSelected()) {
+        else if (pmRB.isSelected()) {
+            return "오후직납";
+        }
+        else if (deliveryRB.isSelected()) {
             return "택배발송";
         }
         return "";
@@ -704,6 +710,7 @@ public class CreateOrderDialogControllerV2 {
         //deadline note
         ToggleGroup deadlineNote = new ToggleGroup();
         amRB            .setToggleGroup(deadlineNote);
+        pmRB            .setToggleGroup(deadlineNote);
         deliveryRB      .setToggleGroup(deadlineNote);
 
         //printPosition

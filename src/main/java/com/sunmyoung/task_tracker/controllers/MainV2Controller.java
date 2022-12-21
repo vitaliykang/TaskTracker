@@ -1,9 +1,6 @@
 package com.sunmyoung.task_tracker.controllers;
 
-import com.sunmyoung.task_tracker.Dialogs;
-import com.sunmyoung.task_tracker.ErrorMessage;
-import com.sunmyoung.task_tracker.Main;
-import com.sunmyoung.task_tracker.Utilities;
+import com.sunmyoung.task_tracker.*;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.PasswordChangeDialogController;
 import com.sunmyoung.task_tracker.pojos.Password;
 import com.sunmyoung.task_tracker.repositories.PasswordRepository;
@@ -30,7 +27,11 @@ public class MainV2Controller {
     @FXML
     private FontIcon settingsBtn;
 
-    private boolean hasError;
+    public void initialize() {
+        switch (Mode.getCurrentMode()) {
+            Mode.MANAGEMENT ->
+        }
+    }
 
     @FXML
     void openSettings() {
@@ -121,7 +122,7 @@ public class MainV2Controller {
 
     @SneakyThrows
     public static void showMainScreen(ActionEvent event) {
-        Scene scene = createScene("mainV2.fxml");
+        Scene scene = createScene("mainScreen - management.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Task Tracker");

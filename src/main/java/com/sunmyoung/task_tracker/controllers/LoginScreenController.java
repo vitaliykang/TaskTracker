@@ -90,7 +90,7 @@ public class LoginScreenController {
         String url = addressTF.getText();
         url = String.format("jdbc:mysql://%s/sunmyoung?useSSL=false", url);
         if (DatabaseConnection.connect(url, loginTF.getText(), passwordTF.getText())) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainV2.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainScreen - management.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);

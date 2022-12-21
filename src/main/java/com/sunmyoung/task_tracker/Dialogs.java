@@ -1,6 +1,9 @@
 package com.sunmyoung.task_tracker;
 
 public class Dialogs {
+    //main screen
+    public static final String MAIN_SCREEN_M = "mainScreen - management.fxml";
+    public static final String MAIN_SCREEN_P = "mainScreen - production.fxml";
 
     //settings
     public static final String SETTINGS = "dialogs/settingsDialog.fxml";
