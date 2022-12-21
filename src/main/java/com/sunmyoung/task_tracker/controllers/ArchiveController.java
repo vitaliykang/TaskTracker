@@ -227,7 +227,7 @@ public class ArchiveController {
     private void viewDetails() {
         CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog - management.fxml"));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setResizable(false);
         dialog.setDialogPane(fxmlLoader.load());

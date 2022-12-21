@@ -25,15 +25,6 @@ import static com.sunmyoung.task_tracker.DialogUtilities.centerStage;
 
 public class MainV2Controller {
     @FXML
-    private FontIcon settingsBtn;
-
-    public void initialize() {
-        switch (Mode.getCurrentMode()) {
-            Mode.MANAGEMENT ->
-        }
-    }
-
-    @FXML
     void openSettings() {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.PASSWORD_CHANGE));
         try {
@@ -101,7 +92,8 @@ public class MainV2Controller {
     @FXML
     @SneakyThrows
     void openTaskBoard(ActionEvent event) {
-        Scene scene = createScene("TaskBoard.fxml");
+        String taskBoard = Mode.getCurrentMode().getTaskBoard();
+        Scene scene = createScene(taskBoard);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Task Board");
@@ -122,7 +114,7 @@ public class MainV2Controller {
 
     @SneakyThrows
     public static void showMainScreen(ActionEvent event) {
-        Scene scene = createScene("mainScreen - management.fxml");
+        Scene scene = createScene(Mode.getCurrentMode().getMainScreen());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
         stage.setTitle("Task Tracker");

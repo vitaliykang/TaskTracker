@@ -312,7 +312,7 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_ORDER));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Mode.getCurrentMode().getCreateOrderDialog()));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);
@@ -351,7 +351,7 @@ public class TaskBoardController {
 
     @SneakyThrows
     private void createOrderDialog() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_ORDER));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_ORDER_M));
         DialogPane dialogPane = fxmlLoader.load();
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setDialogPane(dialogPane);

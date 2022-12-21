@@ -164,7 +164,7 @@ public class ModeSelectLoginScreenController {
     }
     
     private void loadMainScreen(Event event) {
-        String mainScreen = Mode.getCurrentMode() == Mode.MANAGEMENT ? Mode.MANAGEMENT.getMainScreen() : Mode.PRODUCTION.getMainScreen();
+        String mainScreen = Mode.getCurrentMode().getMainScreen();
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(mainScreen));
         Pane pane = null;
         try {

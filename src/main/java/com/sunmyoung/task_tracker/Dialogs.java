@@ -5,6 +5,10 @@ public class Dialogs {
     public static final String MAIN_SCREEN_M = "mainScreen - management.fxml";
     public static final String MAIN_SCREEN_P = "mainScreen - production.fxml";
 
+    //task board
+    public static final String TASK_BOARD_M = "mainScreen - management.fxml";
+    public static final String TASK_BOARD_P = "mainScreen - production.fxml";
+
     //settings
     public static final String SETTINGS = "dialogs/settingsDialog.fxml";
     public static final String PASSWORD_CHANGE = "dialogs/passwordChange.fxml";
@@ -22,7 +26,8 @@ public class Dialogs {
     public static final String ERROR = "dialogs/utility/errorMessageDialog.fxml";
 
     //order
-    public static final String CREATE_ORDER = "dialogs/order/createOrderDialog.fxml";
+    public static final String CREATE_ORDER_M = "dialogs/order/createOrderDialog - management.fxml";
+    public static final String CREATE_ORDER_P = "dialogs/order/createOrderDialog - production.fxml";
     public static final String CREATE_SUBTASK = "dialogs/order/createSubtaskDialog.fxml";
     public static final String INSPECTION = "dialogs/order/inspectionDialog.fxml";
     public static final String PRINT_ORDER = "dialogs/order/printOrderDialog.fxml";
