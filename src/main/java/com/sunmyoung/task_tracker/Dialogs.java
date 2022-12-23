@@ -6,8 +6,8 @@ public class Dialogs {
     public static final String MAIN_SCREEN_P = "mainScreen - production.fxml";
 
     //task board
-    public static final String TASK_BOARD_M = "mainScreen - management.fxml";
-    public static final String TASK_BOARD_P = "mainScreen - production.fxml";
+    public static final String TASK_BOARD_M = "TaskBoard - management.fxml";
+    public static final String TASK_BOARD_P = "TaskBoard - production.fxml";
 
     //settings
     public static final String SETTINGS = "dialogs/settingsDialog.fxml";
@@ -30,5 +30,6 @@ public class Dialogs {
     public static final String CREATE_ORDER_P = "dialogs/order/createOrderDialog - production.fxml";
     public static final String CREATE_SUBTASK = "dialogs/order/createSubtaskDialog.fxml";
     public static final String INSPECTION = "dialogs/order/inspectionDialog.fxml";
+    public static final String INSPECTION_NONEDITABLE = "dialogs/order/inspectionDialog - noneditable.fxml";
     public static final String PRINT_ORDER = "dialogs/order/printOrderDialog.fxml";
 }

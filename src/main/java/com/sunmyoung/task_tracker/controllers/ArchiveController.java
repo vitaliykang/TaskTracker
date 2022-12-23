@@ -1,7 +1,10 @@
 package com.sunmyoung.task_tracker.controllers;
 
 
+import com.sunmyoung.task_tracker.Dialogs;
+import com.sunmyoung.task_tracker.ErrorMessage;
 import com.sunmyoung.task_tracker.Main;
+import com.sunmyoung.task_tracker.Mode;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.CreateOrderDialogControllerV2;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.InspectionDialogController;
@@ -227,7 +230,7 @@ public class ArchiveController {
     private void viewDetails() {
         CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/createOrderDialog - management.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_ORDER_P));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setResizable(false);
         dialog.setDialogPane(fxmlLoader.load());
@@ -260,7 +263,7 @@ public class ArchiveController {
     private void viewInspectionReport() {
         CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();
 
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("dialogs/inspectionDialog.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.INSPECTION_NONEDITABLE));
         Dialog<ButtonType> dialog = new Dialog<>();
         dialog.setResizable(false);
         dialog.setDialogPane(fxmlLoader.load());
@@ -269,18 +272,16 @@ public class ArchiveController {
         controller.enableEditing(false);
 
         EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
-        EntityTransaction transaction = null;
         try {
-            transaction = entityManager.getTransaction();
+            entityManager.getTransaction().begin();
             selectedTask = entityManager.createQuery("from CompletedTask t where t.id = :id", CompletedTask.class)
                     .setParameter("id", selectedTask.getId()).getSingleResult();
+            entityManager.getTransaction().commit();
             controller.getInspectionReportObservableList().addAll(selectedTask.getInspectionReports());
-            transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            ErrorMessage.show(e);
+            entityManager.getTransaction().rollback();
         } finally {
             entityManager.close();
         }

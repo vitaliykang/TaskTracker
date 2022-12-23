@@ -4,6 +4,8 @@ import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ErrorMes
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.stage.Stage;
 import lombok.SneakyThrows;
 
 public class ErrorMessage {
@@ -11,7 +13,10 @@ public class ErrorMessage {
     public static void show(Exception exception) {
         FXMLLoader fxmlLoader = new FXMLLoader(ErrorMessage.class.getResource(Dialogs.ERROR));
         Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setDialogPane(fxmlLoader.load());
+        DialogPane dialogPane = fxmlLoader.load();
+        Stage stage = (Stage) dialogPane.getScene().getWindow();
+        stage.getIcons().add(Main.getLogo());
+        dialog.setDialogPane(dialogPane);
 
         ErrorMessageDialogController controller = fxmlLoader.getController();
 

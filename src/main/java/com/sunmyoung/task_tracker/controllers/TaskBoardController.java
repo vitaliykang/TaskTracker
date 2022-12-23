@@ -21,6 +21,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
@@ -81,13 +82,37 @@ public class TaskBoardController {
     }
 
     @FXML
-    void markAsCompleted(ActionEvent event) {
-        markAsCompleted();
+    void markAsComplete(ActionEvent event) {
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
+            alert.setTitle("완료로 표시합니다.");
+            alert.setHeaderText("작업을 완료로 표시하시겠습니까?");
+            alert.setContentText(tableView.getSelectionModel().getSelectedItem().toString());
+
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                markAsComplete();
+            }
+        }
     }
 
     @FXML
     void cancelTask(ActionEvent event) {
-        cancelTask();
+        if (tableView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
+            alert.setTitle("작업을 취소합니다.");
+            alert.setHeaderText("작업을 취소하시겠습니까?");
+            alert.setContentText(tableView.getSelectionModel().getSelectedItem().toString());
+
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                cancelTask();
+            }
+        }
     }
 
     @FXML
@@ -386,27 +411,13 @@ public class TaskBoardController {
     @SneakyThrows
     private void cancelTask() {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
-        long taskId = selectedTask.getId();
-
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
-        Dialog<ButtonType> dialog = new Dialog<>();
-        dialog.setResizable(false);
-        dialog.setDialogPane(fxmlLoader.load());
-
-        ConfirmationDialogController controller = fxmlLoader.getController();
-        controller.getMessageLabel().setText("작업을 삭제하시겠습니까?");
-        controller.getInfoLabel().setText(selectedTask.toString());
-
-        Optional<ButtonType> clickedButton = dialog.showAndWait();
-        if (clickedButton.isPresent() && clickedButton.get() == ButtonType.OK) {
-            TaskRepository.delete(taskId);
-            Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask), this.getClass());
-            loadData();
-            checkStock(selectedTask, false);
-        }
+        TaskRepository.delete(selectedTask.getId());
+        Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask), this.getClass());
+        loadData();
+        checkStock(selectedTask, false);
     }
 
-    private void markAsCompleted() {
+    private void markAsComplete() {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         long taskId = selectedTask.getId();
 
