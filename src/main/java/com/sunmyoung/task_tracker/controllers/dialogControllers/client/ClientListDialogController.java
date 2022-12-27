@@ -3,7 +3,6 @@ package com.sunmyoung.task_tracker.controllers.dialogControllers.client;
 import com.sunmyoung.task_tracker.Dialogs;
 import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
 import com.sunmyoung.task_tracker.pojos.Client;
 import com.sunmyoung.task_tracker.repositories.ClientRepository;
 import javafx.collections.FXCollections;
@@ -15,7 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.SneakyThrows;
 
@@ -42,18 +41,15 @@ public class ClientListDialogController {
     private boolean listChanged = false;
 
     @Getter
-    private Client selectedClient;
-
-    @Getter
     private final ObservableList<Client> content = FXCollections.observableArrayList();
     private final FilteredList<Client> filteredContent = new FilteredList<>(content, predicate -> true);
 
+    @Getter
+    private Client selectedClient;
+
     @FXML
-    void selectClient(MouseEvent event) {
-        Client selectedClient = clientsTableView.getSelectionModel().getSelectedItem();
-        if (selectedClient != null) {
-            this.selectedClient = selectedClient;
-        }
+    public void selectClient() {
+        selectedClient = clientsTableView.getSelectionModel().getSelectedItem();
     }
 
     @FXML
@@ -123,15 +119,16 @@ public class ClientListDialogController {
     @SneakyThrows
     void deleteClient(ActionEvent event) {
         if (selectedClient != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setDialogPane(fxmlLoader.load());
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
 
-            ConfirmationDialogController controller = fxmlLoader.getController();
-            controller.getMessageLabel().setText("고객을 삭제하시겠습니까?");
-            controller.getInfoLabel().setText(selectedClient.toString());
+            alert.setTitle("고객을 삭제합니다.");
+            alert.setHeaderText("고객을 삭제하시겠습니까?");
+            alert.setContentText(selectedClient.toString());
 
-            Optional<ButtonType> result = dialog.showAndWait();
+            Optional<ButtonType> result = alert.showAndWait();
+
             if (result.isPresent() && result.get().equals(ButtonType.OK)) {
                 ClientRepository.delete(selectedClient.getId());
                 content.remove(selectedClient);

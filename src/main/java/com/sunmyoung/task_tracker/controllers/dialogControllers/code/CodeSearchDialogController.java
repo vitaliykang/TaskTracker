@@ -3,7 +3,6 @@ package com.sunmyoung.task_tracker.controllers.dialogControllers.code;
 import com.sunmyoung.task_tracker.Dialogs;
 import com.sunmyoung.task_tracker.ErrorMessage;
 import com.sunmyoung.task_tracker.Main;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
 import com.sunmyoung.task_tracker.pojos.Code;
 import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
@@ -169,16 +168,15 @@ public class CodeSearchDialogController {
         String selectedEntry = listView.getSelectionModel().getSelectedItem();
         if (selectedEntry != null) {
             Code code = codeMap.get(selectedEntry);
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
-            DialogPane dialogPane = fxmlLoader.load();
-            Dialog<ButtonType> dialog = new Dialog<>();
-            dialog.setDialogPane(dialogPane);
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
 
-            ConfirmationDialogController controller = fxmlLoader.getController();
-            controller.getMessageLabel().setText("코드를 삭제하시겠습니까?");
-            controller.getInfoLabel().setText(code.toString());
+            alert.setTitle("코드를 삭제합니다.");
+            alert.setHeaderText("코드를 삭제하시겠습니까?");
+            alert.setContentText(code.toString());
 
-            Optional<ButtonType> result = dialog.showAndWait();
+            Optional<ButtonType> result = alert.showAndWait();
             if (result.isPresent() && result.get().equals(ButtonType.OK)) {
                 CodeRepository.delete(code.getCode());
                 loadInfo();

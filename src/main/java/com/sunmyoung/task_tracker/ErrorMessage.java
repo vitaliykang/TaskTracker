@@ -14,9 +14,9 @@ public class ErrorMessage {
         FXMLLoader fxmlLoader = new FXMLLoader(ErrorMessage.class.getResource(Dialogs.ERROR));
         Dialog<ButtonType> dialog = new Dialog<>();
         DialogPane dialogPane = fxmlLoader.load();
+        dialog.setDialogPane(dialogPane);
         Stage stage = (Stage) dialogPane.getScene().getWindow();
         stage.getIcons().add(Main.getLogo());
-        dialog.setDialogPane(dialogPane);
 
         ErrorMessageDialogController controller = fxmlLoader.getController();
 

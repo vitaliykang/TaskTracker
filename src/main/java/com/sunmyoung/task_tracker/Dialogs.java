@@ -22,7 +22,6 @@ public class Dialogs {
     public static final String CREATE_CODE = "dialogs/code/createNewCodeDialog.fxml";
 
     //utility
-    public static final String CONFIRMATION = "dialogs/utility/confirmationDialog.fxml";
     public static final String ERROR = "dialogs/utility/errorMessageDialog.fxml";
 
     //order

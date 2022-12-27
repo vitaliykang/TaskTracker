@@ -6,7 +6,6 @@ import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CreateNewCodeDialogController;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
 import com.sunmyoung.task_tracker.pojos.Code;
 import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
