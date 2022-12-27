@@ -1,13 +1,11 @@
 package com.sunmyoung.task_tracker.controllers;
 
 
-import com.sunmyoung.task_tracker.Dialogs;
-import com.sunmyoung.task_tracker.ErrorMessage;
-import com.sunmyoung.task_tracker.Main;
-import com.sunmyoung.task_tracker.Mode;
+import com.sunmyoung.task_tracker.*;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.code.CodeSearchDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.CreateOrderDialogControllerV2;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.InspectionDialogController;
+import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import com.sunmyoung.task_tracker.pojos.CompletedTask;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import jakarta.persistence.EntityManager;
@@ -21,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import lombok.SneakyThrows;
 
@@ -97,6 +96,23 @@ public class ArchiveController {
     @SneakyThrows
     void returnToMainMenu(ActionEvent event) {
         MainV2Controller.showMainScreen(event);
+    }
+
+    @FXML
+    void restoreTask(ActionEvent event) {
+        if (tasksTableView.getSelectionModel().getSelectedItem() != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
+            alert.setTitle("작업을 복원합니다.");
+            alert.setHeaderText("작업을 복원하시겠습니까?");
+            alert.setContentText(tasksTableView.getSelectionModel().getSelectedItem().toString());
+
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                restoreTask();
+            }
+        }
     }
 
     public void initialize() {
@@ -197,6 +213,7 @@ public class ArchiveController {
             List<CompletedTask> tasks = typedQuery.getResultList();
             tasksObservableList.clear();
             tasksObservableList.addAll(tasks);
+            tasksTableView.refresh();
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();
@@ -287,6 +304,43 @@ public class ArchiveController {
         }
 
         dialog.showAndWait();
+    }
+
+    private void restoreTask() {
+        CompletedTask selectedTask = tasksTableView.getSelectionModel().getSelectedItem();
+        long taskId = selectedTask.getId();
+
+        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+        try {
+            entityManager.getTransaction().begin();
+
+            selectedTask = entityManager.createQuery("from CompletedTask t where t.id = :taskId", CompletedTask.class)
+                    .setParameter("taskId", taskId).getSingleResult();
+            selectedTask.getSubtasks().forEach(subtask -> subtask.setTask(null));
+            selectedTask.getInspectionReports().forEach(report -> report.setTask(null));
+
+            ActiveTask activeTask = new ActiveTask(selectedTask);
+            activeTask.setSubtasks(selectedTask.getSubtasks());
+            activeTask.getSubtasks().forEach(subtask -> subtask.setTask(activeTask));
+            activeTask.setInspectionReports(selectedTask.getInspectionReports());
+            activeTask.getInspectionReports().forEach(report -> report.setTask(activeTask));
+            selectedTask.setSubtasks(null);
+            selectedTask.setInspectionReports(null);
+
+            entityManager.persist(activeTask);
+            entityManager.remove(selectedTask);
+
+            Utilities.printStatus(String.format("Task [%s] has been restored.", activeTask), this.getClass());
+
+            entityManager.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+            ErrorMessage.show(e);
+        } finally {
+            entityManager.close();
+        }
+
+        loadInfo();
     }
 
     private TypedQuery<CompletedTask> addParameterStartDate(TypedQuery<CompletedTask> query) {

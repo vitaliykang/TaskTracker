@@ -2,7 +2,6 @@ package com.sunmyoung.task_tracker.controllers;
 
 import com.sunmyoung.task_tracker.*;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.PrintOrderDialog;
-import com.sunmyoung.task_tracker.controllers.dialogControllers.utility.ConfirmationDialogController;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.CreateOrderDialogControllerV2;
 import com.sunmyoung.task_tracker.controllers.dialogControllers.order.InspectionDialogController;
 import com.sunmyoung.task_tracker.pojos.Code;
@@ -422,10 +421,8 @@ public class TaskBoardController {
         long taskId = selectedTask.getId();
 
         EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
-        EntityTransaction transaction = null;
         try {
-            transaction = entityManager.getTransaction();
-            transaction.begin();
+            entityManager.getTransaction().begin();
 
             selectedTask = entityManager.createQuery("from ActiveTask t where t.id = :taskId", ActiveTask.class)
                     .setParameter("taskId", taskId).getSingleResult();
@@ -445,12 +442,10 @@ public class TaskBoardController {
 
             Utilities.printStatus(String.format("Task [%s] was marked as completed", completedTask), this.getClass());
 
-            transaction.commit();
+            entityManager.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
-            if (transaction != null) {
-                transaction.rollback();
-            }
+            ErrorMessage.show(e);
         } finally {
             entityManager.close();
         }

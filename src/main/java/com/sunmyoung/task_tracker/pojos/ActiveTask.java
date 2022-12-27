@@ -106,6 +106,36 @@ public class ActiveTask implements TaskInterface, Comparable<ActiveTask>{
     public ActiveTask() {
     }
 
+    public ActiveTask(CompletedTask task) {
+        code = task.getCode();
+        serialNumber = task.getSerialNumber();
+        shipmentFrom = task.getShipmentFrom();
+        client = task.getClient();
+        personInCharge = task.getPersonInCharge();
+        film = task.getFilm();
+        frameSize = task.getFrameSize();
+        mesh = task.getMesh();
+        combi = task.getCombi();
+        isNewFrame = task.getIsNewFrame();
+        frameCondition = task.getFrameCondition();
+        bias = task.getBias();
+        tension = task.getTension();
+        emulsion = task.getEmulsion();
+        dateIn = task.getDateIn();
+        shippingMethod = task.getShippingMethod();
+        dateOut = task.getDateOut();
+        deadlineNote = task.getDeadlineNote();
+        printPosition = task.getPrintPosition();
+        orderNote = task.getOrderNote();
+        count = task.getCount();
+        type = task.getType();
+        isAluminum = task.getIsAluminum();
+        tensioning = task.getTensioning();
+        coating = task.getCoating();
+        exposure = task.getExposure();
+        packaging = task.getPackaging();
+    }
+
     public String getDeadline() {
         try {
             return String.format("%s - %s", dateOut.format(CreateOrderDialogControllerV2.getKoreanFormat()), deadlineNote);

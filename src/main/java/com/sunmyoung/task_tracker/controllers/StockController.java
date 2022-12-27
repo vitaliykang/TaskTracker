@@ -53,16 +53,6 @@ public class StockController {
     private final ObservableList<Code> observableList = FXCollections.observableArrayList();
     private final FilteredList<Code> filteredList = new FilteredList<>(observableList, predicate -> true);
 
-    private Code selectedEntry;
-
-    @FXML
-    void selectEntry() {
-        Code selectedEntry = stockTableView.getSelectionModel().getSelectedItem();
-        if (selectedEntry != null) {
-            this.selectedEntry = selectedEntry;
-        }
-    }
-
     @FXML
     private void filter() {
         if (fieldsEmpty()) {
@@ -83,43 +73,37 @@ public class StockController {
 
     @FXML
     void edit(ActionEvent event) {
-        if (selectedEntry != null) {
-            edit();
-        }
+        edit();
     }
 
     @FXML
     void delete() {
-        if (selectedEntry != null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
-            Dialog<ButtonType> dialog = new Dialog<>();
+        Code selectedCode = stockTableView.getSelectionModel().getSelectedItem();
+        if (selectedCode != null) {
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
 
-            try {
-                dialog.setDialogPane(fxmlLoader.load());
-                ConfirmationDialogController controller = fxmlLoader.getController();
-                controller.getMessageLabel().setText("코드를 삭제하시겠습니까?");
-                controller.getInfoLabel().setText(selectedEntry.toString());
+            alert.setTitle("코드를 삭제합니다.");
+            alert.setHeaderText("코드를 삭제하시겠습니까?");
+            alert.setContentText(selectedCode.toString());
 
-                Optional<ButtonType> result = dialog.showAndWait();
-                if (result.isPresent() && result.get().equals(ButtonType.OK)) {
-                    EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
-                    try {
-                        entityManager.getTransaction().begin();
-                        entityManager.createQuery("delete Code c where c.id = :id").setParameter("id", selectedEntry.getId()).executeUpdate();
-                        entityManager.getTransaction().commit();
-                        Utilities.printStatus("Code deleted", this.getClass());
-                        loadInfo();
-                    } catch (Exception e) {
-                        ErrorMessage.show(e);
-                        e.printStackTrace();
-                        entityManager.getTransaction().rollback();
-                    } finally {
-                        entityManager.close();
-                    }
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.OK) {
+                EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+                try {
+                    entityManager.getTransaction().begin();
+                    entityManager.createQuery("delete Code c where c.id = :id").setParameter("id", selectedCode.getId()).executeUpdate();
+                    entityManager.getTransaction().commit();
+                    Utilities.printStatus("Code deleted", this.getClass());
+                    loadInfo();
+                } catch (Exception e) {
+                    ErrorMessage.show(e);
+                    e.printStackTrace();
+                    entityManager.getTransaction().rollback();
+                } finally {
+                    entityManager.close();
                 }
-            } catch (Exception e) {
-                ErrorMessage.show(e);
-                e.printStackTrace();
             }
         }
     }
@@ -165,72 +149,73 @@ public class StockController {
             Code selectedCode = event.getTableView().getItems().get(event.getTablePosition().getRow());
             String newValue = event.getNewValue();
             if (!newValue.equals(event.getOldValue())){
-                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CONFIRMATION));
-                try {
-                    Dialog<ButtonType> dialog = new Dialog<>();
-                    dialog.setDialogPane(fxmlLoader.load());
-                    ConfirmationDialogController controller = fxmlLoader.getController();
-                    controller.getMessageLabel().setText("카운트를 바꾸시겠습니까?");
-                    controller.getInfoLabel().setText(String.format("새 값: %s", newValue));
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+                stage.getIcons().add(Main.getLogo());
 
-                    Optional<ButtonType> result = dialog.showAndWait();
-                    if (result.isPresent() && result.get().equals(ButtonType.OK)) {
-                        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
-                        try {
-                            entityManager.getTransaction().begin();
-                            selectedCode = entityManager.createQuery("from Code c where c.id = :id", Code.class).setParameter("id", selectedCode.getId()).getSingleResult();
-                            selectedCode.setCount(newValue);
-                            entityManager.getTransaction().commit();
-                            loadInfo();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            ErrorMessage.show(e);
-                            entityManager.getTransaction().rollback();
-                        } finally {
-                            entityManager.close();
-                        }
+                alert.setTitle("카운트를 변경합니다.");
+                alert.setHeaderText("카운트를 바꾸시겠습니까?");
+                alert.setContentText(String.format("새 값: %s", newValue));
+
+                alert.showAndWait();
+
+                if (alert.getResult() == ButtonType.OK) {
+                    EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+                    try {
+                        entityManager.getTransaction().begin();
+                        selectedCode = entityManager.createQuery("from Code c where c.id = :id", Code.class).setParameter("id", selectedCode.getId()).getSingleResult();
+                        selectedCode.setCount(newValue);
+                        entityManager.getTransaction().commit();
+                        loadInfo();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        ErrorMessage.show(e);
+                        entityManager.getTransaction().rollback();
+                    } finally {
+                        entityManager.close();
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    ErrorMessage.show(e);
                 }
             }
         });
     }
 
     private void edit() {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CODE));
-        Dialog<ButtonType> dialog = new Dialog<>();
-        try {
-            dialog.setDialogPane(fxmlLoader.load());
-        } catch (Exception e) {
-            e.printStackTrace();
-            ErrorMessage.show(e);
-        }
-        Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(Main.getLogo());
-        CreateNewCodeDialogController controller = fxmlLoader.getController();
+        Code selectedEntry = stockTableView.getSelectionModel().getSelectedItem();
 
-        EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
-        try {
-            entityManager.getTransaction().begin();
-            Code selectedCode = entityManager.createQuery("from Code c where c.id = :id", Code.class).setParameter("id", selectedEntry.getId())
-                    .getSingleResult();
-
-            controller.populateWindow(selectedCode);
-
-            Optional<ButtonType> result = dialog.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.OK) {
-                controller.readFields(selectedCode);
-                entityManager.getTransaction().commit();
-                loadInfo();
+        if (selectedEntry != null) {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource(Dialogs.CREATE_CODE));
+            Dialog<ButtonType> dialog = new Dialog<>();
+            try {
+                dialog.setDialogPane(fxmlLoader.load());
+            } catch (Exception e) {
+                e.printStackTrace();
+                ErrorMessage.show(e);
             }
-        } catch (Exception e) {
-            entityManager.getTransaction().rollback();
-            e.printStackTrace();
-            ErrorMessage.show(e);
-        } finally {
-            entityManager.close();
+            Stage stage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(Main.getLogo());
+            CreateNewCodeDialogController controller = fxmlLoader.getController();
+
+            EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+            try {
+                entityManager.getTransaction().begin();
+                Code selectedCode = entityManager.createQuery("from Code c where c.id = :id", Code.class).setParameter("id", selectedEntry.getId())
+                        .getSingleResult();
+
+                controller.populateWindow(selectedCode);
+
+                Optional<ButtonType> result = dialog.showAndWait();
+                if (result.isPresent() && result.get() == ButtonType.OK) {
+                    controller.readFields(selectedCode);
+                    entityManager.getTransaction().commit();
+                    loadInfo();
+                }
+            } catch (Exception e) {
+                entityManager.getTransaction().rollback();
+                e.printStackTrace();
+                ErrorMessage.show(e);
+            } finally {
+                entityManager.close();
+            }
         }
     }
 
