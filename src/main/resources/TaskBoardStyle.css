@@ -2,5 +2,10 @@
 .table-view .column-header-background .label {
     /*-fx-font-family: "1HoonGomulsang Regular";*/
     /*-fx-font-family: "BareunBatang Regular";*/
+    -fx-font-family: "Arial";
     -fx-font-weight: normal;
+}
+
+.table-view .table-cell{
+    -fx-font-family: "Arial";
 }
