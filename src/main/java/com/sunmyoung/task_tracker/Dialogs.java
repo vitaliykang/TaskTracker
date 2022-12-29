@@ -30,5 +30,5 @@ public class Dialogs {
     public static final String CREATE_SUBTASK = "dialogs/order/createSubtaskDialog.fxml";
     public static final String INSPECTION = "dialogs/order/inspectionDialog.fxml";
     public static final String INSPECTION_NONEDITABLE = "dialogs/order/inspectionDialog - noneditable.fxml";
-    public static final String PRINT_ORDER = "dialogs/order/printOrderDialog.fxml";
+    public static final String PRINT_ORDER = "dialogs/order/printOrderDialog - downscaled.fxml";
 }

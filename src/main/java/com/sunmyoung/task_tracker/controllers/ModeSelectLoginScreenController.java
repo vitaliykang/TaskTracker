@@ -6,6 +6,7 @@ import com.sunmyoung.task_tracker.controllers.settings.SimpleConfig;
 import com.sunmyoung.task_tracker.pojos.Password;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import com.sunmyoung.task_tracker.repositories.PasswordRepository;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -153,13 +154,13 @@ public class ModeSelectLoginScreenController {
     private boolean connectToDatabase() {
         String url = SimpleConfig.getURL();
         url = String.format("jdbc:mysql://%s/sunmyoung?useSSL=false", url);
-        if (DatabaseConnection.connect(url, SimpleConfig.getUsername(), SimpleConfig.getPassword())) {
-            return true;
-        } else {
+        if (! DatabaseConnection.connect(url, SimpleConfig.getUsername(), SimpleConfig.getPassword())) {
             errorIcon.setVisible(true);
             noConnectionLabel.setVisible(true);
             imageView.setVisible(false);
             return false;
+        } else {
+            return true;
         }
     }
     
@@ -186,7 +187,9 @@ public class ModeSelectLoginScreenController {
         okBtn.setVisible(bool);
         cancelBtn.setVisible(bool);
         passwordField.setVisible(bool);
-
+        if (bool) {
+            passwordField.requestFocus();
+        }
         productionBtn.setVisible(!bool);
     }
 

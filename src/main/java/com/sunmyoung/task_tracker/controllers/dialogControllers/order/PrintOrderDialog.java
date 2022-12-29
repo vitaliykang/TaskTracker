@@ -2,7 +2,9 @@ package com.sunmyoung.task_tracker.controllers.dialogControllers.order;
 
 import com.sunmyoung.task_tracker.pojos.ActiveTask;
 import com.sunmyoung.task_tracker.pojos.Model;
+import com.sunmyoung.task_tracker.pojos.PrintModel;
 import com.sunmyoung.task_tracker.repositories.TaskRepository;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -51,13 +53,13 @@ public class PrintOrderDialog {
             emulsionLabel;
 
     @FXML
-    private TableColumn<Model, String>
+    private TableColumn<PrintModel, String>
             modelCol,
             thicknessCol,
-            countCol;
+            orderCol;
 
     @FXML
-    private TableView<Model> printingTableView;
+    private TableView<PrintModel> printingTableView;
 
     @FXML
     private AnchorPane pane;
@@ -65,7 +67,7 @@ public class PrintOrderDialog {
     @Getter @Setter
     private ActiveTask task;
 
-    private final ObservableList<Model> content = FXCollections.observableArrayList();
+    private final ObservableList<PrintModel> content = FXCollections.observableArrayList();
 
     @FXML
     public void print(ActionEvent event) {
@@ -73,17 +75,10 @@ public class PrintOrderDialog {
     }
 
     public void print() {
-        WritableImage screenshot = pane.snapshot(null, null);
-
         PrinterJob printerJob = PrinterJob.createPrinterJob();
         Paper paper = printerJob.getJobSettings().getPageLayout().getPaper();
         PageLayout pageLayout = printerJob.getPrinter().createPageLayout(paper, PageOrientation.LANDSCAPE, Printer.MarginType.HARDWARE_MINIMUM);
-        double scaleX = pageLayout.getPrintableWidth() / screenshot.getWidth();
-        double scaleY = pageLayout.getPrintableHeight() / screenshot.getHeight();
-        double scale = Math.min(scaleX, scaleY);
-        ImageView printNode = new ImageView(screenshot);
         Scene scene = pane.getScene();
-        printNode.getTransforms().add(new Scale(scale, scale));
         printerJob.getJobSettings().setPageLayout(pageLayout);
 
         printerJob.showPrintDialog(scene.getWindow());
@@ -102,14 +97,19 @@ public class PrintOrderDialog {
     public void populateTableView() {
         task = TaskRepository.get(task.getId());
         List<Model> modelList = new ArrayList<>(Objects.requireNonNull(task, "Failed to fetch subtasks").getSubtasks());
-        content.addAll(modelList);
+
+        for (Model model : modelList) {
+            for (int i = 0; i < Integer.parseInt(model.getCount()); i++) {
+                content.add(new PrintModel(model));
+            }
+        }
         printingTableView.setItems(content);
     }
 
     private void initTableView() {
+        orderCol.setCellValueFactory(printModel -> new ReadOnlyObjectWrapper<>(Integer.toString(printingTableView.getItems().indexOf(printModel.getValue()) + 1)));
         modelCol.setCellValueFactory(new PropertyValueFactory<>("print"));
         thicknessCol.setCellValueFactory(new PropertyValueFactory<>("thickness"));
-        countCol.setCellValueFactory(new PropertyValueFactory<>("count"));
     }
 
     public void populateWindow() {

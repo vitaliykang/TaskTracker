@@ -5,6 +5,7 @@ import com.sunmyoung.task_tracker.controllers.dialogControllers.PasswordChangeDi
 import com.sunmyoung.task_tracker.pojos.Password;
 import com.sunmyoung.task_tracker.repositories.PasswordRepository;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -81,6 +82,7 @@ public class MainV2Controller {
     @FXML
     @SneakyThrows
     void openTVTaskBoard(ActionEvent event) {
+        TaskBoardController.setTVMode(true);
         Scene scene = createScene("TVTaskBoard.fxml");
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);
@@ -92,6 +94,7 @@ public class MainV2Controller {
     @FXML
     @SneakyThrows
     void openTaskBoard(ActionEvent event) {
+        TaskBoardController.setTVMode(false);
         String taskBoard = Mode.getCurrentMode().getTaskBoard();
         Scene scene = createScene(taskBoard);
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
@@ -113,7 +116,7 @@ public class MainV2Controller {
     }
 
     @SneakyThrows
-    public static void showMainScreen(ActionEvent event) {
+    public static void showMainScreen(Event event) {
         Scene scene = createScene(Mode.getCurrentMode().getMainScreen());
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();;
         stage.setScene(scene);

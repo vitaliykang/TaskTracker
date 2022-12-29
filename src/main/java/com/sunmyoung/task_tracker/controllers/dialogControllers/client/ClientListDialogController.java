@@ -5,6 +5,7 @@ import com.sunmyoung.task_tracker.Main;
 import com.sunmyoung.task_tracker.Utilities;
 import com.sunmyoung.task_tracker.pojos.Client;
 import com.sunmyoung.task_tracker.repositories.ClientRepository;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -17,6 +18,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -138,13 +140,14 @@ public class ClientListDialogController {
     }
 
     @FXML
-    void manualFilter(ActionEvent event) {
-        filter();
-    }
-
-    @FXML
-    void autoFilter(KeyEvent event) {
-        filter();
+    private void filter() {
+        String input = textField.getText();
+        if (input == null || input.length() == 0) {
+            filteredContent.setPredicate(predicate -> true);
+        } else {
+            filteredContent.setPredicate(predicate ->
+                    StringUtils.containsIgnoreCase(predicate.getCode(), input) || StringUtils.containsIgnoreCase(predicate.getClient(), input));
+        }
     }
 
     public void initialize() {
@@ -152,6 +155,7 @@ public class ClientListDialogController {
         List<Client> clients = loadClientsFromFile();
         Collections.sort(clients);
         content.addAll(clients);
+        Platform.runLater(() -> textField.requestFocus());
     }
 
     public boolean listChanged() {
@@ -171,15 +175,6 @@ public class ClientListDialogController {
             }
         });
         return clients;
-    }
-
-    private void filter() {
-        String input = textField.getText();
-        if (input == null || input.length() == 0) {
-            filteredContent.setPredicate(predicate -> true);
-        } else {
-            filteredContent.setPredicate(predicate -> predicate.getCode().contains(input) || predicate.getClient().contains(input));
-        }
     }
 
     private void initTableView() {

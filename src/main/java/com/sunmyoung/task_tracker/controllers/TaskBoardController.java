@@ -18,23 +18,38 @@ import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.SneakyThrows;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
 public class TaskBoardController {
+    @Setter
+    private static boolean isTVMode;
+    private final String IMAGE_PATH = "animated.gif";
+
     @Getter
     private ObservableList<ActiveTask> tasksObservableList = FXCollections.observableArrayList();
+
+    @FXML
+    private FontIcon refreshFontIcon, menuFontIcon;
+
+    @FXML
+    private Label refreshLabel, menuLabel;
 
     @FXML
     private TableColumn<ActiveTask, LocalDate>
@@ -57,6 +72,9 @@ public class TaskBoardController {
             exposureCol;
 
     @FXML
+    private ImageView imageView;
+
+    @FXML
     @Getter
     private TableView<ActiveTask> tableView;
 
@@ -66,7 +84,7 @@ public class TaskBoardController {
     }
 
     @FXML
-    void refresh(ActionEvent event) {
+    void refresh() {
         loadData();
     }
 
@@ -116,7 +134,7 @@ public class TaskBoardController {
 
     @FXML
     @SneakyThrows
-    void returnToMainMenu(ActionEvent event) {
+    void returnToMainMenu(Event event) {
         MainV2Controller.showMainScreen(event);
     }
 
@@ -134,7 +152,16 @@ public class TaskBoardController {
         initTableView();
         loadData();
         activateStatusCells();
-        startAutoRefresh(600000);
+
+        if (isTVMode) {
+            initButtons();
+            try {
+                imageView.setImage(new Image(Objects.requireNonNull(Main.class.getResource(IMAGE_PATH)).toURI().toString()));
+            } catch (Exception e) {
+                Utilities.printStatus("Animated logo image not found", this.getClass());
+                ErrorMessage.show(e);
+            }
+        }
     }
 
     /**
@@ -412,8 +439,8 @@ public class TaskBoardController {
         ActiveTask selectedTask = tableView.getSelectionModel().getSelectedItem();
         TaskRepository.delete(selectedTask.getId());
         Utilities.printStatus(String.format("Task [%s] was cancelled", selectedTask), this.getClass());
-        loadData();
         checkStock(selectedTask, false);
+        loadData();
     }
 
     private void markAsComplete() {
@@ -521,32 +548,40 @@ public class TaskBoardController {
 
             Code stock = CodeRepository.findByCode(code);
             int availability = Integer.parseInt(stock.getCount()) - totalFramesNeeded;
-
-            if (availability >= 0) {
-                if (isAdding) {
-                    selectedTask.setTensioning("OK");
-                }
-                commonTasks.forEach(activeTask -> activeTask.setTensioning("OK"));
-            } else {
-                commonTasks.forEach(activeTask -> {
-                   EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
-                   try {
-                       entityManager.getTransaction().begin();
-                       ActiveTask repoTask = entityManager.createQuery("From ActiveTask t where t.id = :id", ActiveTask.class)
-                               .setParameter("id", activeTask.getId()).getSingleResult();
-                       repoTask.setTensioning(Integer.toString(availability));
-                       entityManager.getTransaction().commit();
-                   } catch (Exception e) {
-                       e.printStackTrace();
-                       ErrorMessage.show(e);
-                       entityManager.getTransaction().rollback();
-                   } finally {
-                       entityManager.close();
-                   }
-                });
-
-                selectedTask.setTensioning(Integer.toString(availability));
+            if (! isAdding) {
+                availability += selectedTask.getCount();
             }
+            String output = availability >= 0 ? "OK" : Integer.toString(availability);
+
+            EntityManager entityManager = DatabaseConnection.getEntityManagerFactory().createEntityManager();
+            try {
+                entityManager.getTransaction().begin();
+                for (ActiveTask activeTask : commonTasks) {
+                    if (Objects.equals(activeTask.getId(), selectedTask.getId())) {
+                        continue;
+                    }
+                    ActiveTask repoTask = entityManager.createQuery("From ActiveTask t where t.id = :id", ActiveTask.class)
+                            .setParameter("id", activeTask.getId()).getSingleResult();
+                    repoTask.setTensioning(output);
+                }
+                entityManager.getTransaction().commit();
+            } catch (Exception e) {
+                e.printStackTrace();
+                ErrorMessage.show(e);
+                entityManager.getTransaction().rollback();
+            } finally {
+                entityManager.close();
+            }
+
+            selectedTask.setTensioning(output);
         }
+    }
+
+    private void initButtons() {
+        refreshFontIcon.setMouseTransparent(true);
+        refreshLabel.setMouseTransparent(true);
+
+        menuFontIcon.setMouseTransparent(true);
+        menuLabel.setMouseTransparent(true);
     }
 }

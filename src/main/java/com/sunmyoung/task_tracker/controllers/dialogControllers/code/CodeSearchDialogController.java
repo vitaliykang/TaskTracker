@@ -7,6 +7,7 @@ import com.sunmyoung.task_tracker.pojos.Code;
 import com.sunmyoung.task_tracker.repositories.CodeRepository;
 import com.sunmyoung.task_tracker.repositories.DatabaseConnection;
 import jakarta.persistence.EntityManager;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -189,6 +190,8 @@ public class CodeSearchDialogController {
         chickenHighlight.setVisible(false);
         loadInfo();
         listView.setItems(filteredContent);
+
+        Platform.runLater(() -> textField.requestFocus());
     }
 
     private void loadInfo() {

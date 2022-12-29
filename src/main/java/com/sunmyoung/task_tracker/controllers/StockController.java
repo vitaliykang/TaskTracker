@@ -59,15 +59,16 @@ public class StockController {
         } else {
             filteredList.setPredicate(predicate ->
                     StringUtils.containsIgnoreCase(predicate.getCode(), codeTF.getText())
-                            && StringUtils.containsIgnoreCase(predicate.getClient(), clientTF.getText())
-                            && StringUtils.containsIgnoreCase(predicate.getFrameSize(), frameSizeTF.getText())
-                            && StringUtils.containsIgnoreCase(predicate.getMesh(), meshTF.getText()) );
+                    && StringUtils.containsIgnoreCase(predicate.getClient(), clientTF.getText())
+                    && StringUtils.containsIgnoreCase(predicate.getFrameSize(), frameSizeTF.getText())
+                    && StringUtils.containsIgnoreCase(predicate.getMesh(), meshTF.getText()) );
         }
     }
 
     @FXML
     void add() {
         CodeSearchDialogController.createNewCodeDialog();
+        loadData();
     }
 
     @FXML
@@ -95,7 +96,7 @@ public class StockController {
                     entityManager.createQuery("delete Code c where c.id = :id").setParameter("id", selectedCode.getId()).executeUpdate();
                     entityManager.getTransaction().commit();
                     Utilities.printStatus("Code deleted", this.getClass());
-                    loadInfo();
+                    loadData();
                 } catch (Exception e) {
                     ErrorMessage.show(e);
                     e.printStackTrace();
@@ -127,7 +128,7 @@ public class StockController {
         meshSizeCol.setCellValueFactory(new PropertyValueFactory<>("meshSize"));
         countCol.setCellValueFactory(new PropertyValueFactory<>("count"));
 
-        loadInfo();
+        loadData();
         stockTableView.setItems(filteredList);
 
         //making tableView editable and activating single cell selection
@@ -135,10 +136,11 @@ public class StockController {
         stockTableView.setEditable(true);
     }
 
-    private void loadInfo() {
+    private void loadData() {
         observableList.clear();
         observableList.addAll(CodeRepository.findAll());
         Collections.sort(observableList);
+        stockTableView.refresh();
     }
 
     private void makeCountEditable() {
@@ -165,7 +167,7 @@ public class StockController {
                         selectedCode = entityManager.createQuery("from Code c where c.id = :id", Code.class).setParameter("id", selectedCode.getId()).getSingleResult();
                         selectedCode.setCount(newValue);
                         entityManager.getTransaction().commit();
-                        loadInfo();
+                        loadData();
                     } catch (Exception e) {
                         e.printStackTrace();
                         ErrorMessage.show(e);
@@ -206,7 +208,7 @@ public class StockController {
                 if (result.isPresent() && result.get() == ButtonType.OK) {
                     controller.readFields(selectedCode);
                     entityManager.getTransaction().commit();
-                    loadInfo();
+                    loadData();
                 }
             } catch (Exception e) {
                 entityManager.getTransaction().rollback();

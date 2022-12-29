@@ -14,7 +14,7 @@
    <content>
       <AnchorPane prefHeight="400.0" prefWidth="500.0">
          <children>
-            <TextField fx:id="textField" layoutX="25.0" layoutY="25.0" onKeyPressed="#autoFilter" prefHeight="25.0" prefWidth="215.0" promptText="코드로 검색" />
+            <TextField fx:id="textField" layoutX="25.0" layoutY="25.0" onKeyTyped="#filter" prefHeight="25.0" prefWidth="215.0" promptText="코드로 검색" />
             <TableView fx:id="clientsTableView" layoutX="25.0" layoutY="69.0" onMouseClicked="#selectClient" prefHeight="312.0" prefWidth="450.0" stylesheets="@../../../../../TaskBoardStyle.css">
               <columns>
                 <TableColumn fx:id="codeCol" prefWidth="92.0" resizable="false" text="CODE" />
@@ -23,7 +23,7 @@
                   <TableColumn fx:id="managerCol" prefWidth="102.0" resizable="false" text="매니저" />
               </columns>
             </TableView>
-            <Button layoutX="250.0" layoutY="25.0" mnemonicParsing="false" onAction="#manualFilter">
+            <Button layoutX="250.0" layoutY="25.0" mnemonicParsing="false" onAction="#filter">
                <graphic>
                   <FontIcon iconLiteral="bi-search" />
                </graphic>
